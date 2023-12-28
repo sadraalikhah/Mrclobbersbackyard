@@ -32,7 +32,6 @@ int main()
 	struct pos pitbull;
 	struct pos shepherd;
 	struct pos bulldog_jr;
-	random(bulldog, pitbull, shepherd, )
 	//mice
 	struct pos mouse1[10];
 	struct pos mouse2[6];
