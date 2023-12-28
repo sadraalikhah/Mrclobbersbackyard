@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include "types.h"
 
 int generate_walls(int board[][14], int seed)
 {
@@ -18,4 +19,9 @@ int generate_walls(int board[][14], int seed)
     }
     if (NoWalls < 18 || NoWalls > 40) return 1;
     return 0;
+}
+
+int random_pos(struct pos part[], int sw[][15], int seed)
+{
+
 }
