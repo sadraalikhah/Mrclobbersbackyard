@@ -18,30 +18,52 @@ int main()
 	}
 
 	//board for being filled or not
-	int board[15][15] = { 0 };
+	int sw[15][15] = { 0 };
 
 	//cats
-	struct pos cat[4];
+	struct pos pos_cat[4];
 	for (int i = 0; i < 5; i++)
 	{
-		cat[i].x = 8;
-		cat[i].y = 8;
+		pos_cat[i].x = 8;
+		pos_cat[i].y = 8;
 	}
+
 	// dogs
-	struct pos bulldog;
-	struct pos pitbull;
-	struct pos shepherd;
-	struct pos bulldog_jr;
+	struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
+	struct stats dog[4];
+	dog[0].attack = 5;
+	dog[1].attack = 2;
+	dog[2].attack = 2;
+	dog[3].attack = 1;
+	dog[0].deffense = 30;
+	dog[1].deffense = 15;
+	dog[2].deffense = 20;
+	dog[3].deffense = 1;
+	dog[0].speed = 5;
+	dog[1].speed = 2;
+	dog[2].speed = 3;
+	dog[3].speed = 1;
+	random_pos(&pos_dog, &sw, seed);
+
 	//mice
 	struct pos mouse1[10];
 	struct pos mouse2[6];
 	struct pos mouse3[4];
+	random_pos(&mouse1, &sw, seed);
+	random_pos(&mouse2, &sw, seed);
+	random_pos(&mouse3, &sw, seed);
+
 	//chocolates
 	struct pos chocolate[6];
+	random_pos(&chocolate, &sw, seed);
+
 	//traps
 	struct pos trap[6];
+	random_pos(&trap, &sw, seed);
+
 	//fish
 	struct pos fish[10];
+	random_pos(&fish, &sw, seed);
 
 
     start(wall);
