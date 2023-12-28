@@ -1,9 +1,9 @@
 #pragma once
-struct stats_cdm{
+struct stats{
 	int attack;
 	int deffense;
 	int speed;
-	int points; // only for cats
+	int points;
 };
 
 struct pos {
