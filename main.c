@@ -26,11 +26,14 @@ int main()
 	{
 		pos_cat[i].x = 8;
 		pos_cat[i].y = 8;
+		pos_cat[i].type = 100 + i;
+
 	}
 
 	// dogs
 	struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
 	random_pos(&pos_dog, 4, &sw, seed);
+	for (int i = 0; i < 4; i++) pos_dog[i].type = 200 + i;
 	struct stats dog[4];
 	dog[0].attack = 5;
 	dog[1].attack = 2;

@@ -87,12 +87,11 @@ int start(int wall[][14], struct pos pos_dog[])
                 }
             }
             // dogs
-            char name[20];
-            for (int i = 0; i < 4; i++)
-            {
-                al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[i].x + 20, 60 *pos_dog[i].y + 30, 0, "dog");
-
-            }
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[0].x + 20, 60 * pos_dog[0].y + 30, 0, "dog1");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[1].x + 20, 60 * pos_dog[1].y + 30, 0, "dog2");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[2].x + 20, 60 * pos_dog[2].y + 30, 0, "dog3");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[3].x + 20, 60 *pos_dog[3].y + 30, 0, "dog4");
+    
 
 
             al_flip_display();
