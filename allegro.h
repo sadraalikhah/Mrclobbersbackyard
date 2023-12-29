@@ -13,7 +13,7 @@ void must_init(bool test, const char* description)
     exit(1);
 }
 
-int start(int wall[][14], struct pos pos_dog[])
+int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos mouse1[], struct pos mouse2[], struct pos mouse3[], struct pos chocolate[], struct pos trap[], struct pos fish[])
 {
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
@@ -87,12 +87,11 @@ int start(int wall[][14], struct pos pos_dog[])
                 }
             }
             // dogs
-            char name[20];
-            for (int i = 0; i < 4; i++)
-            {
-                al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[i].x + 20, 60 *pos_dog[i].y + 30, 0, "dog");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[0].x + 20, 60 * pos_dog[0].y + 30, 0, "Dog1");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[1].x + 20, 60 * pos_dog[1].y + 30, 0, "Dog2");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[2].x + 20, 60 * pos_dog[2].y + 30, 0, "Dog3");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[3].x + 20, 60 *pos_dog[3].y + 30, 0, "Dog4");
 
-            }
 
 
             al_flip_display();

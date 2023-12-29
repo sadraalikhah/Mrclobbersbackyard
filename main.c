@@ -8,7 +8,7 @@ int main()
 {
 	//seeding
 	srand(time(NULL));
-    long int seed = rand() + 241281;
+    int seed = rand();
 	//generate walls
 	int wall[14][14] = { 0 };
 	int generate_walls_con = 1;
@@ -22,15 +22,17 @@ int main()
 
 	//cats
 	struct pos pos_cat[4];
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		pos_cat[i].x = 8;
 		pos_cat[i].y = 8;
+		pos_cat[i].type = 100 + i;
 	}
 
 	// dogs
 	struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
 	random_pos(&pos_dog, 4, &sw, seed);
+	for (int i = 0; i < 4; i++) pos_dog[i].type = 200 + i;
 	struct stats dog[4];
 	dog[0].attack = 5;
 	dog[1].attack = 2;
@@ -47,23 +49,31 @@ int main()
 
 	//mice
 	struct pos mouse1[10];
+	random_pos(&mouse1, 10, &sw, seed);
+	for (int i = 0; i < 10; i++) mouse1[i].type = 300 + i;
 
 	struct pos mouse2[6];
+	for (int i = 0; i < 6; i++) mouse2[i].type = 400 + i;
 
 	struct pos mouse3[4];
+	for (int i = 0; i < 4; i++) mouse3[i].type = 500 + i;
 
 
 	//chocolates
 	struct pos chocolate[6];
+	for (int i = 0; i < 6; i++) chocolate[i].type = 600 + i;
 
 	//traps
 	struct pos trap[6];
+	for (int i = 0; i < 6; i++) trap[i].type = 700 + i;
 
 
 
 	//fish
 	struct pos fish[10];
+	for (int i = 0; i < 10; i++) fish[i].type = 800 + i;
 
-    start(wall, pos_dog);
+
+    start(wall, pos_cat, pos_dog, mouse1, mouse2, mouse3, chocolate, trap, fish);
 	return 0;
 }
