@@ -30,6 +30,7 @@ int main()
 
 	// dogs
 	struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
+	random_pos(&pos_dog, 4, &sw, seed);
 	struct stats dog[4];
 	dog[0].attack = 5;
 	dog[1].attack = 2;
@@ -59,6 +60,6 @@ int main()
 	struct pos fish[10];
 
 
-    start(wall);
+    start(wall, pos_dog);
 	return 0;
 }

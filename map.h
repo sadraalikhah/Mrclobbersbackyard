@@ -33,12 +33,14 @@ int random_pos(struct pos part[], int n, int sw[][15], long int seed)
                 c = (i * j);
                 if (sw[i][j] == 0 && ((seed*c % 15) == 3) && ((seed * c % 14) == 7))
                 {
-                    part[k].x = i;
-                    part[k].y = j;
+                    part[k].y = i;
+                    part[k].x = j;
+                    sw[i][j] = 1;
                     k++;
                 }
                 if (k == n) break;
             }
         }
+        seed -= 21;
     }
 }
