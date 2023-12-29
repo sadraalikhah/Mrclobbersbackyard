@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "types.h"
 
-int generate_walls(int board[][14], int seed)
+int generate_walls(int board[][14], long int seed)
 {
     int c;
     int NoWalls = 0;
@@ -21,7 +21,24 @@ int generate_walls(int board[][14], int seed)
     return 0;
 }
 
-int random_pos(struct pos part[], int sw[][15], int seed)
+int random_pos(struct pos part[], int n, int sw[][15], long int seed)
 {
-
+    int c;
+    for (int k = 0; k < n;)
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            for (int j = 0; j < 15; j++)
+            {
+                c = (i * j);
+                if (sw[i][j] == 0 && ((seed*c % 15) == 3) && ((seed * c % 14) == 7))
+                {
+                    part[k].x = i;
+                    part[k].y = j;
+                    k++;
+                }
+                if (k == n) break;
+            }
+        }
+    }
 }
