@@ -43,7 +43,7 @@ int random_pos(struct pos part[], int n, int sw[][15])
             sw[i][j] = 1;
             k++;
             
-        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && (part[k].x == part[k - 1].x || part[k].y == part[k - 1].y)));
+        } while (isExcludedRegion(part[k].x, part[k].y));
     }
 }
 
