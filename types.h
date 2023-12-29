@@ -9,4 +9,5 @@ struct stats{
 struct pos {
 	int x; //position x
 	int y; //position y
+	char name[20];
 };
