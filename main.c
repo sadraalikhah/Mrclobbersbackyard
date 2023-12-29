@@ -8,7 +8,7 @@ int main()
 {
 	//seeding
 	srand(time(NULL));
-    int seed = rand() + 241281;
+    long int seed = rand() + 241281;
 	//generate walls
 	int wall[14][14] = { 0 };
 	int generate_walls_con = 1;
@@ -43,27 +43,20 @@ int main()
 	dog[1].speed = 2;
 	dog[2].speed = 3;
 	dog[3].speed = 1;
-	random_pos(&pos_dog, &sw, seed);
 
 	//mice
 	struct pos mouse1[10];
 	struct pos mouse2[6];
 	struct pos mouse3[4];
-	random_pos(&mouse1, &sw, seed);
-	random_pos(&mouse2, &sw, seed);
-	random_pos(&mouse3, &sw, seed);
 
 	//chocolates
 	struct pos chocolate[6];
-	random_pos(&chocolate, &sw, seed);
 
 	//traps
 	struct pos trap[6];
-	random_pos(&trap, &sw, seed);
 
 	//fish
 	struct pos fish[10];
-	random_pos(&fish, &sw, seed);
 
 
     start(wall);
