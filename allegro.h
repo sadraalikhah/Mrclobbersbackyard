@@ -90,7 +90,7 @@ int start(int wall[][14], struct pos pos_dog[])
             char name[20];
             for (int i = 0; i < 4; i++)
             {
-                al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[i].x + 15, 60 *pos_dog[i].y + 15, 0, "dog");
+                al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[i].x + 20, 60 *pos_dog[i].y + 30, 0, "dog");
 
             }
 
