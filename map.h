@@ -30,6 +30,9 @@ int random_pos(struct pos part[], int n, int sw[][15], long int seed)
         {
             for (int j = 0; j < 15; j++)
             {
+                if (i >= 6 && i <= 10 && j >= 6 && j <= 10) {
+                    continue;
+                }
                 c = (i * j);
                 if (sw[i][j] == 0 && ((seed*c % 15) == 3) && ((seed * c % 14) == 7))
                 {
