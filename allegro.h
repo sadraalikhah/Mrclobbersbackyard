@@ -31,6 +31,16 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
     ALLEGRO_FONT* font = al_create_builtin_font();
     must_init(font, "font");
 
+    must_init(al_init_image_addon(), "image addon");
+    ALLEGRO_BITMAP* bulldog = al_load_bitmap("bulldog.png");
+    must_init(bulldog, "bulldog");
+    ALLEGRO_BITMAP* pitbull = al_load_bitmap("pitbull.png");
+    must_init(pitbull, "pitbull");
+    ALLEGRO_BITMAP* shepherd = al_load_bitmap("shepherd.png");
+    must_init(shepherd, "shepherd");
+    ALLEGRO_BITMAP* bulldog_jr = al_load_bitmap("bulldog_jr.png");
+    must_init(bulldog_jr, "bulldog_jr");
+
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_timer_event_source(timer));
@@ -87,12 +97,12 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
                 }
             }
             // dogs
-            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[0].x + 20, 60 * pos_dog[0].y + 30, 0, "Dog1");
-            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[1].x + 20, 60 * pos_dog[1].y + 30, 0, "Dog2");
-            al_draw_text(font, al_map_rgb(0, 0, 0), 60 * pos_dog[2].x + 20, 60 * pos_dog[2].y + 30, 0, "Dog3");
-            al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[3].x + 20, 60 *pos_dog[3].y + 30, 0, "Dog4");
+            al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
+            al_draw_bitmap(pitbull, 60 * pos_dog[1].x + 5, 60 * pos_dog[1].y + 5, 0);
+            al_draw_bitmap(shepherd, 60 * pos_dog[2].x + 5, 60 * pos_dog[2].y + 5, 0);
+            al_draw_bitmap(bulldog_jr, 60 * pos_dog[3].x + 5, 60 * pos_dog[3].y + 5, 0);
 
-
+            //
 
             al_flip_display();
 

@@ -29,11 +29,18 @@ int random_pos(struct pos part[], int n, int sw[][15], int seed)
 {
     srand(seed);
     int MIN_Dist = 6;
-    for (int i = 0; i < n; i++) {
+    int i, j;
+    int check;
+    for (int k = 0; k < n; k++) {
         do {
-            part[i].x = rand() % 15;
-            part[i].y = rand() % 15;
-        } while (isExcludedRegion(part[i].x, part[i].y) ||  (i > 0 && (part[i].x == part[i - 1].x || part[i].y == part[i - 1].y) || distance(part[i], part[i - 1]) < MIN_Dist));
+            i = rand() % 15;
+            j = rand() % 15;
+            if (sw[i][j] == 1) continue;
+            part[k].x = i;
+            part[k].y = j;
+            sw[i][j] = 1;
+            
+        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && (part[k].x == part[k - 1].x || part[k].y == part[k - 1].y)));
     }
 }
 
