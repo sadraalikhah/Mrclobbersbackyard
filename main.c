@@ -47,28 +47,21 @@ int main()
 
 	//mice
 	struct pos mouse1[10];
-	random_pos(&mouse1, 10, &sw, seed);
 
 	struct pos mouse2[6];
-	random_pos(&mouse2, 6, &sw, seed);
 
 	struct pos mouse3[4];
-	random_pos(&mouse3, 4, &sw, seed);
 
 
 	//chocolates
 	struct pos chocolate[6];
-	random_pos(&chocolate, 6, &sw, seed);
 
 	//traps
 	struct pos trap[6];
-	random_pos(&trap, 6, &sw, seed);
 
 
 	//fish
 	struct pos fish[10];
-	random_pos(&fish, 10, &sw, seed);
-
 
     start(wall, pos_dog);
 	return 0;
