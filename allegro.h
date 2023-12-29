@@ -3,6 +3,7 @@
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
+#include "types.h"
 
 void must_init(bool test, const char* description)
 {
@@ -12,7 +13,7 @@ void must_init(bool test, const char* description)
     exit(1);
 }
 
-int start(int wall[][14])
+int start(int wall[][14], struct pos pos_dog[])
 {
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
@@ -64,11 +65,13 @@ int start(int wall[][14])
             al_clear_to_color(al_map_rgb(255, 184, 60));
             al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb_f(0, 1, 0));
             al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+            // grid
             for (int i = 1; i < 15; i++)
             {
                 al_draw_line(0, 60 * i, 900, 60 * i, al_map_rgb_f(0, 0, 0), 2);
                 al_draw_line(60*i, 0, 60*i, 900, al_map_rgb_f(0, 0, 0), 2);
             }
+            // walls
             for (int i = 1; i < 14; i++)
             {
                 for (int j = 1; j < 14; j++)
@@ -83,7 +86,15 @@ int start(int wall[][14])
                     }
                 }
             }
-            
+            // dogs
+            char name[20];
+            for (int i = 0; i < 4; i++)
+            {
+                al_draw_text(font, al_map_rgb(0, 0, 0), 60*pos_dog[i].x + 15, 60 *pos_dog[i].y + 15, 0, "dog");
+
+            }
+
+
             al_flip_display();
 
             redraw = false;
