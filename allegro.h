@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
@@ -93,7 +94,7 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
         if (redraw && al_is_event_queue_empty(queue))
         {
             al_clear_to_color(al_map_rgb(255, 184, 60));
-            al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb_f(0.7, 0.7, 0.7));
+            al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
             al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
             // grid
             for (int i = 1; i < 15; i++)
@@ -108,11 +109,11 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
                 {
                     if (wall[i][j] == 1)
                     {
-                        al_draw_line(60*i, 60*j, 60*i, 60*j + 60, al_map_rgb_f(0, 0, 0), 8);
+                        al_draw_line(60*i, 60*j, 60*i, 60*j + 60, al_map_rgb(107, 38, 22), 8);
                     }
                     else if (wall[i][j] == 2)
                     {
-                        al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb_f(0, 0, 0), 8);
+                        al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
                     }
                 }
             }
