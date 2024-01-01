@@ -6,12 +6,15 @@
 #include <allegro5/allegro_primitives.h>
 #include "types.h"
 
+#define SCREEN_WIDTH 1500
+#define SCREEN_HEIGHT 900
+
 void must_init(bool test, const char* description)
 {
     if (test) return;
 
-    printf("couldn't initialize %s\n", description);
-    exit(1);
+    fprintf(stderr, "couldn't initialize %s\n", description);
+    exit(EXIT_FAILURE);
 }
 
 int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos mouse1[], struct pos mouse2[], struct pos mouse3[], struct pos chocolate[], struct pos trap[], struct pos fish[])
@@ -26,7 +29,7 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     must_init(queue, "queue");
 
-    ALLEGRO_DISPLAY* display = al_create_display(1500, 900);
+    ALLEGRO_DISPLAY* display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     must_init(display, "display");
 
     ALLEGRO_FONT* font = al_create_builtin_font();
@@ -165,6 +168,17 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
     al_destroy_display(display);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+    al_destroy_bitmap(house);
+    al_destroy_bitmap(bulldog);
+    al_destroy_bitmap(pitbull);
+    al_destroy_bitmap(shepherd);
+    al_destroy_bitmap(bulldog_jr);
+    al_destroy_bitmap(mouse_1);
+    al_destroy_bitmap(mouse_2);
+    al_destroy_bitmap(mouse_3);
+    al_destroy_bitmap(_trap);
+    al_destroy_bitmap(_fish);
+    al_destroy_bitmap(_choco);
 
     return 0;
 }
