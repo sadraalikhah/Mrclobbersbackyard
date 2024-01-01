@@ -1,11 +1,17 @@
 #pragma once
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
 #include "types.h"
 
-int generate_walls(int board[][14], long int seed)
+int distance(struct pos point1, struct pos point2);
+int isExcludedRegion(int x, int y);
+
+int generate_walls(int board[][14])
 {
     int c;
     int NoWalls = 0;
+    srand(time(NULL));
 
 	for (int i = 0; i < 14;i++)
 	{
@@ -13,37 +19,37 @@ int generate_walls(int board[][14], long int seed)
         {
             if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
             c = (j*i);
-            if ((seed * c) % 13 == 5) board[i][j] = 1, NoWalls++; //vertical
-            if ((seed * c) % 13 == 1) board[i][j] = 2, NoWalls++; //horizontal
+            if (rand() * c % 13 == 5) board[i][j] = 1, NoWalls++; //vertical
+            if (rand() * c % 13 == 1) board[i][j] = 2, NoWalls++; //horizontal
         }
     }
     if (NoWalls < 18 || NoWalls > 40) return 1;
     return 0;
 }
 
-int random_pos(struct pos part[], int n, int sw[][15], long int seed)
+int random_pos(struct pos part[], int n, int sw[][15])
 {
-    int c;
-    for (int k = 0; k < n;)
-    {
-        for (int i = 0; i < 15; i++)
-        {
-            for (int j = 0; j < 15; j++)
-            {
-                if (i >= 6 && i <= 10 && j >= 6 && j <= 10) {
-                    continue;
-                }
-                c = (i * j);
-                if (sw[i][j] == 0 && ((seed*c % 15) == 3) && ((seed * c % 14) == 7))
-                {
-                    part[k].y = i;
-                    part[k].x = j;
-                    sw[i][j] = 1;
-                    k++;
-                }
-                if (k == n) break;
-            }
-        }
-        seed -= 21;
+    srand(time(NULL));
+    int MIN_Dist = 6;
+    int i, j;
+    int check;
+    for (int k = 0; k < n;) {
+        do {
+            i = rand() % 15;
+            j = rand() % 15;
+            if (sw[i][j] == 1 || ((i >= 6 && i <= 9) && (j >= 6 && j <= 9))) continue;
+            part[k].x = i;
+            part[k].y = j;
+            sw[i][j] = 1;
+            k++;
+            
+        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && (part[k].x == part[k - 1].x || part[k].y == part[k - 1].y)));
     }
+}
+
+int distance(struct pos point1,struct pos point2) {
+    return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
+}
+int isExcludedRegion(int x, int y) {
+    return x >= 3 && x <= 11 && y >= 3 && y <= 11;
 }
