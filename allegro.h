@@ -147,7 +147,7 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
             //chocolates
             for (int i = 0; i < 6; i++)
             {
-                al_draw_bitmap(_choco, 60 * trap[i].x + 5, 60 * trap[i].y + 5, 0);
+                al_draw_bitmap(_choco, 60 * chocolate[i].x + 5, 60 * chocolate[i].y + 5, 0);
             }
             //fish
             for (int i = 0; i < 10; i++)

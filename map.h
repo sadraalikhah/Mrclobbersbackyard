@@ -30,20 +30,20 @@ int generate_walls(int board[][14])
 int random_pos(struct pos part[], int n, int sw[][15])
 {
     srand(time(NULL));
-    int MIN_Dist = 25/n;
     int i, j;
-    int check;
     for (int k = 0; k < n;) {
         do {
             i = rand() % 15;
             j = rand() % 15;
             if (sw[i][j] == 1 || ((i >= 6 && i <= 9) && (j >= 6 && j <= 9))) continue;
-            part[k].x = i;
-            part[k].y = j;
+            part[k].x = j;
+            part[k].y = i;
+            printf("i = %d j = %d\n", i, j);
             sw[i][j] = 1;
             k++;
             
-        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && distance(part[k], part[k-1]) < MIN_Dist));
+        } while (k < n && isExcludedRegion(part[k].x, part[k].y));
+
     }
 }
 
