@@ -4,18 +4,24 @@
 #include <time.h>
 #include "types.h"
 
+#define FENCE_SIZE 14
+#define BOARD_SIZE 15
+
+// Calculate the Euclidean distance between two points
 float distance(struct pos point1, struct pos point2);
+
+// Check if a position is in the excluded region
 int isExcludedRegion(int x, int y);
 
-int generate_walls(int board[][14])
+// Generate walls on the board based on certain conditions
+int generate_walls(int board[][FENCE_SIZE])
 {
     int c;
     int NoWalls = 0;
-    srand(time(NULL));
 
-	for (int i = 0; i < 14;i++)
+	for (int i = 0; i < FENCE_SIZE;i++)
 	{
-        for (int j = 0; j < 14;j++)
+        for (int j = 0; j < FENCE_SIZE;j++)
         {
             if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
             c = (j*i);
@@ -27,14 +33,15 @@ int generate_walls(int board[][14])
     return 0;
 }
 
-void spawn(struct pos part[], int n, int sw[][15])
+// Spawn entities at random positions on the board
+void spawn(struct pos part[], int n, int sw[][BOARD_SIZE])
 {
     srand(time(NULL));
     int i, j;
     for (int k = 0; k < n;) {
         do {
-            i = rand() % 15;
-            j = rand() % 15;
+            i = rand() % BOARD_SIZE;
+            j = rand() % BOARD_SIZE;
             if (sw[i][j] == 1 || ((i >= 6 && i <= 9) && (j >= 6 && j <= 9))) continue;
             part[k].x = j;
             part[k].y = i;
