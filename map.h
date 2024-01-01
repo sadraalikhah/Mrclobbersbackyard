@@ -27,7 +27,7 @@ int generate_walls(int board[][14])
     return 0;
 }
 
-int random_pos(struct pos part[], int n, int sw[][15])
+void spawn(struct pos part[], int n, int sw[][15])
 {
     srand(time(NULL));
     int i, j;
