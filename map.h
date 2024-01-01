@@ -4,7 +4,7 @@
 #include <time.h>
 #include "types.h"
 
-int distance(struct pos point1, struct pos point2);
+float distance(struct pos point1, struct pos point2);
 int isExcludedRegion(int x, int y);
 
 int generate_walls(int board[][14])
@@ -30,7 +30,7 @@ int generate_walls(int board[][14])
 int random_pos(struct pos part[], int n, int sw[][15])
 {
     srand(time(NULL));
-    int MIN_Dist = 6;
+    int MIN_Dist = 25/n;
     int i, j;
     int check;
     for (int k = 0; k < n;) {
@@ -43,11 +43,11 @@ int random_pos(struct pos part[], int n, int sw[][15])
             sw[i][j] = 1;
             k++;
             
-        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && (part[k].x == part[k - 1].x || part[k].y == part[k - 1].y)));
+        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && distance(part[k], part[k-1]) < MIN_Dist));
     }
 }
 
-int distance(struct pos point1,struct pos point2) {
+float distance(struct pos point1,struct pos point2) {
     return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
 }
 int isExcludedRegion(int x, int y) {
