@@ -7,7 +7,7 @@ int main()
 {
 	//seeding
 	srand(time(NULL));
-    int seed = rand();
+
 	//generate walls
 	int wall[14][14] = { 0 };
 	int generate_walls_con = 1;
@@ -37,10 +37,10 @@ int main()
 	dog[1].attack = 2;
 	dog[2].attack = 2;
 	dog[3].attack = 1;
-	dog[0].deffense = 30;
-	dog[1].deffense = 15;
-	dog[2].deffense = 20;
-	dog[3].deffense = 1;
+	dog[0].defense = 30;
+	dog[1].defense = 15;
+	dog[2].defense = 20;
+	dog[3].defense = 1;
 	dog[0].speed = 5;
 	dog[1].speed = 2;
 	dog[2].speed = 3;
