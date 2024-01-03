@@ -32,19 +32,6 @@ int main()
 	struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
 	spawn(&pos_dog, 4, &sw);
 	for (int i = 0; i < 4; i++) pos_dog[i].type = 200 + i;
-	struct stats dog[4];
-	dog[0].attack = 5;
-	dog[1].attack = 2;
-	dog[2].attack = 2;
-	dog[3].attack = 1;
-	dog[0].defense = 30;
-	dog[1].defense = 15;
-	dog[2].defense = 20;
-	dog[3].defense = 1;
-	dog[0].speed = 5;
-	dog[1].speed = 2;
-	dog[2].speed = 3;
-	dog[3].speed = 1;
 
 	//mice
 	struct pos mouse1[10];
@@ -77,7 +64,7 @@ int main()
 	spawn(&fish, 10, &sw);
 	for (int i = 0; i < 10; i++) fish[i].type = 800 + i;
 
-
+	dog[1].attack = 5;
     start(wall, pos_cat, pos_dog, mouse1, mouse2, mouse3, chocolate, trap, fish);
 	return 0;
 }
