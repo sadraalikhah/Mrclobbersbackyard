@@ -29,3 +29,15 @@ struct stats dog[4] = {
 	[3].defense = 1,
 	[3].speed = 1,
 };
+
+struct stats cats[4] = {
+	[0] .attack = 2,
+	[0].defense = 5,
+	[1].attack = 2,
+	[1].defense = 5,
+	[2].attack = 2,
+	[2].defense = 5,
+	[3].attack = 2,
+	[3].defense = 5,
+};
+
