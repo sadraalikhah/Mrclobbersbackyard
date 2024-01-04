@@ -53,6 +53,4 @@ struct stats cats[4] = {
 };
 
 int turn = 1;
-char str[2];
-
 
