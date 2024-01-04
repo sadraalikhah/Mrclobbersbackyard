@@ -9,28 +9,6 @@
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
 
-//display
-ALLEGRO_DISPLAY* display;
-void display_init();
-void display_deinit();
-
-//hud
-ALLEGRO_FONT* font;
-void hud_init();
-
-//sprites
-ALLEGRO_BITMAP* house;
-ALLEGRO_BITMAP* bulldog;
-ALLEGRO_BITMAP* pitbull;
-ALLEGRO_BITMAP* shepherd;
-ALLEGRO_BITMAP* bulldog_jr;
-ALLEGRO_BITMAP* mouse_1;
-ALLEGRO_BITMAP* mouse_2;
-ALLEGRO_BITMAP* mouse_3;
-ALLEGRO_BITMAP* _trap;
-ALLEGRO_BITMAP* _choco;
-ALLEGRO_BITMAP* _fish;
-void sprites_init();
 
 void must_init(bool test, const char* description)
 {
@@ -52,11 +30,41 @@ int start(int wall[][14], struct pos pos_cat[])
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     must_init(queue, "queue");
 
-    display_init();
-    hud_init();
+    ALLEGRO_DISPLAY* display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
+    must_init(display, "display");
+
+    ALLEGRO_FONT* font = al_create_builtin_font();
+    must_init(font, "font");
 
     must_init(al_init_image_addon(), "image addon");
-    sprites_init();
+    //house and cats init
+    ALLEGRO_BITMAP* house = al_load_bitmap("house.png");
+    must_init(house, "house");
+    //dogs init
+    ALLEGRO_BITMAP* bulldog = al_load_bitmap("bulldog.png");
+    must_init(bulldog, "bulldog");
+    ALLEGRO_BITMAP* pitbull = al_load_bitmap("pitbull.png");
+    must_init(pitbull, "pitbull");
+    ALLEGRO_BITMAP* shepherd = al_load_bitmap("shepherd.png");
+    must_init(shepherd, "shepherd");
+    ALLEGRO_BITMAP* bulldog_jr = al_load_bitmap("bulldog_jr.png");
+    must_init(bulldog_jr, "bulldog_jr");
+    //mice init
+    ALLEGRO_BITMAP* mouse_1 = al_load_bitmap("mouse1.png");
+    must_init(mouse_1, "mouse1");
+    ALLEGRO_BITMAP* mouse_2 = al_load_bitmap("mouse2.png");
+    must_init(mouse_2, "mouse2");
+    ALLEGRO_BITMAP* mouse_3 = al_load_bitmap("mouse3.png");
+    must_init(mouse_3, "mouse3");
+    //traps init
+    ALLEGRO_BITMAP* _trap = al_load_bitmap("trap.png");
+    must_init(_trap, "trap");
+    //chocolates init
+    ALLEGRO_BITMAP* _choco = al_load_bitmap("chocolate.png");
+    must_init(_choco, "chocolate");
+    //fish init
+    ALLEGRO_BITMAP* _fish = al_load_bitmap("fish.png");
+    must_init(_fish, "fish");
 
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(display));
@@ -171,8 +179,8 @@ int start(int wall[][14], struct pos pos_cat[])
 
     //destroy the created files
     al_destroy_font(font);
+    al_destroy_display(display);
     al_destroy_timer(timer);
-    display_deinit();
     al_destroy_event_queue(queue);
     al_destroy_bitmap(house);
     al_destroy_bitmap(bulldog);
@@ -187,57 +195,4 @@ int start(int wall[][14], struct pos pos_cat[])
     al_destroy_bitmap(_choco);
 
     return 0;
-}
-
-void draw_board()
-{
-
-}
-
-void display_init() {
-    display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
-    must_init(display, "display");
-}
-void display_deinit()
-{
-    al_destroy_display(display);
-
-}
-
-void hud_init()
-{
-    font = al_create_builtin_font();
-    must_init(font, "font");
-}
-
-void sprites_init()
-{
-    //house and cats init
-    house = al_load_bitmap("house.png");
-    must_init(house, "house");
-    //dogs init
-    bulldog = al_load_bitmap("bulldog.png");
-    must_init(bulldog, "bulldog");
-    pitbull = al_load_bitmap("pitbull.png");
-    must_init(pitbull, "pitbull");
-    shepherd = al_load_bitmap("shepherd.png");
-    must_init(shepherd, "shepherd");
-    bulldog_jr = al_load_bitmap("bulldog_jr.png");
-    must_init(bulldog_jr, "bulldog_jr");
-    //mice init
-    mouse_1 = al_load_bitmap("mouse1.png");
-    must_init(mouse_1, "mouse1");
-    mouse_2 = al_load_bitmap("mouse2.png");
-    must_init(mouse_2, "mouse2");
-    mouse_3 = al_load_bitmap("mouse3.png");
-    must_init(mouse_3, "mouse3");
-    //traps init
-    _trap = al_load_bitmap("trap.png");
-    must_init(_trap, "trap");
-    //chocolates init
-    _choco = al_load_bitmap("chocolate.png");
-    must_init(_choco, "chocolate");
-    //fish init
-    _fish = al_load_bitmap("fish.png");
-    must_init(_fish, "fish");
 }
