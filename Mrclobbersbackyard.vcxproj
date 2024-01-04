@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="allegro.h" />
+    <ClInclude Include="logics.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
