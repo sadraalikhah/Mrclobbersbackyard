@@ -9,17 +9,17 @@
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
 
-//display
+///display
 ALLEGRO_DISPLAY* display;
 void display_init();
 void display_deinit();
 
-//hud
+///hud
 ALLEGRO_FONT* font;
 void hud_init();
 void hud_deinit();
 
-//sprites
+///sprites
 ALLEGRO_BITMAP* house;
 ALLEGRO_BITMAP* bulldog;
 ALLEGRO_BITMAP* pitbull;
@@ -34,11 +34,12 @@ ALLEGRO_BITMAP* _fish;
 void sprites_init();
 void sprites_deinit();
 
-//draw
+
+///draw
 void draw_board();
 void draw_scoreboard();
 
-//logistics
+///logistics
 
 void must_init(bool test, const char* description)
 {

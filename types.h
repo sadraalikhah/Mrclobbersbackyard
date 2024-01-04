@@ -15,10 +15,10 @@ struct pos {
 	int type;
 };
 
-//walls
+///walls
 int wall[14][14] = { 0 };
 
-//filled house switch
+///filled house switch
 int sw[15][15] = { 0 };
 
 //positions
@@ -32,7 +32,7 @@ struct pos trap[8];
 struct pos fish[10];
 
 
-//Stats
+///Stats
 struct stats dog[4] = {
 	[0].attack = 5,
 	[0].defense = 30,

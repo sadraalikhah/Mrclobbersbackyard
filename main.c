@@ -4,7 +4,7 @@
 #include "allegro.h"
 
 
-//SADRA's new branch 101
+///SADRA's new branch 101
 
 int main()
 {
