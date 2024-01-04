@@ -17,6 +17,7 @@ void display_deinit();
 //hud
 ALLEGRO_FONT* font;
 void hud_init();
+void hud_deinit();
 
 //sprites
 ALLEGRO_BITMAP* house;
@@ -31,6 +32,11 @@ ALLEGRO_BITMAP* _trap;
 ALLEGRO_BITMAP* _choco;
 ALLEGRO_BITMAP* _fish;
 void sprites_init();
+void sprites_deinit();
+
+//draw
+void draw_board();
+
 
 void must_init(bool test, const char* description)
 {
@@ -40,7 +46,7 @@ void must_init(bool test, const char* description)
     exit(EXIT_FAILURE);
 }
 
-int start(int wall[][14], struct pos pos_cat[])
+int start()
 {
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
@@ -96,67 +102,8 @@ int start(int wall[][14], struct pos pos_cat[])
 
         if (redraw && al_is_event_queue_empty(queue))
         {
-            //*MAIN BOARD*//
-            al_clear_to_color(al_map_rgb(255, 184, 60));
-
-            // grid
-            for (int i = 1; i < 15; i++)
-            {
-                al_draw_line(0, 60 * i, 900, 60 * i, al_map_rgb_f(0, 0, 0), 2);
-                al_draw_line(60*i, 0, 60*i, 900, al_map_rgb_f(0, 0, 0), 2);
-            }
-            // walls
-            for (int i = 1; i < 14; i++)
-            {
-                for (int j = 1; j < 14; j++)
-                {
-                    if (wall[i][j] == 1)
-                    {
-                        al_draw_line(60*i, 60*j, 60*i, 60*j + 60, al_map_rgb(107, 38, 22), 8);
-                    }
-                    else if (wall[i][j] == 2)
-                    {
-                        al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
-                    }
-                }
-            }
-            //starting house
-            al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
-
-            // dogs
-            al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
-            al_draw_bitmap(pitbull, 60 * pos_dog[1].x + 5, 60 * pos_dog[1].y + 5, 0);
-            al_draw_bitmap(shepherd, 60 * pos_dog[2].x + 5, 60 * pos_dog[2].y + 5, 0);
-            al_draw_bitmap(bulldog_jr, 60 * pos_dog[3].x + 5, 60 * pos_dog[3].y + 5, 0);
-
-            //mice
-            for (int i = 0; i < 10; i++)
-            {
-                al_draw_bitmap(mouse_1, 60 * mouse1[i].x + 5, 60 * mouse1[i].y + 5, 0);
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                al_draw_bitmap(mouse_2, 60 * mouse2[i].x + 5, 60 * mouse2[i].y + 5, 0);
-            }
-            for (int i = 0; i < 4; i++)
-            {
-                al_draw_bitmap(mouse_3, 60 * mouse3[i].x + 5, 60 * mouse3[i].y + 5, 0);
-            }
-            //traps
-            for (int i = 0; i < 8; i++)
-            {
-                al_draw_bitmap(_trap, 60 * trap[i].x + 5, 60 * trap[i].y + 5, 0);
-            }
-            //chocolates
-            for (int i = 0; i < 6; i++)
-            {
-                al_draw_bitmap(_choco, 60 * chocolate[i].x + 5, 60 * chocolate[i].y + 5, 0);
-            }
-            //fish
-            for (int i = 0; i < 10; i++)
-            {
-                al_draw_bitmap(_fish, 60 * fish[i].x + 5, 60 * fish[i].y + 5, 0);
-            }
+            draw_board();
+            
 
             //*STATS BOARD*//
             al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
@@ -170,28 +117,79 @@ int start(int wall[][14], struct pos pos_cat[])
     }
 
     //destroy the created files
-    al_destroy_font(font);
     al_destroy_timer(timer);
-    display_deinit();
     al_destroy_event_queue(queue);
-    al_destroy_bitmap(house);
-    al_destroy_bitmap(bulldog);
-    al_destroy_bitmap(pitbull);
-    al_destroy_bitmap(shepherd);
-    al_destroy_bitmap(bulldog_jr);
-    al_destroy_bitmap(mouse_1);
-    al_destroy_bitmap(mouse_2);
-    al_destroy_bitmap(mouse_3);
-    al_destroy_bitmap(_trap);
-    al_destroy_bitmap(_fish);
-    al_destroy_bitmap(_choco);
+    hud_deinit();
+    display_deinit();
+    sprites_deinit();
+
 
     return 0;
 }
 
 void draw_board()
 {
+    //*MAIN BOARD*//
+    al_clear_to_color(al_map_rgb(255, 184, 60));
 
+    // grid
+    for (int i = 1; i < 15; i++)
+    {
+        al_draw_line(0, 60 * i, 900, 60 * i, al_map_rgb_f(0, 0, 0), 2);
+        al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
+    }
+    // walls
+    for (int i = 1; i < 14; i++)
+    {
+        for (int j = 1; j < 14; j++)
+        {
+            if (wall[i][j] == 1)
+            {
+                al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
+            }
+            else if (wall[i][j] == 2)
+            {
+                al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
+            }
+        }
+    }
+    //starting house
+    al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
+
+    // dogs
+    al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
+    al_draw_bitmap(pitbull, 60 * pos_dog[1].x + 5, 60 * pos_dog[1].y + 5, 0);
+    al_draw_bitmap(shepherd, 60 * pos_dog[2].x + 5, 60 * pos_dog[2].y + 5, 0);
+    al_draw_bitmap(bulldog_jr, 60 * pos_dog[3].x + 5, 60 * pos_dog[3].y + 5, 0);
+
+    //mice
+    for (int i = 0; i < 10; i++)
+    {
+        al_draw_bitmap(mouse_1, 60 * mouse1[i].x + 5, 60 * mouse1[i].y + 5, 0);
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        al_draw_bitmap(mouse_2, 60 * mouse2[i].x + 5, 60 * mouse2[i].y + 5, 0);
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        al_draw_bitmap(mouse_3, 60 * mouse3[i].x + 5, 60 * mouse3[i].y + 5, 0);
+    }
+    //traps
+    for (int i = 0; i < 8; i++)
+    {
+        al_draw_bitmap(_trap, 60 * trap[i].x + 5, 60 * trap[i].y + 5, 0);
+    }
+    //chocolates
+    for (int i = 0; i < 6; i++)
+    {
+        al_draw_bitmap(_choco, 60 * chocolate[i].x + 5, 60 * chocolate[i].y + 5, 0);
+    }
+    //fish
+    for (int i = 0; i < 10; i++)
+    {
+        al_draw_bitmap(_fish, 60 * fish[i].x + 5, 60 * fish[i].y + 5, 0);
+    }
 }
 
 void display_init() {
@@ -209,6 +207,11 @@ void hud_init()
     font = al_create_builtin_font();
     must_init(font, "font");
 }
+void hud_deinit()
+{
+    al_destroy_font(font);
+}
+
 
 void sprites_init()
 {
@@ -240,4 +243,19 @@ void sprites_init()
     //fish init
     _fish = al_load_bitmap("fish.png");
     must_init(_fish, "fish");
+}
+
+void sprites_deinit()
+{
+    al_destroy_bitmap(house);
+    al_destroy_bitmap(bulldog);
+    al_destroy_bitmap(pitbull);
+    al_destroy_bitmap(shepherd);
+    al_destroy_bitmap(bulldog_jr);
+    al_destroy_bitmap(mouse_1);
+    al_destroy_bitmap(mouse_2);
+    al_destroy_bitmap(mouse_3);
+    al_destroy_bitmap(_trap);
+    al_destroy_bitmap(_fish);
+    al_destroy_bitmap(_choco);
 }
