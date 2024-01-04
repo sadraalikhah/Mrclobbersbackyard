@@ -9,6 +9,7 @@
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
 
+
 void must_init(bool test, const char* description)
 {
     if (test) return;
@@ -17,7 +18,7 @@ void must_init(bool test, const char* description)
     exit(EXIT_FAILURE);
 }
 
-int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos mouse1[], struct pos mouse2[], struct pos mouse3[], struct pos chocolate[], struct pos trap[], struct pos fish[])
+int start(int wall[][14], struct pos pos_cat[])
 {
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
@@ -77,15 +78,22 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
     while (1)
     {
         al_wait_for_event(queue, &event);
-
+        
+        //logic definitions
         switch (event.type)
         {
         case ALLEGRO_EVENT_TIMER:
             // game logic goes here.
+
+            
+
+
             redraw = true;
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
+            turn++;
+            break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
             break;
@@ -96,9 +104,9 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
 
         if (redraw && al_is_event_queue_empty(queue))
         {
+            //*MAIN BOARD*//
             al_clear_to_color(al_map_rgb(255, 184, 60));
-            al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
-            al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+
             // grid
             for (int i = 1; i < 15; i++)
             {
@@ -158,12 +166,18 @@ int start(int wall[][14], struct pos pos_cat[], struct pos pos_dog[], struct pos
                 al_draw_bitmap(_fish, 60 * fish[i].x + 5, 60 * fish[i].y + 5, 0);
             }
 
+            //*STATS BOARD*//
+            al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
+            al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+            al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "Turn: %d", turn);
+
             al_flip_display();
 
             redraw = false;
         }
     }
 
+    //destroy the created files
     al_destroy_font(font);
     al_destroy_display(display);
     al_destroy_timer(timer);

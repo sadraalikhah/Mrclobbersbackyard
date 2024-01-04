@@ -15,6 +15,17 @@ struct pos {
 	int type;
 };
 
+//positions
+struct pos mouse1[10];
+struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
+struct pos mouse2[6];
+struct pos mouse3[4];
+struct pos chocolate[6];
+struct pos trap[8];
+struct pos fish[10];
+
+
+//Stats
 struct stats dog[4] = {
 	[0].attack = 5,
 	[0].defense = 30,
@@ -40,4 +51,8 @@ struct stats cats[4] = {
 	[3].attack = 2,
 	[3].defense = 5,
 };
+
+int turn = 1;
+char str[2];
+
 
