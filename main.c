@@ -9,18 +9,14 @@ int main()
 	srand(time(NULL));
 
 	//generate walls
-	int wall[14][14] = { 0 };
 	int generate_walls_con = 1;
 	while (generate_walls_con)
 	{
 		generate_walls_con = generate_walls(&wall);
 	}
 
-	//board for being filled or not
-	int sw[15][15] = { 0 };
 
 	//cats
-	struct pos pos_cat[4];
 	for (int i = 0; i < 4; i++)
 	{
 		pos_cat[i].x = 8;
@@ -49,6 +45,6 @@ int main()
 	for (int i = 0; i < 10; i++) fish[i].type = 800 + i;
 
 
-    start(wall, pos_cat);
+    start();
 	return 0;
 }

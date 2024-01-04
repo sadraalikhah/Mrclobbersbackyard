@@ -15,9 +15,16 @@ struct pos {
 	int type;
 };
 
+//walls
+int wall[14][14] = { 0 };
+
+//filled house switch
+int sw[15][15] = { 0 };
+
 //positions
-struct pos mouse1[10];
+struct pos pos_cat[4];
 struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
+struct pos mouse1[10];
 struct pos mouse2[6];
 struct pos mouse3[4];
 struct pos chocolate[6];
