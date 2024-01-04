@@ -36,7 +36,9 @@ void sprites_deinit();
 
 //draw
 void draw_board();
+void draw_scoreboard();
 
+//logistics
 
 void must_init(bool test, const char* description)
 {
@@ -103,12 +105,7 @@ int start()
         if (redraw && al_is_event_queue_empty(queue))
         {
             draw_board();
-            
-
-            //*STATS BOARD*//
-            al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
-            al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
-            al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "Turn: %d", turn);
+            draw_scoreboard();
 
             al_flip_display();
 
@@ -190,6 +187,14 @@ void draw_board()
     {
         al_draw_bitmap(_fish, 60 * fish[i].x + 5, 60 * fish[i].y + 5, 0);
     }
+}
+
+void draw_scoreboard()
+{
+    //*STATS BOARD*//
+    al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
+    al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "Turn: %d", turn);
 }
 
 void display_init() {
