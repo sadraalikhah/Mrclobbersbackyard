@@ -44,8 +44,10 @@ void sprites_deinit();
 void draw_board();
 void draw_scoreboard();
 
+///keyboard
+
 ///logistics
-void move(ALLEGRO_EVENT event);
+void cat_update(ALLEGRO_EVENT event);
 
 void must_init(bool test, const char* description)
 {
@@ -99,7 +101,7 @@ int start()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            move(event);
+            cat_update(event);
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -108,6 +110,7 @@ int start()
 
         if (done)
             break;
+
 
         if (redraw && al_is_event_queue_empty(queue))
         {
@@ -299,44 +302,37 @@ void sprites_deinit()
     al_destroy_bitmap(_choco);
 }
 
+
 ///logics
-void move(ALLEGRO_EVENT event)
+void cat_update(ALLEGRO_EVENT event)
 {
-    for (int i = 1; i <= 4; i++)
-    {
-        for (int j = 1; j <= 3;)
-        {
-            switch (event.type)
+            if (event.keyboard.keycode == ALLEGRO_KEY_UP)
             {
-            case ALLEGRO_KEY_UP:
-                if (isLegal(pos_cat[i].y - 1, pos_cat[i].x))
+                if (isLegal(pos_cat[1].y - 1, pos_cat[1].x, 1))
                 {
-                    pos_cat[i].y--;
-                    j++;
+                    pos_cat[1].y--;
                 }
-                break;
-            case ALLEGRO_KEY_DOWN:
-                if (isLegal(pos_cat[i].y + 1, pos_cat[i].x))
-                {
-                    pos_cat[i].y++;
-                    j++;
-                }
-                break;
-            case ALLEGRO_KEY_LEFT:
-                if (isLegal(pos_cat[i].y, pos_cat[i].x - 1))
-                {
-                    pos_cat[i].x--;
-                    j++;
-                }
-                break;
-            case ALLEGRO_KEY_RIGHT:
-                if (isLegal(pos_cat[i].y, pos_cat[i].x + 1))
-                {
-                    pos_cat[i].x++;
-                    j++;
-                }
-                break;
             }
-        }
-    }
+            if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
+            {
+                if (isLegal(pos_cat[1].y + 1, pos_cat[1].x, 3))
+                {
+                    pos_cat[1].y++;
+
+                }
+            }
+            if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
+            {
+                if (isLegal(pos_cat[1].y, pos_cat[1].x - 1, 2))
+                {
+                    pos_cat[1].x--;
+                }
+            }  
+            if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+            {
+                if (isLegal(pos_cat[1].y, pos_cat[1].x + 1, 4))
+                {
+                    pos_cat[1].x++;
+                }
+            }
 }
