@@ -14,7 +14,7 @@ float distance(struct pos point1, struct pos point2);
 int isExcludedRegion(int x, int y);
 
 // Generate walls on the board based on certain conditions
-int generate_walls(int board[][FENCE_SIZE])
+int generate_walls(int wallV[][FENCE_SIZE], int wallH[][FENCE_SIZE])
 {
     int c;
     int NoWalls = 0;
@@ -25,8 +25,30 @@ int generate_walls(int board[][FENCE_SIZE])
         {
             if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
             c = (j*i);
-            if (rand() * c % 13 == 5) board[i][j] = 1, NoWalls++; //vertical
-            if (rand() * c % 13 == 1) board[i][j] = 2, NoWalls++; //horizontal
+            if (rand() * c % 13 == 5) wallV[i][j] = 1, NoWalls++; //vertical
+            if (rand() * c % 13 == 1) wallH[i][j] = 1, NoWalls++; //horizontal
+            //IN CASE THAT THERE IS AN ENCLOSURE
+            if ((i > 0 && j > 0) && (wallV[i - 1][j] == wallH[i][j]) && (wallH[i][j - 1] == wallH[i][j]))
+            {
+                int q = rand() % 4;
+                switch (q)
+                {
+                case 1:
+                    wallV[i - 1][j];
+                    break;
+                case 2:
+                    wallH[i][j];
+                    break;
+                case 3:
+                    wallH[i][j - 1];
+                    break;
+                case 4:
+                    wallH[i][j];
+                    break;
+                }
+            }
+            if (wallV[i][j]) printf("i = %d, j = %d, V\n", i, j);
+            if (wallH[i][j]) printf("i = %d, j = %d, H\n", i, j);
         }
     }
     if (NoWalls < 18 || NoWalls > 40) return 1;

@@ -5,6 +5,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include "types.h"
+#include "logics.h"
 
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
@@ -44,6 +45,7 @@ void draw_board();
 void draw_scoreboard();
 
 ///logistics
+void move(ALLEGRO_EVENT event);
 
 void must_init(bool test, const char* description)
 {
@@ -97,7 +99,7 @@ int start()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            if (turn < 16) turn++;
+            move(event);
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -109,7 +111,7 @@ int start()
 
         if (redraw && al_is_event_queue_empty(queue))
         {
-            if (turn < 16)
+            if (_round < 16)
             {
                 draw_board();
                 draw_scoreboard();
@@ -153,11 +155,11 @@ void draw_board()
     {
         for (int j = 1; j < 14; j++)
         {
-            if (wall[i][j] == 1)
+            if (wallV[i][j])
             {
                 al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
             }
-            else if (wall[i][j] == 2)
+            if (wallH[i][j])
             {
                 al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
             }
@@ -165,6 +167,13 @@ void draw_board()
     }
     //starting house
     al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
+
+    //cats
+    al_draw_bitmap(cat1, 60 * pos_cat[0].x + 5, 60 * pos_cat[0].y + 5, 0);
+    al_draw_bitmap(cat2, 60 * pos_cat[1].x + 5, 60 * pos_cat[1].y + 5, 0);
+    al_draw_bitmap(cat3, 60 * pos_cat[2].x + 5, 60 * pos_cat[2].y + 5, 0);
+    al_draw_bitmap(cat4, 60 * pos_cat[3].x + 5, 60 * pos_cat[3].y + 5, 0);
+
 
     // dogs
     al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
@@ -207,7 +216,7 @@ void draw_scoreboard()
     //*STATS BOARD*//
     al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
     al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
-    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "Turn: %d", turn);
+    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "_round: %d", _round);
 }
 
 void display_init() {
@@ -288,4 +297,46 @@ void sprites_deinit()
     al_destroy_bitmap(_trap);
     al_destroy_bitmap(_fish);
     al_destroy_bitmap(_choco);
+}
+
+///logics
+void move(ALLEGRO_EVENT event)
+{
+    for (int i = 1; i <= 4; i++)
+    {
+        for (int j = 1; j <= 3;)
+        {
+            switch (event.type)
+            {
+            case ALLEGRO_KEY_UP:
+                if (isLegal(pos_cat[i].y - 1, pos_cat[i].x))
+                {
+                    pos_cat[i].y--;
+                    j++;
+                }
+                break;
+            case ALLEGRO_KEY_DOWN:
+                if (isLegal(pos_cat[i].y + 1, pos_cat[i].x))
+                {
+                    pos_cat[i].y++;
+                    j++;
+                }
+                break;
+            case ALLEGRO_KEY_LEFT:
+                if (isLegal(pos_cat[i].y, pos_cat[i].x - 1))
+                {
+                    pos_cat[i].x--;
+                    j++;
+                }
+                break;
+            case ALLEGRO_KEY_RIGHT:
+                if (isLegal(pos_cat[i].y, pos_cat[i].x + 1))
+                {
+                    pos_cat[i].x++;
+                    j++;
+                }
+                break;
+            }
+        }
+    }
 }

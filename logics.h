@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "types.h"
 
-int isLegal(struct pos)
+int isLegal(int y, int x)
 {
 
 }
+

@@ -16,7 +16,8 @@ struct pos {
 };
 
 ///walls
-int wall[14][14] = { 0 };
+int wallV[14][14] = { 0 };
+int wallH[14][14] = { 0 };
 
 ///filled house switch
 int sw[15][15] = { 0 };
@@ -49,7 +50,7 @@ struct stats dog[4] = {
 };
 
 struct stats cats[4] = {
-	[0] .attack = 2,
+	[0].attack = 2,
 	[0].defense = 5,
 	[1].attack = 2,
 	[1].defense = 5,
@@ -59,5 +60,5 @@ struct stats cats[4] = {
 	[3].defense = 5,
 };
 
-int turn = 1;
+int _round = 1;
 

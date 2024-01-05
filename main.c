@@ -15,15 +15,15 @@ int main()
 	int generate_walls_con = 1;
 	while (generate_walls_con)
 	{
-		generate_walls_con = generate_walls(&wall);
+		generate_walls_con = generate_walls(wallV, wallH);
 	}
 
 
 	//cats
 	for (int i = 0; i < 4; i++)
 	{
-		pos_cat[i].x = 8;
-		pos_cat[i].y = 8;
+		pos_cat[i].x = 7;
+		pos_cat[i].y = 7;
 		pos_cat[i].type = 100 + i;
 	}
 
