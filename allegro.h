@@ -158,13 +158,14 @@ void draw_board()
     {
         for (int j = 1; j < 14; j++)
         {
-            if (wallV[i][j])
+            switch (wall[i][j])
             {
+            case 'D':
                 al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
-            }
-            if (wallH[i][j])
-            {
+                break;
+            case 'R':
                 al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
+                break;
             }
         }
     }

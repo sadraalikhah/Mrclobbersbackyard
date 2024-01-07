@@ -15,7 +15,7 @@ int main()
 	int generate_walls_con = 1;
 	while (generate_walls_con)
 	{
-		generate_walls_con = generate_walls(wallV, wallH);
+		generate_walls_con = generate_walls();
 	}
 
 
