@@ -137,15 +137,15 @@ void draw_board()
         al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
     }
     // walls
-    for (int i = 1; i < 14; i++)
+    for (int i = 1; i < 15; i++)
     {
-        for (int j = 1; j < 14; j++)
+        for (int j = 1; j < 15; j++)
         {
-            if (wall[i][j] == 1)
+            if (wall[i][j] == 'U')
             {
                 al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
             }
-            else if (wall[i][j] == 2)
+            else if (wall[i][j] == 'R')
             {
                 al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
             }

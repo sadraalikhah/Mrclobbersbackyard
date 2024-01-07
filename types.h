@@ -16,7 +16,7 @@ struct pos {
 };
 
 ///walls
-int wall[14][14] = { 0 };
+char wall[15][15] = { 0 };
 
 ///filled house switch
 int sw[15][15] = { 0 };
