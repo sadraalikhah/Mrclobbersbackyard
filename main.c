@@ -12,10 +12,16 @@ int main()
 	srand(time(NULL));
 
 	//generate walls
-	int generate_walls_con = 1;
-	while (generate_walls_con)
+	generate_walls();
+
+	for (int i = 0; i < 15; i++)
 	{
-		generate_walls_con = generate_walls();
+		for (int j = 0; j < 15; j++)
+		{
+			if (!wall[i][j]) wall[i][j] = '0';
+			printf("%c ", wall[i][j]);
+		}
+		printf("\n");
 	}
 
 

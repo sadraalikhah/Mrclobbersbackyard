@@ -12,57 +12,42 @@ float distance(struct pos point1, struct pos point2);
 // Check if a position is in the excluded region
 int isExcludedRegion(int x, int y);
 
+//sets walls to zero if the number required is not provided
+void setToZero();
 
 // Generate walls on the board based on certain conditions
-int generate_walls()
+void generate_walls()
 {
-    int c;
-    int NoWalls = 0;
-
-	for (int i = 0; i < BOARD_SIZE;i++)
-	{
-        for (int j = 0; j < BOARD_SIZE;j++)
+    do
+    {
+        int NoWalls = 0;
+        for (int i = 0; i < BOARD_SIZE; i++)
         {
-            if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
-            if (i < 0 || i > 13 || j < 0 || j > 13) continue;
-
-            c = (j*i);
-            if (rand() * c % 13 == 5)
+            for (int j = 0; j < BOARD_SIZE; j++)
             {
-                wall[i][j] = 'D';
-                wall[i+1][j] = 'U';
-                NoWalls++;
-            }
-            if (rand() * c % 13 == 1)
-            {
-                wall[i][j] = 'R';
-                wall[i][j+1] = 'L';
-                NoWalls++;
-            }
-            //IN CASE THAT THERE IS AN ENCLOSURE
-            if ((i > 0 && j > 0) && (wall[i][j] && wall[i+1][j] && wall[i][j+1] && wall[i+1][j+1]))
-            {
-                int q = rand() % 4;
-                switch (q)
+                if (rand() % 13 == 5)
                 {
-                case 1:
-                    wall[i - 1][j] = 0;
-                    break;
-                case 2:
-                    wall[i][j] = 0;
-                    break;
-                case 3:
-                    wall[i][j - 1] = 0;
-                    break;
-                case 4:
-                    wall[i][j] = 0;
-                    break;
+                    if (j == 0 || i == 0 || i == 14) continue;
+                    else if (j > 6 && j < 9 && i > 5 && i < 8) continue;
+                    wall[i][j] = 'L';
+                    NoWalls++;
+                }
+                else if (rand() % 13 == 1)
+                {
+                    if (i == 0 || j == 0 || j == 14) continue;
+                    else if (i > 6 && i < 9 && j > 5 && j < 8) continue;
+                    wall[i][j] = 'U';
+                    NoWalls++;
                 }
             }
         }
-    }
-    if (NoWalls < 18 || NoWalls > 40) return 1;
-    return 0;
+        if (NoWalls < 18 || NoWalls > 40)
+        {
+            setToZero();
+        }
+        else break;
+
+    } while (1);
 }
 
 // Spawn entities at random positions on the board
@@ -142,3 +127,9 @@ int isExcludedRegion(int y, int x) {
     return x > 5 && x < 9 && y > 5 && y < 9;
 }
 
+void setToZero()
+{
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
+            wall[i][j] = 0;
+}

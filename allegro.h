@@ -154,17 +154,21 @@ void draw_board()
         al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
     }
     // walls
-    for (int i = 1; i < 14; i++)
+    for (int i = 0 ;i < 15; i++)
     {
-        for (int j = 1; j < 14; j++)
+        for (int j = 0; j < 15; j++)
         {
+            
             switch (wall[i][j])
             {
-            case 'D':
-                al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
+            case 'L':
+                al_draw_line(60 * j, 60 * i, 60 * j, 60 * i + 60, al_map_rgb(107, 38, 22), 8);
+
                 break;
-            case 'R':
-                al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
+            case 'U':
+                al_draw_line(60 * j, 60 * i, 60 * j + 60, 60 * i, al_map_rgb(107, 38, 22), 8);
+
+
                 break;
             }
         }
@@ -215,6 +219,9 @@ void draw_board()
     }
 }
 
+/// <summary>
+/// scoreboard
+/// </summary>
 void draw_scoreboard()
 {
     //*STATS BOARD*//
@@ -223,6 +230,9 @@ void draw_scoreboard()
     al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "_round: %d", _round);
 }
 
+/// <summary>
+/// display
+/// </summary>
 void display_init() {
     display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     must_init(display, "display");
@@ -233,6 +243,7 @@ void display_deinit()
 
 }
 
+/// hud
 void hud_init()
 {
     font = al_create_builtin_font();
@@ -244,6 +255,7 @@ void hud_deinit()
 }
 
 
+/// sprites
 void sprites_init()
 {
     //house and cats init
@@ -283,7 +295,6 @@ void sprites_init()
     _fish = al_load_bitmap("fish.png");
     must_init(_fish, "fish");
 }
-
 void sprites_deinit()
 {
     al_destroy_bitmap(house);
@@ -309,14 +320,14 @@ void cat_update(ALLEGRO_EVENT event)
 {
             if (event.keyboard.keycode == ALLEGRO_KEY_UP)
             {
-                if (isLegal(pos_cat[1].y - 1, pos_cat[1].x, 1))
+                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'U'))
                 {
                     pos_cat[1].y--;
                 }
             }
             if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
             {
-                if (isLegal(pos_cat[1].y + 1, pos_cat[1].x, 3))
+                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'D'))
                 {
                     pos_cat[1].y++;
 
@@ -324,14 +335,14 @@ void cat_update(ALLEGRO_EVENT event)
             }
             if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x - 1, 2))
+                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'L'))
                 {
                     pos_cat[1].x--;
                 }
             }  
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x + 1, 4))
+                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'R'))
                 {
                     pos_cat[1].x++;
                 }
