@@ -4,7 +4,7 @@
 #include <time.h>
 #include "types.h"
 
-#define FENCE_SIZE 14
+#define FENCE_SIZE 15
 #define BOARD_SIZE 15
 
 // Calculate the Euclidean distance between two points
@@ -23,8 +23,8 @@ int generate_walls(char board[][FENCE_SIZE])
 	{
         for (int j = 0; j < FENCE_SIZE;j++)
         {
-            if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
-            if ((i < 1 && i>13) || (j < 1 && j>13)) continue;
+            if (i >= 6 && i <= 9 && j >= 6 && j <= 9) continue;
+            if (i < 1 || i>12 || j < 1 || j>13) continue;
             if (board[i][j]) continue;
             c = (j*i);
             
@@ -35,25 +35,16 @@ int generate_walls(char board[][FENCE_SIZE])
                 board[i][j + 1] = 'L';
                 NoWalls++;
                 break;
-            case 3:
-                board[i][j] = 'D';
-                board[i + 1][j] = 'U';
-                NoWalls++;
-                break;
+
             case 1:
-                board[i][j] = 'R';
-                board[i][j - 1] = 'L';
-                NoWalls++;
-                break;
-            case 7:
                 board[i][j] = 'U';
-                board[i - 1][j] = 'D';
+                board[i + 1][j] = 'D';
                 NoWalls++;
                 break;
             }
         }
     }
-    if (NoWalls < 18 || NoWalls > 40) return 1;
+    if (NoWalls < 22 || NoWalls > 30) return 1;
     return 0;
 }
 
