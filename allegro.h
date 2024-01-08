@@ -320,31 +320,18 @@ void cat_update(ALLEGRO_EVENT event)
 {
             if (event.keyboard.keycode == ALLEGRO_KEY_UP)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'U'))
-                {
-                    pos_cat[1].y--;
-                }
+                move(&pos_cat[1], 'U');
             }
-            if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
+            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'D'))
-                {
-                    pos_cat[1].y++;
-
-                }
+                move(&pos_cat[1], 'D');
             }
-            if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
+            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'L'))
-                {
-                    pos_cat[1].x--;
-                }
+                move(&pos_cat[1], 'L');
             }  
-            if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+            else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
             {
-                if (isLegal(pos_cat[1].y, pos_cat[1].x, 'R'))
-                {
-                    pos_cat[1].x++;
-                }
+                move(&pos_cat[1], 'R');
             }
 }
