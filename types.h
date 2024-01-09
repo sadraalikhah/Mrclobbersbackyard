@@ -49,7 +49,7 @@ struct stats dog[4] = {
 };
 
 struct stats cats[4] = {
-	[0] .attack = 2,
+	[0].attack = 2,
 	[0].defense = 5,
 	[1].attack = 2,
 	[1].defense = 5,
@@ -59,5 +59,5 @@ struct stats cats[4] = {
 	[3].defense = 5,
 };
 
-int turn = 1;
+int _round = 1;
 

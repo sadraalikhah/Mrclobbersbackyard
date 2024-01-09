@@ -5,6 +5,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include "types.h"
+#include "logics.h"
 
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
@@ -21,6 +22,10 @@ void hud_deinit();
 
 ///sprites
 ALLEGRO_BITMAP* house;
+ALLEGRO_BITMAP* cat1;
+ALLEGRO_BITMAP* cat2;
+ALLEGRO_BITMAP* cat3;
+ALLEGRO_BITMAP* cat4;
 ALLEGRO_BITMAP* bulldog;
 ALLEGRO_BITMAP* pitbull;
 ALLEGRO_BITMAP* shepherd;
@@ -39,7 +44,10 @@ void sprites_deinit();
 void draw_board();
 void draw_scoreboard();
 
+///keyboard
+
 ///logistics
+void cat_update(ALLEGRO_EVENT event);
 
 void must_init(bool test, const char* description)
 {
@@ -93,7 +101,7 @@ int start()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            turn++;
+            cat_update(event);
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -103,10 +111,19 @@ int start()
         if (done)
             break;
 
+
         if (redraw && al_is_event_queue_empty(queue))
         {
-            draw_board();
-            draw_scoreboard();
+            if (_round < 16)
+            {
+                draw_board();
+                draw_scoreboard();
+            }
+            else
+            {
+                al_clear_to_color(al_map_rgb_f(1, 1, 1));
+                al_draw_text(font, al_map_rgb_f(0, 0, 0), 750, 450, 0, "GAME OVER");
+            }
 
             al_flip_display();
 
@@ -137,23 +154,34 @@ void draw_board()
         al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
     }
     // walls
-    for (int i = 1; i < 15; i++)
+    for (int i = 0 ;i < 15; i++)
     {
-        for (int j = 1; j < 15; j++)
+        for (int j = 0; j < 15; j++)
         {
+            
             switch (wall[i][j])
             {
-            case 'R':
-                al_draw_line(60 * i, 60 * j, 60 * i, 60 * j + 60, al_map_rgb(107, 38, 22), 8);
+            case 'L':
+                al_draw_line(60 * j, 60 * i, 60 * j, 60 * i + 60, al_map_rgb(107, 38, 22), 8);
+
                 break;
             case 'U':
-                al_draw_line(60 * i, 60 * j, 60 * i + 60, 60 * j, al_map_rgb(107, 38, 22), 8);
+                al_draw_line(60 * j, 60 * i, 60 * j + 60, 60 * i, al_map_rgb(107, 38, 22), 8);
+
+
                 break;
             }
         }
     }
     //starting house
     al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
+
+    //cats
+    al_draw_bitmap(cat1, 60 * pos_cat[0].x + 5, 60 * pos_cat[0].y + 5, 0);
+    al_draw_bitmap(cat2, 60 * pos_cat[1].x + 5, 60 * pos_cat[1].y + 5, 0);
+    al_draw_bitmap(cat3, 60 * pos_cat[2].x + 5, 60 * pos_cat[2].y + 5, 0);
+    al_draw_bitmap(cat4, 60 * pos_cat[3].x + 5, 60 * pos_cat[3].y + 5, 0);
+
 
     // dogs
     al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
@@ -191,14 +219,20 @@ void draw_board()
     }
 }
 
+/// <summary>
+/// scoreboard
+/// </summary>
 void draw_scoreboard()
 {
     //*STATS BOARD*//
     al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
     al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
-    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "Turn: %d", turn);
+    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "_round: %d", _round);
 }
 
+/// <summary>
+/// display
+/// </summary>
 void display_init() {
     display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     must_init(display, "display");
@@ -209,6 +243,7 @@ void display_deinit()
 
 }
 
+/// hud
 void hud_init()
 {
     font = al_create_builtin_font();
@@ -220,11 +255,20 @@ void hud_deinit()
 }
 
 
+/// sprites
 void sprites_init()
 {
     //house and cats init
     house = al_load_bitmap("house.png");
     must_init(house, "house");
+    cat1 = al_load_bitmap("cat1.png");
+    must_init(cat1, "house");
+    cat2 = al_load_bitmap("cat2.png");
+    must_init(cat2, "cat2");
+    cat3 = al_load_bitmap("cat3.png");
+    must_init(cat3, "cat3");
+    cat4 = al_load_bitmap("cat4.png");
+    must_init(cat4, "cat4");
     //dogs init
     bulldog = al_load_bitmap("bulldog.png");
     must_init(bulldog, "bulldog");
@@ -251,10 +295,13 @@ void sprites_init()
     _fish = al_load_bitmap("fish.png");
     must_init(_fish, "fish");
 }
-
 void sprites_deinit()
 {
     al_destroy_bitmap(house);
+    al_destroy_bitmap(cat1);
+    al_destroy_bitmap(cat2);
+    al_destroy_bitmap(cat3);
+    al_destroy_bitmap(cat4);
     al_destroy_bitmap(bulldog);
     al_destroy_bitmap(pitbull);
     al_destroy_bitmap(shepherd);
@@ -265,4 +312,26 @@ void sprites_deinit()
     al_destroy_bitmap(_trap);
     al_destroy_bitmap(_fish);
     al_destroy_bitmap(_choco);
+}
+
+
+///logics
+void cat_update(ALLEGRO_EVENT event)
+{
+            if (event.keyboard.keycode == ALLEGRO_KEY_UP)
+            {
+                move(&pos_cat[1], 'U');
+            }
+            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
+            {
+                move(&pos_cat[1], 'D');
+            }
+            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
+            {
+                move(&pos_cat[1], 'L');
+            }  
+            else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+            {
+                move(&pos_cat[1], 'R');
+            }
 }

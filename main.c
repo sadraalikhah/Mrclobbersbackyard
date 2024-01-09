@@ -12,18 +12,24 @@ int main()
 	srand(time(NULL));
 
 	//generate walls
-	int generate_walls_con = 1;
-	while (generate_walls_con)
+	generate_walls();
+
+	for (int i = 0; i < 15; i++)
 	{
-		generate_walls_con = generate_walls(&wall);
+		for (int j = 0; j < 15; j++)
+		{
+			if (!wall[i][j]) wall[i][j] = '0';
+			printf("%c ", wall[i][j]);
+		}
+		printf("\n");
 	}
 
 
 	//cats
 	for (int i = 0; i < 4; i++)
 	{
-		pos_cat[i].x = 8;
-		pos_cat[i].y = 8;
+		pos_cat[i].x = 7;
+		pos_cat[i].y = 7;
 		pos_cat[i].type = 100 + i;
 	}
 
