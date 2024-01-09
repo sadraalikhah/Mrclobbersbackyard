@@ -19,6 +19,7 @@ void display_deinit();
 ALLEGRO_FONT* font;
 void hud_init();
 void hud_deinit();
+int cur_round = 1;
 
 ///sprites
 ALLEGRO_BITMAP* house;
@@ -48,6 +49,7 @@ void draw_scoreboard();
 
 ///logistics
 void cat_update(ALLEGRO_EVENT event);
+void sprites_update();
 
 void must_init(bool test, const char* description)
 {
@@ -102,6 +104,11 @@ int start()
 
         case ALLEGRO_EVENT_KEY_DOWN:
             cat_update(event);
+            if (_turn > 4) {
+                _turn = 1;
+                _round++;
+            }
+            if (cur_round < round) sprites_update();
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -262,7 +269,7 @@ void sprites_init()
     house = al_load_bitmap("house.png");
     must_init(house, "house");
     cat1 = al_load_bitmap("cat1.png");
-    must_init(cat1, "house");
+    must_init(cat1, "cat1");
     cat2 = al_load_bitmap("cat2.png");
     must_init(cat2, "cat2");
     cat3 = al_load_bitmap("cat3.png");
@@ -320,18 +327,47 @@ void cat_update(ALLEGRO_EVENT event)
 {
             if (event.keyboard.keycode == ALLEGRO_KEY_UP)
             {
-                move(&pos_cat[1], 'U');
+                move(&pos_cat[_turn - 1], 'U');
+                _move++;
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
             {
-                move(&pos_cat[1], 'D');
+                move(&pos_cat[_turn - 1], 'D');
+                _move++;
+
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
             {
-                move(&pos_cat[1], 'L');
+                move(&pos_cat[_turn - 1], 'L');
+                _move++;
+
             }  
             else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
             {
-                move(&pos_cat[1], 'R');
+                move(&pos_cat[_turn - 1], 'R');
+                _move++;
+
             }
+            if (_move > 3) {
+                _move = 1;
+                _turn++;
+            }
+}
+
+void sprites_update() {
+    cur_round = _round;
+    for (int i = 0; i < 4; i++) {
+        randomMove(&pos_dog[i]);
+    }
+    for (int i = 0; i < 4; i++) {
+        randomMove(&mouse3[i]);
+    }
+    for (int i = 0; i < 6; i++) {
+        randomMove(&mouse2[i]);
+    }
+    for (int i = 0; i < 10; i++) {
+        randomMove(&mouse1[i]);
+    }
+ 
+
 }

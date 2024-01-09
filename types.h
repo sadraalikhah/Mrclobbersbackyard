@@ -60,4 +60,6 @@ struct stats cats[4] = {
 };
 
 int _round = 1;
+int _turn = 1;
+int _move = 1;
 
