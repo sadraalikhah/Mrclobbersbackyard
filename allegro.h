@@ -199,26 +199,29 @@ void draw_scoreboard()
 ///logics
 void sprites_update(ALLEGRO_EVENT event)
 {
-    if (event.keyboard.keycode == ALLEGRO_KEY_UP)
+    switch (event.keyboard.keycode)
     {
+    case ALLEGRO_KEY_UP:
+    case ALLEGRO_KEY_W:
         move(&pos_cat[_turn - 1], 'U');
-    }
-    else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
-    {
+        break;
+    case ALLEGRO_KEY_DOWN:
+    case ALLEGRO_KEY_S:
         move(&pos_cat[_turn - 1], 'D');
-    }
-    else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
-    {
+        break;
+    case ALLEGRO_KEY_LEFT:
+    case ALLEGRO_KEY_A:
         move(&pos_cat[_turn - 1], 'L');
-    }
-    else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-    {
+        break;
+    case ALLEGRO_KEY_RIGHT:
+    case ALLEGRO_KEY_D:
         move(&pos_cat[_turn - 1], 'R');
-    }
-    else if (event.keyboard.keycode == ALLEGRO_KEY_SPACE)
-    {
+        break;
+    case ALLEGRO_KEY_SPACE:
+    case ALLEGRO_KEY_ENTER:
         _move = 1;
         _turn++;
+        break;
     }
 
     if (_turn > 4)
