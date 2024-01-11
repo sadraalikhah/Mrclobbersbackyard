@@ -33,6 +33,7 @@ void move(struct pos *obj ,char move)
 {
 	if (!isLegal(obj->y, obj->x, move) || _move > 3)
 		return;
+	sw[obj->y][obj->x] = 0;
 	switch (move)
 	{
 	case 'U':
@@ -48,7 +49,9 @@ void move(struct pos *obj ,char move)
 		obj->x++;
 		break;
 	}
+	sw[obj->y][obj->x]++;
 	if ((obj->type / 100) == 1) _move++;
+	check(obj->y, obj->x);
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
@@ -58,25 +61,31 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 	case 'U':
 		if (y < 1) return 0;
 		if (wall[y][x] == 'U') return 0;
-		if (sw[y - 1][x] == 1) return 0;
+		if (sw[y - 1][x] == -1) return 0;
 		break;
 	case 'D':
 		if (y > 13) return 0;
 		if (wall[y+1][x] == 'U') return 0;
-		if (sw[y + 1][x] == 1) return 0;
+		if (sw[y + 1][x] == -1) return 0;
 		break;
 	case 'L':
 		if (x < 1) return 0;
 		if (wall[y][x] == 'L') return 0;
-		if (sw[y][x-1] == 1) return 0;
+		if (sw[y][x-1] == -1) return 0;
 		break;
 	case 'R':
 		if (x > 13) return 0;
 		if (wall[y][x+1] == 'L') return 0;
-		if (sw[y][x + 1] == 1) return 0;
+		if (sw[y][x + 1] == -1) return 0;
 		break;
 	}
 	return 1;
+}
+
+void check(int y, int x)
+{
+	if (sw <= 1) return;
+
 }
 
 
