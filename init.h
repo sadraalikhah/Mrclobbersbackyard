@@ -13,7 +13,6 @@ void display_deinit();
 ALLEGRO_FONT* font;
 void hud_init();
 void hud_deinit();
-int cur_round = 1;
 
 ///sprites
 ALLEGRO_BITMAP* house;
@@ -109,6 +108,8 @@ void sprites_init()
     _fish = al_load_bitmap("fish.png");
     must_init(_fish, "fish");
 }
+
+
 void sprites_deinit()
 {
     al_destroy_bitmap(house);

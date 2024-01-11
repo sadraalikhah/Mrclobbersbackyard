@@ -9,7 +9,7 @@ void randomMove(struct pos obj);
 
 void move(struct pos *obj ,char move)
 {
-	if (!isLegal(obj->y, obj->x, move))
+	if (!isLegal(obj->y, obj->x, move) || _move > 3)
 		return;
 	switch (move)
 	{
@@ -26,6 +26,7 @@ void move(struct pos *obj ,char move)
 		obj->x++;
 		break;
 	}
+	if ((obj->type / 100) == 1) _move++;
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right

@@ -16,7 +16,7 @@ void draw_scoreboard();
 ///keyboard
 
 ///logistics
-void cat_update(ALLEGRO_EVENT event);
+void sprites_update(ALLEGRO_EVENT event);
 
 
 int start()
@@ -63,7 +63,8 @@ int start()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            cat_update(event);
+            sprites_update(event);
+
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -196,34 +197,38 @@ void draw_scoreboard()
 
 
 ///logics
-void cat_update(ALLEGRO_EVENT event)
+void sprites_update(ALLEGRO_EVENT event)
 {
-            if (event.keyboard.keycode == ALLEGRO_KEY_UP)
-            {
-                move(&pos_cat[1], 'U');
-            }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
-            {
-                move(&pos_cat[1], 'D');
-            }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
-            {
-                move(&pos_cat[1], 'L');
-            }  
-            else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-            {
-                move(&pos_cat[_turn - 1], 'R');
-                _move++;
+    if (event.keyboard.keycode == ALLEGRO_KEY_UP)
+    {
+        move(&pos_cat[_turn - 1], 'U');
+    }
+    else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
+    {
+        move(&pos_cat[_turn - 1], 'D');
+    }
+    else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
+    {
+        move(&pos_cat[_turn - 1], 'L');
+    }
+    else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+    {
+        move(&pos_cat[_turn - 1], 'R');
+    }
+    else if (event.keyboard.keycode == ALLEGRO_KEY_SPACE)
+    {
+        _move = 1;
+        _turn++;
+    }
 
-            }
-            if (_move > 3) {
-                _move = 1;
-                _turn++;
-            }
+    if (_turn > 4)
+    {
+        _turn = 1;
+        _round++;
+    }
 }
 
-void sprites_update() {
-    cur_round = _round;
+void doggma() {
     for (int i = 0; i < 4; i++) {
         randomMove(pos_dog[i]);
     }
