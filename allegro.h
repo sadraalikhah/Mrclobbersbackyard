@@ -15,9 +15,6 @@ void draw_scoreboard();
 
 ///keyboard
 
-///logistics
-void sprites_update(ALLEGRO_EVENT event);
-
 
 int start()
 {
@@ -191,57 +188,4 @@ void draw_scoreboard()
     al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
     al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
     al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "_round: %d", _round);
-}
-
-
-
-
-///logics
-void sprites_update(ALLEGRO_EVENT event)
-{
-    switch (event.keyboard.keycode)
-    {
-    case ALLEGRO_KEY_UP:
-    case ALLEGRO_KEY_W:
-        move(&pos_cat[_turn - 1], 'U');
-        break;
-    case ALLEGRO_KEY_DOWN:
-    case ALLEGRO_KEY_S:
-        move(&pos_cat[_turn - 1], 'D');
-        break;
-    case ALLEGRO_KEY_LEFT:
-    case ALLEGRO_KEY_A:
-        move(&pos_cat[_turn - 1], 'L');
-        break;
-    case ALLEGRO_KEY_RIGHT:
-    case ALLEGRO_KEY_D:
-        move(&pos_cat[_turn - 1], 'R');
-        break;
-    case ALLEGRO_KEY_SPACE:
-    case ALLEGRO_KEY_ENTER:
-        _move = 1;
-        _turn++;
-        break;
-    }
-
-    if (_turn > 4)
-    {
-        _turn = 1;
-        _round++;
-    }
-}
-
-void doggma() {
-    for (int i = 0; i < 4; i++) {
-        randomMove(pos_dog[i]);
-    }
-    for (int i = 0; i < 4; i++) {
-        randomMove(mouse3[i]);
-    }
-    for (int i = 0; i < 6; i++) {
-        randomMove(mouse2[i]);
-    }
-    for (int i = 0; i < 10; i++) {
-        randomMove(mouse1[i]);
-    }
 }
