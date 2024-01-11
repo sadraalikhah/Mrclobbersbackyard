@@ -6,6 +6,7 @@
 int isLegal(int y, int x, char move);
 void move(struct pos *obj, char move);
 void random_move(struct pos obj);
+void check(int y, int x);
 
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
