@@ -4,7 +4,7 @@
 
 
 int isLegal(int y, int x, char move);
-void move(struct pos obj, char move);
+void move(struct pos *obj, char move);
 void randomMove(struct pos obj);
 
 void move(struct pos *obj ,char move)
@@ -58,8 +58,7 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 
 void randomMove(struct pos obj)
 {
-	do
-	{
+
 		switch (rand() % 5)
 		{
 		case 0: //do not move
@@ -67,5 +66,4 @@ void randomMove(struct pos obj)
 		case 1:
 			break;
 		}
-	} while (1);
 }
