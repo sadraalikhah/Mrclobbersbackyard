@@ -10,7 +10,8 @@ void display_init();
 void display_deinit();
 
 ///hud
-ALLEGRO_FONT* font;
+ALLEGRO_FONT* small_font;
+ALLEGRO_FONT* big_font;
 void hud_init();
 void hud_deinit();
 
@@ -59,8 +60,13 @@ void display_deinit()
 /// hud
 void hud_init()
 {
-    font = al_create_builtin_font();
-    must_init(font, "font");
+    al_init_ttf_addon();
+    small_font = al_load_ttf_font("Inter-SemiBold.ttf", 16, 0);
+    big_font = al_load_ttf_font("Inter-SemiBold.ttf", 20, 0);
+
+    must_init(small_font, "small font");
+    must_init(big_font, "big font");
+
 }
 void hud_deinit()
 {

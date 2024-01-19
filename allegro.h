@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include "types.h"
 #include "init.h"
@@ -82,7 +82,7 @@ int start()
             else
             {
                 al_clear_to_color(al_map_rgb_f(1, 1, 1));
-                al_draw_text(font, al_map_rgb_f(0, 0, 0), 750, 450, 0, "GAME OVER");
+                al_draw_text(big_font, al_map_rgb_f(0, 0, 0), 750, 450, 0, "GAME OVER");
             }
 
             al_flip_display();
@@ -239,9 +239,9 @@ void draw_scoreboard()
     al_draw_scaled_bitmap(cat1, 0, 0, 50, 50, 990, 410, 30, 30, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat 1");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stats[0].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stats[0].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 416, 0, "%d", cat_point[0]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stat[0].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stat[0].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 416, 0, "%2d", cat_points[0]);
 
     //cat 2
     al_draw_filled_circle(1000, 491, 25, active, 0);
@@ -252,9 +252,9 @@ void draw_scoreboard()
     al_draw_scaled_bitmap(cat2, 0, 0, 50, 50, 990, 476, 30, 30, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat 2");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stats[1].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stats[1].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 482, 0, "%d", cat_point[1]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[1].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stat[1].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 482, 0, "%2d", cat_points[1]);
     //cat 3
     al_draw_filled_circle(1000, 557, 25, active, 0);
     al_draw_filled_rectangle(1000, 532, 1400, 582, active, 0);
@@ -264,9 +264,9 @@ void draw_scoreboard()
     al_draw_scaled_bitmap(cat3, 0, 0, 50, 50, 990, 542, 30, 30, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat 3");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stats[2].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stats[2].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 548, 0, "%d", cat_point[2]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[2].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stat[2].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 548, 0, "%2d", cat_points[2]);
     //cat 4
     al_draw_filled_circle(1000, 621, 25, active, 0);
     al_draw_filled_rectangle(1000, 596, 1400, 646, active, 0);
@@ -276,7 +276,7 @@ void draw_scoreboard()
     al_draw_scaled_bitmap(cat4, 0, 0, 50, 50, 990, 608, 30, 30, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 612, 0, "cat 4");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 612, 0, "Energy: %d", cat_stats[3].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 612, 0, "Power: %d", cat_stats[3].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 612, 0, "%d", cat_point[3]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 612, 0, "Energy: %d", cat_stat[3].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 612, 0, "Power: %d", cat_stat[3].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 612, 0, "%2d", cat_points[3]);
 }
