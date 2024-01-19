@@ -209,6 +209,74 @@ void draw_scoreboard()
 {
     //*STATS BOARD*//
     al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
-    al_draw_text(font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
-    al_draw_textf(font, al_map_rgb(0, 0, 0), 1100, 200, 0, "_round: %d", _round);
+    al_draw_text(big_font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+
+    //color pallete
+    ALLEGRO_COLOR active = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR inactive = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR current = al_map_rgb(255, 226, 152);
+
+
+    //round
+    al_draw_filled_circle(1000, 325, 25, active, 0);
+    al_draw_filled_rectangle(1000, 300, 1100, 350, active, 0);
+    al_draw_filled_circle(1100, 325, 25, active, 0);
+    al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1000, 312, 0, "round      %d", _round);
+
+    //move
+    al_draw_filled_circle(1300, 325, 25, active, 0);
+    al_draw_filled_rectangle(1300, 300, 1400, 350, active, 0);
+    al_draw_filled_circle(1400, 325, 25, active, 0);
+    al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1300, 312, 0, "move      %d", _move);
+
+
+    //cat 1
+    al_draw_filled_circle(1000, 425, 25, active, 0);
+    al_draw_filled_rectangle(1000, 400, 1400, 450, active, 0);
+    al_draw_filled_circle(1400, 425, 25, active, 0);
+    al_draw_filled_circle(1400, 425, 19, al_map_rgb(255, 0, 0), 0);
+
+    al_draw_scaled_bitmap(cat1, 0, 0, 50, 50, 990, 410, 30, 30, 0);
+
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat 1");
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stats[0].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stats[0].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 416, 0, "%d", cat_point[0]);
+
+    //cat 2
+    al_draw_filled_circle(1000, 491, 25, active, 0);
+    al_draw_filled_rectangle(1000, 466, 1400, 516, active, 0);
+    al_draw_filled_circle(1400, 491, 25, active, 0);
+    al_draw_filled_circle(1400, 491, 19, al_map_rgb(255, 0, 0), 0);
+
+    al_draw_scaled_bitmap(cat2, 0, 0, 50, 50, 990, 476, 30, 30, 0);
+
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat 2");
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stats[1].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stats[1].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 482, 0, "%d", cat_point[1]);
+    //cat 3
+    al_draw_filled_circle(1000, 557, 25, active, 0);
+    al_draw_filled_rectangle(1000, 532, 1400, 582, active, 0);
+    al_draw_filled_circle(1400, 557, 25, active, 0);
+    al_draw_filled_circle(1400, 557, 19, al_map_rgb(255, 0, 0), 0);
+
+    al_draw_scaled_bitmap(cat3, 0, 0, 50, 50, 990, 542, 30, 30, 0);
+
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat 3");
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stats[2].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stats[2].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 548, 0, "%d", cat_point[2]);
+    //cat 4
+    al_draw_filled_circle(1000, 621, 25, active, 0);
+    al_draw_filled_rectangle(1000, 596, 1400, 646, active, 0);
+    al_draw_filled_circle(1400, 621, 25, active, 0);
+    al_draw_filled_circle(1400, 621, 19, al_map_rgb(255, 0, 0), 0);
+
+    al_draw_scaled_bitmap(cat4, 0, 0, 50, 50, 990, 608, 30, 30, 0);
+
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 612, 0, "cat 4");
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 612, 0, "Energy: %d", cat_stats[3].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 612, 0, "Power: %d", cat_stats[3].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1395, 612, 0, "%d", cat_point[3]);
 }

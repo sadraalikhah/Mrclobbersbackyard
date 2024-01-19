@@ -64,7 +64,8 @@ void hud_init()
 }
 void hud_deinit()
 {
-    al_destroy_font(font);
+    al_destroy_font(small_font);
+    al_destroy_font(big_font);
 }
 
 
