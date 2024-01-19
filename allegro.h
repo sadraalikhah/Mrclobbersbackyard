@@ -114,11 +114,11 @@ void draw_board()
         al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
     }
     // walls
-    for (int i = 0 ;i < 15; i++)
+    for (int i = 0; i < 15; i++)
     {
         for (int j = 0; j < 15; j++)
         {
-            
+
             switch (wall[i][j])
             {
             case 'L':
@@ -136,46 +136,69 @@ void draw_board()
     //starting house
     al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
 
-    //cats
-    al_draw_bitmap(cat1, 60 * pos_cat[0].x + 5, 60 * pos_cat[0].y + 5, 0);
-    al_draw_bitmap(cat2, 60 * pos_cat[1].x + 5, 60 * pos_cat[1].y + 5, 0);
-    al_draw_bitmap(cat3, 60 * pos_cat[2].x + 5, 60 * pos_cat[2].y + 5, 0);
-    al_draw_bitmap(cat4, 60 * pos_cat[3].x + 5, 60 * pos_cat[3].y + 5, 0);
-
-
-    // dogs
-    al_draw_bitmap(bulldog, 60 * pos_dog[0].x + 5, 60 * pos_dog[0].y + 5, 0);
-    al_draw_bitmap(pitbull, 60 * pos_dog[1].x + 5, 60 * pos_dog[1].y + 5, 0);
-    al_draw_bitmap(shepherd, 60 * pos_dog[2].x + 5, 60 * pos_dog[2].y + 5, 0);
-    al_draw_bitmap(bulldog_jr, 60 * pos_dog[3].x + 5, 60 * pos_dog[3].y + 5, 0);
-
-    //mice
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 15; i++)
     {
-        al_draw_bitmap(mouse_1, 60 * mouse1[i].x + 5, 60 * mouse1[i].y + 5, 0);
-    }
-    for (int i = 0; i < 6; i++)
-    {
-        al_draw_bitmap(mouse_2, 60 * mouse2[i].x + 5, 60 * mouse2[i].y + 5, 0);
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        al_draw_bitmap(mouse_3, 60 * mouse3[i].x + 5, 60 * mouse3[i].y + 5, 0);
-    }
-    //traps
-    for (int i = 0; i < 8; i++)
-    {
-        al_draw_bitmap(_trap, 60 * trap[i].x + 5, 60 * trap[i].y + 5, 0);
-    }
-    //chocolates
-    for (int i = 0; i < 6; i++)
-    {
-        al_draw_bitmap(_choco, 60 * chocolate[i].x + 5, 60 * chocolate[i].y + 5, 0);
-    }
-    //fish
-    for (int i = 0; i < 10; i++)
-    {
-        al_draw_bitmap(_fish, 60 * fish[i].x + 5, 60 * fish[i].y + 5, 0);
+        for (int j = 0; j < 15; j++)
+        {
+            for (int k = 0; k < 4; k++)
+            {
+                switch (board[i][j][k] / 100)
+                {
+                case 1:
+                    switch (board[i][j][k] % 10)
+                    {
+                    case 0:
+                        al_draw_bitmap(cat1, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 1:
+                        al_draw_bitmap(cat2, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 2:
+                        al_draw_bitmap(cat3, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 3:
+                        al_draw_bitmap(cat4, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    }
+                    break;
+                case 2:
+                    switch (board[i][j][k] % 10)
+                    {
+                    case 0:
+                        al_draw_bitmap(bulldog, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 1:
+                        al_draw_bitmap(pitbull, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 2:
+                        al_draw_bitmap(shepherd, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    case 3:
+                        al_draw_bitmap(bulldog_jr, 60 * j + 5, 60 * i + 5, 0);
+                        break;
+                    }
+                    break;
+                case 3:
+                    al_draw_bitmap(mouse_1, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                case 4:
+                    al_draw_bitmap(mouse_2, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                case 5:
+                    al_draw_bitmap(mouse_3, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                case 6:
+                    al_draw_bitmap(_choco, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                case 7:
+                    al_draw_bitmap(_trap, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                case 8:
+                    al_draw_bitmap(_fish, 60 * j + 5, 60 * i + 5, 0);
+                    break;
+                }
+            }
+        }
     }
 }
 

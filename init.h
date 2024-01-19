@@ -71,7 +71,7 @@ void hud_deinit()
 /// sprites
 void sprites_init()
 {
-    //house and cats init
+    //house and cat_stat init
     house = al_load_bitmap("house.png");
     must_init(house, "house");
     cat1 = al_load_bitmap("cat1.png");

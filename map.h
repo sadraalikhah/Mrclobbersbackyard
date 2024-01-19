@@ -6,8 +6,6 @@
 
 #define BOARD_SIZE 15
 
-// Calculate the Euclidean distance between two points
-float distance(struct pos point1, struct pos point2);
 
 // Check if a position is in the excluded region
 int isExcludedRegion(int x, int y);
@@ -50,8 +48,11 @@ void generate_walls()
     } while (1);
 }
 
+//place objects after their spawn in the board (assists the move function)
+void putInBoard(struct obj object, int y, int x);
+
 // Spawn entities at random positions on the board
-void spawn(struct pos object[], int n, int sw[][BOARD_SIZE])
+void spawn(struct obj object[], int n)
 {
     srand(time(NULL));
     int objectsPerCorner = n / 4;
@@ -68,8 +69,9 @@ void spawn(struct pos object[], int n, int sw[][BOARD_SIZE])
             i--;
             continue;
         }
-        object[objectNumber].x = x;
         object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -83,8 +85,9 @@ void spawn(struct pos object[], int n, int sw[][BOARD_SIZE])
             i--;
             continue;
         }
-        object[objectNumber].x = x;
         object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -98,8 +101,9 @@ void spawn(struct pos object[], int n, int sw[][BOARD_SIZE])
             i--;
             continue;
         }
-        object[objectNumber].x = x;
         object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -113,16 +117,14 @@ void spawn(struct pos object[], int n, int sw[][BOARD_SIZE])
             i--;
             continue;
         }
-        object[objectNumber].x = x;
         object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
 }
 
-float distance(struct pos point1,struct pos point2) {
-    return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
-}
 int isExcludedRegion(int y, int x) {
     return x > 5 && x < 9 && y > 5 && y < 9;
 }
@@ -132,4 +134,15 @@ void setToZero()
     for (int i = 0; i < BOARD_SIZE; i++)
         for (int j = 0; j < BOARD_SIZE; j++)
             wall[i][j] = 0;
+}
+
+void putInBoard(struct obj object, int y, int x)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (board[y][x][i]) continue;
+        board[y][x][i] = object.type;
+        object.inBoard = i;
+        break;
+    }
 }

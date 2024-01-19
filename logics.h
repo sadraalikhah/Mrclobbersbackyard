@@ -4,15 +4,15 @@
 
 
 int isLegal(int y, int x, char move);
-void move(struct pos *obj, char move);
-void random_move(struct pos obj);
+void move(struct type *obj, char move);
+void random_move(struct type obj);
 void check(int y, int x);
 
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
 
 
-void random_move(struct pos *obj) {
+void random_move(struct type *obj) {
 	switch (rand() % 5)
 	{
 	case 1:
@@ -30,29 +30,31 @@ void random_move(struct pos *obj) {
 	}
 }
 
-void move(struct pos *obj ,char move)
+void move(struct obj *object ,char move)
 {
-	if (!isLegal(obj->y, obj->x, move) || _move > 3)
+	if (!isLegal(object->y, object->x, move) || _move > 3)
 		return;
-	sw[obj->y][obj->x] = 0;
+	sw[object->y][object->x]--;
+	board[object->y][object->x][object->inBoard] = 0;
 	switch (move)
 	{
 	case 'U':
-		obj->y--;
+		object->y--;
 		break;
 	case 'D':
-		obj->y++;
+		object->y++;
 		break;
 	case 'L':
-		obj->x--;
+		object->x--;
 		break;
 	case 'R':
-		obj->x++;
+		object->x++;
 		break;
 	}
-	sw[obj->y][obj->x]++;
-	if ((obj->type / 100) == 1) _move++;
-	check(obj->y, obj->x);
+	sw[object->y][object->x]++;
+	putInBoard(*object, object->y, object->x);
+	if ((object->type / 100) == 1) _move++;
+	check(object->y, object->x);
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
@@ -98,19 +100,19 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 	case ALLEGRO_KEY_UP:
 	case ALLEGRO_KEY_W:
-		move(&pos_cat[_turn - 1], 'U');
+		move(&cat[_turn - 1], 'U');
 		break;
 	case ALLEGRO_KEY_DOWN:
 	case ALLEGRO_KEY_S:
-		move(&pos_cat[_turn - 1], 'D');
+		move(&cat[_turn - 1], 'D');
 		break;
 	case ALLEGRO_KEY_LEFT:
 	case ALLEGRO_KEY_A:
-		move(&pos_cat[_turn - 1], 'L');
+		move(&cat[_turn - 1], 'L');
 		break;
 	case ALLEGRO_KEY_RIGHT:
 	case ALLEGRO_KEY_D:
-		move(&pos_cat[_turn - 1], 'R');
+		move(&cat[_turn - 1], 'R');
 		break;
 	case ALLEGRO_KEY_SPACE:
 	case ALLEGRO_KEY_ENTER:
@@ -126,7 +128,7 @@ void sprites_update(ALLEGRO_EVENT event)
 
 		//call for random move
 		for (int i = 0; i < 4; i++) {
-			random_move(&pos_dog[i]);
+			random_move(&dog[i]);
 		}
 		for (int i = 0; i < 4; i++) {
 			random_move(&mouse3[i]);

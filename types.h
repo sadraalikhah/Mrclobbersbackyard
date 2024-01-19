@@ -9,31 +9,35 @@ struct stats{
 };
 
 // Structure to represent the position and type of a game entity
-struct pos {
-	int x; //position x
-	int y; //position y
+struct obj {
 	int type;
+	int inBoard;
+	int y;
+	int x;
 };
 
 ///walls
 char wall[15][15] = { 0 };
 
+///main board
+int board[15][15][4];
+
 ///filled house switch
 int sw[15][15] = { 0 };
 
 //positions
-struct pos pos_cat[4];
-struct pos pos_dog[4]; // 0: bulldog ... ,3: bulldog.jr
-struct pos mouse1[10];
-struct pos mouse2[6];
-struct pos mouse3[4];
-struct pos chocolate[6];
-struct pos trap[8];
-struct pos fish[10];
+struct obj cat[4];
+struct obj dog[4]; // 0: bulldog ... ,3: bulldog.jr
+struct obj mouse1[10];
+struct obj mouse2[6];
+struct obj mouse3[4];
+struct obj chocolate[6];
+struct obj trap[8];
+struct obj fish[10];
 
 
 ///Stats
-struct stats dog[4] = {
+struct stats dog_stat[4] = {
 	[0].attack = 5,
 	[0].defense = 30,
 	[0].speed = 5,
@@ -48,7 +52,7 @@ struct stats dog[4] = {
 	[3].speed = 1,
 };
 
-struct stats cats[4] = {
+struct stats cat_stat[4] = {
 	[0].attack = 2,
 	[0].defense = 5,
 	[1].attack = 2,
