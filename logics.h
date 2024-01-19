@@ -146,8 +146,31 @@ void checkCell(int y, int x)
 					mouse3[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					break;
+				//chocolate
+				case 6:
+					cat_stat[board[y][x][i] % 10].attack++;
+					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					board[y][x][j] = 0;
+					break;
+			    //trap
+				case 7:
+					//cat_stat[board[y][x][i] % 10].attack++;
+					//chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					//board[y][x][j] = 0;
+					//break;
+				//fish
+				case 8:
+					cat_stat[board[y][x][i] % 10].defense += (rand()%3 + 2);
+					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					board[y][x][j] = 0;
+					break;
 				}
 				break;
+			//dog
+			case 2:
+				//fight
+				break;
+			//mice-start
 			case 3:
 				if (board[y][x][j] / 100 == 1)
 				{
@@ -172,6 +195,7 @@ void checkCell(int y, int x)
 					board[y][x][i] = 0;
 				}
 				break;
+			//mice-end
 			}
 		}
 	}
