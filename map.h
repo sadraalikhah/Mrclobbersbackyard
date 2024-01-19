@@ -49,7 +49,7 @@ void generate_walls()
 }
 
 //place objects after their spawn in the board (assists the move function)
-void putInBoard(struct obj object, int y, int x);
+void putInBoard(struct obj *object, int y, int x);
 
 // Spawn entities at random positions on the board
 void spawn(struct obj object[], int n)
@@ -71,7 +71,7 @@ void spawn(struct obj object[], int n)
         }
         object[objectNumber].y = y;
         object[objectNumber].x = x;
-        putInBoard(object[objectNumber], y, x);
+        putInBoard(&object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -87,7 +87,7 @@ void spawn(struct obj object[], int n)
         }
         object[objectNumber].y = y;
         object[objectNumber].x = x;
-        putInBoard(object[objectNumber], y, x);
+        putInBoard(&object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -103,7 +103,7 @@ void spawn(struct obj object[], int n)
         }
         object[objectNumber].y = y;
         object[objectNumber].x = x;
-        putInBoard(object[objectNumber], y, x);
+        putInBoard(&object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -119,7 +119,7 @@ void spawn(struct obj object[], int n)
         }
         object[objectNumber].y = y;
         object[objectNumber].x = x;
-        putInBoard(object[objectNumber], y, x);
+        putInBoard(&object[objectNumber], y, x);
         objectNumber++;
         sw[y][x]++;
     }
@@ -136,13 +136,13 @@ void setToZero()
             wall[i][j] = 0;
 }
 
-void putInBoard(struct obj object, int y, int x)
+void putInBoard(struct obj *object, int y, int x)
 {
     for (int i = 0; i < 4; i++)
     {
         if (board[y][x][i]) continue;
-        board[y][x][i] = object.type;
-        object.inBoard = i;
+        board[y][x][i] = object->type;
+        object->inBoard = i;
         break;
     }
 }

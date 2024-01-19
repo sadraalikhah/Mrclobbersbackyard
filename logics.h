@@ -52,7 +52,7 @@ void move(struct obj *object ,char move)
 		break;
 	}
 	sw[object->y][object->x]++;
-	putInBoard(*object, object->y, object->x);
+	putInBoard(object, object->y, object->x);
 	if ((object->type / 100) == 1) _move++;
 	check(object->y, object->x);
 }
@@ -64,22 +64,22 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 	case 'U':
 		if (y < 1) return 0;
 		if (wall[y][x] == 'U') return 0;
-		if (sw[y - 1][x] == -1) return 0;
+		if (sw[y - 1][x] == 4) return 0;
 		break;
 	case 'D':
 		if (y > 13) return 0;
 		if (wall[y+1][x] == 'U') return 0;
-		if (sw[y + 1][x] == -1) return 0;
+		if (sw[y + 1][x] == 4) return 0;
 		break;
 	case 'L':
 		if (x < 1) return 0;
 		if (wall[y][x] == 'L') return 0;
-		if (sw[y][x-1] == -1) return 0;
+		if (sw[y][x-1] == 4) return 0;
 		break;
 	case 'R':
 		if (x > 13) return 0;
 		if (wall[y][x+1] == 'L') return 0;
-		if (sw[y][x + 1] == -1) return 0;
+		if (sw[y][x + 1] == 4) return 0;
 		break;
 	}
 	return 1;
