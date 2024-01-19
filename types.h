@@ -5,7 +5,6 @@ struct stats{
 	int attack;
 	int defense;
 	int speed;
-	int points;
 };
 
 // Structure to represent the position and type of a game entity
@@ -52,6 +51,9 @@ struct stats dog_stat[4] = {
 	[3].speed = 1,
 };
 
+/// <summary>
+/// cats
+/// </summary>
 struct stats cat_stat[4] = {
 	[0].attack = 2,
 	[0].defense = 5,
@@ -62,6 +64,8 @@ struct stats cat_stat[4] = {
 	[3].attack = 2,
 	[3].defense = 5,
 };
+
+cat_points[4];
 
 int _round = 1;
 int _turn = 1;
