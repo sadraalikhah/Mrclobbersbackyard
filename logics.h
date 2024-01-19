@@ -4,28 +4,49 @@
 
 
 int isLegal(int y, int x, char move);
-void move(struct type *obj, char move);
-void random_move(struct type obj);
+void move(struct obj *object, char move);
+void random_move(struct obj *object);
 void check(int y, int x);
 
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
 
 
-void random_move(struct type *obj) {
+void random_move(struct obj *object) {
+
+	int amount;
+	switch (object->type/100)
+	{
+	case 2:
+		amount = dog_stat[object->type % 10].speed;
+		break;
+	case 3:
+		amount = 1;
+		break;
+	case 4:
+		amount = 2;
+		break;
+	case 5:
+		amount = 3;
+		break;
+	}
 	switch (rand() % 5)
 	{
 	case 1:
-		move(obj, 'U');
+		for (int i =0; i < amount; i++)
+			move(object, 'U');
 		break;
 	case 2:
-		move(obj, 'D');
+		for (int i = 0; i < amount; i++)
+			move(object, 'D');
 		break;
 	case 3:
-		move(obj, 'L');
+		for (int i = 0; i < amount; i++)
+			move(object, 'L');
 		break;
 	case 4:
-		move(obj, 'R');
+		for (int i = 0; i < amount; i++)
+			move(object, 'R');
 		break;
 	}
 }
