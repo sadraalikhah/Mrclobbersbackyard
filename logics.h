@@ -13,7 +13,6 @@ void sprites_update(ALLEGRO_EVENT event);
 
 
 void random_move(struct obj *object) {
-	if (object->type < 0) return;
 	int amount;
 	switch (object->type/100)
 	{
@@ -53,6 +52,7 @@ void random_move(struct obj *object) {
 
 void move(struct obj *object ,char move)
 {
+	if (object->inBoard < 0) return;
 	if (!isLegal(object->y, object->x, move) || _move > 3)
 		return;
 	sw[object->y][object->x]--;
@@ -74,8 +74,8 @@ void move(struct obj *object ,char move)
 	}
 	sw[object->y][object->x]++;
 	putInBoard(object, object->y, object->x);
-	if ((object->type / 100) == 1) _move++;
 	checkCell(object->y, object->x);
+	if ((object->type / 100) == 1) _move++;
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
@@ -111,15 +111,16 @@ void checkCell(int y, int x)
 	if (sw[y][x] <= 1) return;
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = i+1; j < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
+			if (j == i) continue;
 			switch (board[y][x][i]/100)
 			{
 			//cat
 			case 1:
 				switch (board[y][x][j] / 100)
 				{
-					//cat
+				//cat
 				case 1:
 					//fight
 					break;
@@ -130,19 +131,19 @@ void checkCell(int y, int x)
 				//mouse1
 				case 3:
 					cat_points[board[y][x][i] % 10]++;
-					mouse1[board[y][x][j] % 10].type = -(cat[board[y][x][i]%10].type);
+					mouse1[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i]%10].type);
 					board[y][x][j] = 0;
 					break;
 				//mouse2
 				case 4:
 					cat_points[board[y][x][i] % 10] += 2;
-					mouse1[board[y][x][j] % 10].type = -(cat[board[y][x][i] % 10].type);
+					mouse2[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					break;
 				//mouse3
 				case 5:
 					cat_points[board[y][x][i] % 10] += 3;
-					mouse1[board[y][x][j] % 10].type = -(cat[board[y][x][i] % 10].type);
+					mouse3[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					break;
 				}
@@ -151,7 +152,7 @@ void checkCell(int y, int x)
 				if (board[y][x][j] / 100 == 1)
 				{
 					cat_points[board[y][x][j] % 10]++;
-					mouse1[board[y][x][i] % 10].type = -(cat[board[y][x][j] % 10].type);
+					mouse1[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
 				}
 				break;
@@ -159,7 +160,7 @@ void checkCell(int y, int x)
 				if (board[y][x][j] / 100 == 1)
 				{
 					cat_points[board[y][x][j] % 10] += 2;
-					mouse1[board[y][x][i] % 10].type = -(cat[board[y][x][j] % 10].type);
+					mouse2[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
 				}
 				break;
@@ -167,7 +168,7 @@ void checkCell(int y, int x)
 				if (board[y][x][j] / 100 == 1)
 				{
 					cat_points[board[y][x][j] % 10] += 3;
-					mouse1[board[y][x][i] % 10].type = -(cat[board[y][x][j] % 10].type);
+					mouse3[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
 				}
 				break;
@@ -214,15 +215,19 @@ void sprites_update(ALLEGRO_EVENT event)
 
 		//call for random move
 		for (int i = 0; i < 4; i++) {
+			if (dog[i].inBoard < 0) continue;
 			random_move(&dog[i]);
 		}
 		for (int i = 0; i < 4; i++) {
+			if (mouse3[i].inBoard < 0) continue;
 			random_move(&mouse3[i]);
 		}
 		for (int i = 0; i < 6; i++) {
+			if (mouse2[i].inBoard < 0) continue;
 			random_move(&mouse2[i]);
 		}
 		for (int i = 0; i < 10; i++) {
+			if (mouse1[i].inBoard < 0) continue;
 			random_move(&mouse1[i]);
 		}
 	}
