@@ -256,11 +256,14 @@ void sprites_update(ALLEGRO_EVENT event)
 		break;
 	}
 
+	//new round
 	if (_turn > 4)
 	{
 		_turn = 1;
 		_round++;
 		throwDice();
+		for (int i = 0; i < 4; i++)
+			cat_stat[i].defense++;
 
 		//call for random move
 		for (int i = 0; i < 4; i++) {
