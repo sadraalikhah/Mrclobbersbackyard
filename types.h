@@ -34,6 +34,12 @@ struct obj chocolate[6];
 struct obj trap[8];
 struct obj fish[10];
 
+///spawn saves
+struct obj mouse1Spawn[10];
+struct obj mouse2Spawn[6];
+struct obj mouse3Spawn[4];
+struct obj fishSpawn[10];
+
 
 ///Stats
 struct stats dog_stat[4] = {

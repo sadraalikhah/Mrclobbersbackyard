@@ -25,7 +25,7 @@ int main()
 	}
 
 
-	//cat_
+	//cat
 	for (int i = 0; i < 4; i++)
 	{
 		cat[i].x = 7;
@@ -54,14 +54,15 @@ int main()
 	for (int i = 0; i < 10; i++) fish[i].type = 800 + i;
 	spawn(&fish, 10);
 
-	for (int i = 0; i < 15; i++)
-	{
-		for (int j = 0; j < 15; j++)
-		{
-			printf("(%3d)", board[i][j][0]);
-		}
-		printf("\n");
-	}
+	///save spawn points
+	for (int i = 0; i < 8; i++)
+		mouse1Spawn[i] = mouse1[i];
+	for (int i = 0; i < 6; i++)
+		mouse2Spawn[i] = mouse2[i];
+	for (int i = 0; i < 4; i++)
+		mouse3Spawn[i] = mouse3[i];
+	for (int i = 0; i < 8; i++)
+		fishSpawn[i] = fish[i];
 
 
     start();

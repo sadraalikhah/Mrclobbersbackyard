@@ -7,6 +7,7 @@ int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
 void random_move(struct obj *object);
 void checkCell(int y, int x);
+int free_mouse(int cat);
 
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
@@ -72,7 +73,6 @@ void move(struct obj *object ,char move)
 		object->x++;
 		break;
 	}
-	sw[object->y][object->x]++;
 	putInBoard(object, object->y, object->x);
 	checkCell(object->y, object->x);
 	if ((object->type / 100) == 1) _move++;
@@ -85,22 +85,22 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 	case 'U':
 		if (y < 1) return 0;
 		if (wall[y][x] == 'U') return 0;
-		if (sw[y - 1][x] == 4) return 0;
+		if (sw[y - 1][x] > 3) return 0;
 		break;
 	case 'D':
 		if (y > 13) return 0;
 		if (wall[y+1][x] == 'U') return 0;
-		if (sw[y + 1][x] == 4) return 0;
+		if (sw[y + 1][x] > 3) return 0;
 		break;
 	case 'L':
 		if (x < 1) return 0;
 		if (wall[y][x] == 'L') return 0;
-		if (sw[y][x-1] == 4) return 0;
+		if (sw[y][x-1] > 3) return 0;
 		break;
 	case 'R':
 		if (x > 13) return 0;
 		if (wall[y][x+1] == 'L') return 0;
-		if (sw[y][x + 1] == 4) return 0;
+		if (sw[y][x + 1] > 3) return 0;
 		break;
 	}
 	return 1;
@@ -114,6 +114,7 @@ void checkCell(int y, int x)
 		for (int j = 0; j < 4; j++)
 		{
 			if (j == i) continue;
+			int TrapResult;
 			switch (board[y][x][i]/100)
 			{
 			//cat
@@ -158,10 +159,18 @@ void checkCell(int y, int x)
 					break;
 			    //trap
 				case 7:
+					TrapResult = free_mouse(cat[board[y][x][i] % 10].type);
+					if (!TrapResult && cat_stat[board[y][x][i] % 10].attack <= 2) cat_stat[board[y][x][i] % 10].attack -= 2;
+					else
+					{
+						cat_stat[board[y][x][i] % 10].defense -= 3;
+						if (cat_stat[board[y][x][i] % 10].defense < 0)
+							cat_stat[board[y][x][i] % 10].defense = 0;
+					}
 					//cat_stat[board[y][x][i] % 10].attack++;
 					//chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					//board[y][x][j] = 0;
-					//break;
+					break;
 				//fish
 				case 8:
 					cat_stat[board[y][x][i] % 10].defense += (rand()%3 + 2);
@@ -265,4 +274,33 @@ void sprites_update(ALLEGRO_EVENT event)
 			random_move(&mouse1[i]);
 		}
 	}
+}
+
+int free_mouse(int cat)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (mouse3[i].inBoard == -cat)
+		{
+			putInBoard(&mouse3[i], mouse3Spawn[i].y, mouse3Spawn[i].x);
+			return 1;
+		}
+	}	
+	for (int i = 0; i < 6; i++)
+	{
+		if (mouse2[i].inBoard == -cat)
+		{
+			putInBoard(&mouse2[i], mouse2Spawn[i].y, mouse2Spawn[i].x);
+			return 1;
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		if (mouse1[i].inBoard == -cat)
+		{
+			putInBoard(&mouse1[i], mouse1Spawn[i].y, mouse1Spawn[i].x);
+			return 1;
+		}
+	}
+	return 0;
 }

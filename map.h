@@ -73,7 +73,6 @@ void spawn(struct obj object[], int n)
         object[objectNumber].x = x;
         putInBoard(&object[objectNumber], y, x);
         objectNumber++;
-        sw[y][x]++;
     }
     for (int i = 0; i < objectsPerCorner; i++)
     {
@@ -89,7 +88,6 @@ void spawn(struct obj object[], int n)
         object[objectNumber].x = x;
         putInBoard(&object[objectNumber], y, x);
         objectNumber++;
-        sw[y][x]++;
     }
     for (int i = 0; i < objectsPerCorner; i++)
     {
@@ -105,7 +103,6 @@ void spawn(struct obj object[], int n)
         object[objectNumber].x = x;
         putInBoard(&object[objectNumber], y, x);
         objectNumber++;
-        sw[y][x]++;
     }
     for (int i = 0; i < objectsPerCorner + objectsRemainder; i++)
     {
@@ -121,7 +118,6 @@ void spawn(struct obj object[], int n)
         object[objectNumber].x = x;
         putInBoard(&object[objectNumber], y, x);
         objectNumber++;
-        sw[y][x]++;
     }
 }
 
@@ -143,6 +139,7 @@ void putInBoard(struct obj *object, int y, int x)
         if (board[y][x][i]) continue;
         board[y][x][i] = object->type;
         object->inBoard = i;
+        sw[y][x]++;
         break;
     }
 }
