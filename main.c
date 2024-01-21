@@ -58,7 +58,7 @@ int main()
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			printf("(%d)", board[i][j][0]);
+			printf("(%3d)", board[i][j][0]);
 		}
 		printf("\n");
 	}

@@ -133,24 +133,28 @@ void checkCell(int y, int x)
 					cat_points[board[y][x][i] % 10]++;
 					mouse1[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i]%10].type);
 					board[y][x][j] = 0;
+					sw[y][x]--;
 					break;
 				//mouse2
 				case 4:
 					cat_points[board[y][x][i] % 10] += 2;
 					mouse2[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
+					sw[y][x]--;
 					break;
 				//mouse3
 				case 5:
 					cat_points[board[y][x][i] % 10] += 3;
 					mouse3[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
+					sw[y][x]--;
 					break;
 				//chocolate
 				case 6:
 					cat_stat[board[y][x][i] % 10].attack++;
 					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
+					sw[y][x]--;
 					break;
 			    //trap
 				case 7:
@@ -163,6 +167,8 @@ void checkCell(int y, int x)
 					cat_stat[board[y][x][i] % 10].defense += (rand()%3 + 2);
 					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
+					sw[y][x]--;
+
 					break;
 				}
 				break;
@@ -177,6 +183,7 @@ void checkCell(int y, int x)
 					cat_points[board[y][x][j] % 10]++;
 					mouse1[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
+					sw[y][x]--;
 				}
 				break;
 			case 4:
@@ -185,6 +192,8 @@ void checkCell(int y, int x)
 					cat_points[board[y][x][j] % 10] += 2;
 					mouse2[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
+					sw[y][x]--;
+
 				}
 				break;
 			case 5:
@@ -193,6 +202,7 @@ void checkCell(int y, int x)
 					cat_points[board[y][x][j] % 10] += 3;
 					mouse3[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
 					board[y][x][i] = 0;
+					sw[y][x]--;
 				}
 				break;
 			//mice-end
