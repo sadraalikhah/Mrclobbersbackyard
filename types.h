@@ -24,6 +24,12 @@ int board[15][15][4];
 ///filled house switch
 int sw[15][15] = { 0 };
 
+///trap board
+int trapBoard[15][15] = { 0 };
+
+///trap visibility
+int trap_vis[8] = { 0 };
+
 //positions
 struct obj cat[4];
 struct obj dog[4]; // 0: bulldog ... ,3: bulldog.jr
@@ -33,6 +39,9 @@ struct obj mouse3[4];
 struct obj chocolate[6];
 struct obj trap[8];
 struct obj fish[10];
+
+
+
 
 ///spawn saves
 struct obj mouse1Spawn[10];

@@ -52,10 +52,6 @@ int start()
         {
         case ALLEGRO_EVENT_TIMER:
             // game logic goes here.
-
-            
-
-
             redraw = true;
             break;
 
@@ -140,6 +136,11 @@ void draw_board()
     {
         for (int j = 0; j < 15; j++)
         {
+            //traps
+            if (trap_vis[trapBoard[i][j] % 10] == 1)
+                al_draw_bitmap(_trap, 60 * j + 5, 60 * i + 5, 0);
+
+            //other objects
             for (int k = 0; k < 4; k++)
             {
                 if (sw[i][j] == 1)
@@ -191,9 +192,6 @@ void draw_board()
                         break;
                     case 6:
                         al_draw_bitmap(_choco, 60 * j + 5, 60 * i + 5, 0);
-                        break;
-                    case 7:
-                        al_draw_bitmap(_trap, 60 * j + 5, 60 * i + 5, 0);
                         break;
                     case 8:
                         al_draw_bitmap(_fish, 60 * j + 5, 60 * i + 5, 0);
@@ -249,9 +247,6 @@ void draw_board()
                         break;
                     case 6:
                         al_draw_scaled_bitmap(_choco, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
-                        break;
-                    case 7:
-                        al_draw_scaled_bitmap(_trap, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
                         break;
                     case 8:
                         al_draw_scaled_bitmap(_fish, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);

@@ -134,6 +134,12 @@ void setToZero()
 
 void putInBoard(struct obj *object, int y, int x)
 {
+    if ((object->type / 100) == 7)
+    {
+        trapBoard[y][x] = object->type;
+        return;
+    }
+
     for (int i = 0; i < 4; i++)
     {
         if (board[y][x][i]) continue;

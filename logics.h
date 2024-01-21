@@ -7,6 +7,7 @@ int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
 void random_move(struct obj *object);
 void checkCell(int y, int x);
+int checkForTraps(int y, int x);
 int free_mouse(int cat);
 
 ///sprites
@@ -114,11 +115,23 @@ void checkCell(int y, int x)
 		for (int j = 0; j < 4; j++)
 		{
 			if (j == i) continue;
-			int TrapResult;
 			switch (board[y][x][i]/100)
 			{
 			//cat
 			case 1:
+				//traps bud
+				if (trapBoard[y][x])
+				{
+					trap_vis[trapBoard[y][x] % 10] = 1;
+					int FreeMouseResult = free_mouse(cat[board[y][x][i] % 10].type);
+					if (!FreeMouseResult && cat_stat[board[y][x][i] % 10].attack >= 2) cat_stat[board[y][x][i] % 10].attack -= 2;
+					else
+					{
+						cat_stat[board[y][x][i] % 10].defense -= 3;
+						if (cat_stat[board[y][x][i] % 10].defense < 0)
+							cat_stat[board[y][x][i] % 10].defense = 0;
+					}
+				}
 				switch (board[y][x][j] / 100)
 				{
 				//cat
@@ -156,20 +169,6 @@ void checkCell(int y, int x)
 					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					sw[y][x]--;
-					break;
-			    //trap
-				case 7:
-					TrapResult = free_mouse(cat[board[y][x][i] % 10].type);
-					if (!TrapResult && cat_stat[board[y][x][i] % 10].attack <= 2) cat_stat[board[y][x][i] % 10].attack -= 2;
-					else
-					{
-						cat_stat[board[y][x][i] % 10].defense -= 3;
-						if (cat_stat[board[y][x][i] % 10].defense < 0)
-							cat_stat[board[y][x][i] % 10].defense = 0;
-					}
-					//cat_stat[board[y][x][i] % 10].attack++;
-					//chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
-					//board[y][x][j] = 0;
 					break;
 				//fish
 				case 8:
@@ -221,8 +220,6 @@ void checkCell(int y, int x)
 
 }
 
-
-
 ///sprites
 void sprites_update(ALLEGRO_EVENT event)
 {
@@ -273,8 +270,13 @@ void sprites_update(ALLEGRO_EVENT event)
 			if (mouse1[i].inBoard < 0) continue;
 			random_move(&mouse1[i]);
 		}
+
+		//set traps to invisible
+		for (int i = 0; i < 8; i++) trap_vis[i] = 0;
+
 	}
 }
+
 
 int free_mouse(int cat)
 {
