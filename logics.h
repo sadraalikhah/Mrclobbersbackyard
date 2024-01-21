@@ -76,7 +76,11 @@ void move(struct obj *object ,char move)
 	}
 	putInBoard(object, object->y, object->x);
 	checkCell(object->y, object->x);
-	if ((object->type / 100) == 1) _move++;
+	if ((object->type / 100) == 1)
+	{
+		cat_stat[(object->type % 10)].defense--;
+		_move++;
+	}
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
@@ -227,19 +231,23 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 	case ALLEGRO_KEY_UP:
 	case ALLEGRO_KEY_W:
-		move(&cat[order[_turn-1]], 'U');
+		if (cat_stat[order[_turn - 1]].defense > 0)
+			move(&cat[order[_turn-1]], 'U');
 		break;
 	case ALLEGRO_KEY_DOWN:
 	case ALLEGRO_KEY_S:
-		move(&cat[order[_turn - 1]], 'D');
+		if (cat_stat[order[_turn - 1]].defense > 0)
+			move(&cat[order[_turn - 1]], 'D');
 		break;
 	case ALLEGRO_KEY_LEFT:
 	case ALLEGRO_KEY_A:
-		move(&cat[order[_turn - 1]], 'L');
+		if (cat_stat[order[_turn - 1]].defense > 0)
+			move(&cat[order[_turn - 1]], 'L');
 		break;
 	case ALLEGRO_KEY_RIGHT:
 	case ALLEGRO_KEY_D:
-		move(&cat[order[_turn - 1]], 'R');
+		if (cat_stat[order[_turn - 1]].defense > 0)
+			move(&cat[order[_turn - 1]], 'R');
 		break;
 	case ALLEGRO_KEY_SPACE:
 	case ALLEGRO_KEY_ENTER:
