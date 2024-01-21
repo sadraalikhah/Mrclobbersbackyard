@@ -227,19 +227,19 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 	case ALLEGRO_KEY_UP:
 	case ALLEGRO_KEY_W:
-		move(&cat[_turn - 1], 'U');
+		move(&cat[order[_turn-1]], 'U');
 		break;
 	case ALLEGRO_KEY_DOWN:
 	case ALLEGRO_KEY_S:
-		move(&cat[_turn - 1], 'D');
+		move(&cat[order[_turn - 1]], 'D');
 		break;
 	case ALLEGRO_KEY_LEFT:
 	case ALLEGRO_KEY_A:
-		move(&cat[_turn - 1], 'L');
+		move(&cat[order[_turn - 1]], 'L');
 		break;
 	case ALLEGRO_KEY_RIGHT:
 	case ALLEGRO_KEY_D:
-		move(&cat[_turn - 1], 'R');
+		move(&cat[order[_turn - 1]], 'R');
 		break;
 	case ALLEGRO_KEY_SPACE:
 	case ALLEGRO_KEY_ENTER:
