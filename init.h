@@ -17,10 +17,7 @@ void hud_deinit();
 
 ///sprites
 ALLEGRO_BITMAP* house;
-ALLEGRO_BITMAP* cat1;
-ALLEGRO_BITMAP* cat2;
-ALLEGRO_BITMAP* cat3;
-ALLEGRO_BITMAP* cat4;
+ALLEGRO_BITMAP* cat_bitmap[4];
 ALLEGRO_BITMAP* bulldog;
 ALLEGRO_BITMAP* pitbull;
 ALLEGRO_BITMAP* shepherd;
@@ -81,14 +78,14 @@ void sprites_init()
     //house and cat_stat init
     house = al_load_bitmap("house.png");
     must_init(house, "house");
-    cat1 = al_load_bitmap("cat1.png");
-    must_init(cat1, "cat1");
-    cat2 = al_load_bitmap("cat2.png");
-    must_init(cat2, "cat2");
-    cat3 = al_load_bitmap("cat3.png");
-    must_init(cat3, "cat3");
-    cat4 = al_load_bitmap("cat4.png");
-    must_init(cat4, "cat4");
+    cat_bitmap[0] = al_load_bitmap("cat1.png");
+    must_init(cat_bitmap[0], "cat1");
+    cat_bitmap[1] = al_load_bitmap("cat2.png");
+    must_init(cat_bitmap[1], "cat2");
+    cat_bitmap[2] = al_load_bitmap("cat3.png");
+    must_init(cat_bitmap[2], "cat3");
+    cat_bitmap[3] = al_load_bitmap("cat4.png");
+    must_init(cat_bitmap[3], "cat4");
     //dogs init
     bulldog = al_load_bitmap("bulldog.png");
     must_init(bulldog, "bulldog");
@@ -120,10 +117,10 @@ void sprites_init()
 void sprites_deinit()
 {
     al_destroy_bitmap(house);
-    al_destroy_bitmap(cat1);
-    al_destroy_bitmap(cat2);
-    al_destroy_bitmap(cat3);
-    al_destroy_bitmap(cat4);
+    al_destroy_bitmap(cat_bitmap[0]);
+    al_destroy_bitmap(cat_bitmap[1]);
+    al_destroy_bitmap(cat_bitmap[2]);
+    al_destroy_bitmap(cat_bitmap[3]);
     al_destroy_bitmap(bulldog);
     al_destroy_bitmap(pitbull);
     al_destroy_bitmap(shepherd);

@@ -1,13 +1,13 @@
 #pragma once
 #include <stdio.h>
 #include "types.h"
+#include "Dice.h"
 
 
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
 void random_move(struct obj *object);
 void checkCell(int y, int x);
-int checkForTraps(int y, int x);
 int free_mouse(int cat);
 
 ///sprites
@@ -252,6 +252,7 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 		_turn = 1;
 		_round++;
+		throwDice();
 
 		//call for random move
 		for (int i = 0; i < 4; i++) {

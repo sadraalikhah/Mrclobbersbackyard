@@ -151,16 +151,16 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_bitmap(cat1, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[0], 60 * j + 5, 60 * i + 5, 0);
                             break;
                         case 1:
-                            al_draw_bitmap(cat2, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[1], 60 * j + 5, 60 * i + 5, 0);
                             break;
                         case 2:
-                            al_draw_bitmap(cat3, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[2], 60 * j + 5, 60 * i + 5, 0);
                             break;
                         case 3:
-                            al_draw_bitmap(cat4, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[3], 60 * j + 5, 60 * i + 5, 0);
                             break;
                         }
                         break;
@@ -206,16 +206,16 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_scaled_bitmap(cat1, 0, 0, 50, 50, 60 * j + (k%2)*27 + 3, 60 * i + (k / 2)*27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[0], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
                             break;
                         case 1:
-                            al_draw_scaled_bitmap(cat2, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[1], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
                             break;
                         case 2:
-                            al_draw_scaled_bitmap(cat3, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[2], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
                             break;
                         case 3:
-                            al_draw_scaled_bitmap(cat4, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[3], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
                             break;
                         }
                         break;
@@ -270,8 +270,15 @@ void draw_scoreboard()
     //color pallete
     ALLEGRO_COLOR active = al_map_rgb(255, 226, 152);
     ALLEGRO_COLOR inactive = al_map_rgb(255, 226, 152);
-    ALLEGRO_COLOR current = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR current = al_map_rgb(255, 184, 0);
 
+    //cat colors
+    ALLEGRO_COLOR cat_color[4];
+    for (int i = 0; i < 4; i++)
+    {
+        cat_color[i] = active;
+        if (order[_turn - 1] == i) cat_color[i] = current;
+    }
 
     //round
     al_draw_filled_circle(1000, 325, 25, active, 0);
@@ -287,52 +294,52 @@ void draw_scoreboard()
 
 
     //cat 1
-    al_draw_filled_circle(1000, 425, 25, active, 0);
-    al_draw_filled_rectangle(1000, 400, 1400, 450, active, 0);
-    al_draw_filled_circle(1400, 425, 25, active, 0);
+    al_draw_filled_circle(1000, 425, 25, cat_color[order[0]], 0);
+    al_draw_filled_rectangle(1000, 400, 1400, 450, cat_color[order[0]], 0);
+    al_draw_filled_circle(1400, 425, 25, cat_color[order[0]], 0);
     al_draw_filled_circle(1400, 425, 19, al_map_rgb(255, 0, 0), 0);
 
-    al_draw_scaled_bitmap(cat1, 0, 0, 50, 50, 990, 410, 30, 30, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[0]], 0, 0, 50, 50, 990, 410, 30, 30, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat 1");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stat[0].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stat[0].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 416, 0, "%2d", cat_points[0]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat %d", order[0]+1);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stat[order[0]].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stat[order[0]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 416, 0, "%2d", cat_points[order[0]]);
 
     //cat 2
-    al_draw_filled_circle(1000, 491, 25, active, 0);
-    al_draw_filled_rectangle(1000, 466, 1400, 516, active, 0);
-    al_draw_filled_circle(1400, 491, 25, active, 0);
+    al_draw_filled_circle(1000, 491, 25, cat_color[order[1]], 0);
+    al_draw_filled_rectangle(1000, 466, 1400, 516, cat_color[order[1]], 0);
+    al_draw_filled_circle(1400, 491, 25, cat_color[order[1]], 0);
     al_draw_filled_circle(1400, 491, 19, al_map_rgb(255, 0, 0), 0);
 
-    al_draw_scaled_bitmap(cat2, 0, 0, 50, 50, 990, 476, 30, 30, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 990, 476, 30, 30, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat 2");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[1].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stat[1].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 482, 0, "%2d", cat_points[1]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat %d", order[1]+1);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[order[1]].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stat[order[1]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 482, 0, "%2d", cat_points[order[1]]);
     //cat 3
-    al_draw_filled_circle(1000, 557, 25, active, 0);
-    al_draw_filled_rectangle(1000, 532, 1400, 582, active, 0);
-    al_draw_filled_circle(1400, 557, 25, active, 0);
+    al_draw_filled_circle(1000, 557, 25, cat_color[order[2]], 0);
+    al_draw_filled_rectangle(1000, 532, 1400, 582, cat_color[order[2]], 0);
+    al_draw_filled_circle(1400, 557, 25, cat_color[order[2]], 0);
     al_draw_filled_circle(1400, 557, 19, al_map_rgb(255, 0, 0), 0);
 
-    al_draw_scaled_bitmap(cat3, 0, 0, 50, 50, 990, 542, 30, 30, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 990, 542, 30, 30, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat 3");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[2].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stat[2].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 548, 0, "%2d", cat_points[2]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat %d", order[2]+1);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[order[2]].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stat[order[2]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 548, 0, "%2d", cat_points[order[2]]);
     //cat 4
-    al_draw_filled_circle(1000, 621, 25, active, 0);
-    al_draw_filled_rectangle(1000, 596, 1400, 646, active, 0);
-    al_draw_filled_circle(1400, 621, 25, active, 0);
-    al_draw_filled_circle(1400, 621, 19, al_map_rgb(255, 0, 0), 0);
+    al_draw_filled_circle(1000, 623, 25, cat_color[order[3]], 0);
+    al_draw_filled_rectangle(1000, 598, 1400, 648, cat_color[order[3]], 0);
+    al_draw_filled_circle(1400, 623, 25, cat_color[order[3]], 0);
+    al_draw_filled_circle(1400, 623, 19, al_map_rgb(255, 0, 0), 0);
 
-    al_draw_scaled_bitmap(cat4, 0, 0, 50, 50, 990, 608, 30, 30, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 990, 608, 30, 30, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 612, 0, "cat 4");
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 612, 0, "Energy: %d", cat_stat[3].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 612, 0, "Power: %d", cat_stat[3].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 612, 0, "%2d", cat_points[3]);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 614, 0, "cat %d", order[3]+1);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 614, 0, "Energy: %d", cat_stat[order[3]].defense);
+    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 614, 0, "Power: %d", cat_stat[order[3]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 614, 0, "%2d", cat_points[order[3]]);
 }

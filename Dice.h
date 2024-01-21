@@ -1,6 +1,9 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "types.h"
 
 struct dice {
     int diceValue;
@@ -160,8 +163,10 @@ int throwDice() {
         }
     }
 
-    printf("Final result:\n");
-    print_players_final(array);
-
+    for (int i = 0; i < 4; i++)
+    {
+        order[i] = array[i].player - 1;
+        dice_val[i] = array[i].diceValue;
+    }
     return 0;
 }

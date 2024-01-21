@@ -15,6 +15,10 @@ struct obj {
 	int x;
 };
 
+///dice
+int order[4];
+int dice_val[4];
+
 ///walls
 char wall[15][15] = { 0 };
 
@@ -51,36 +55,16 @@ struct obj fishSpawn[10];
 
 
 ///Stats
-struct stats dog_stat[4] = {
-	[0].attack = 5,
-	[0].defense = 30,
-	[0].speed = 5,
-	[1].attack = 2,
-	[1].defense = 15,
-	[1].speed = 2,
-	[2].attack = 2,
-	[2].defense = 20,
-	[2].speed = 3,
-	[3].attack = 1,
-	[3].defense = 1,
-	[3].speed = 1,
-};
+struct stats dog_stat[4];
+
+
 
 /// <summary>
 /// cats
 /// </summary>
-struct stats cat_stat[4] = {
-	[0].attack = 2,
-	[0].defense = 5,
-	[1].attack = 2,
-	[1].defense = 5,
-	[2].attack = 2,
-	[2].defense = 5,
-	[3].attack = 2,
-	[3].defense = 5,
-};
+struct stats cat_stat[4];
 
-cat_points[4];
+int cat_points[4];
 
 int _round = 1;
 int _turn = 1;
