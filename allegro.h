@@ -136,10 +136,6 @@ void draw_board()
     {
         for (int j = 0; j < 15; j++)
         {
-            //traps
-            if (trap_vis[trapBoard[i][j] % 10] == 1)
-                al_draw_bitmap(_trap, 60 * j + 5, 60 * i + 5, 0);
-
             //other objects
             for (int k = 0; k < 4; k++)
             {
@@ -254,6 +250,10 @@ void draw_board()
                     }
                 }
             }
+            //traps
+            if (trap_vis[trapBoard[i][j] % 10] == 1)
+                al_draw_tinted_bitmap(_trap,al_map_rgba_f(1,1,1, 0.5), 60 * j + 5, 60 * i + 5, 0);
+
         }
     }
 }
@@ -263,33 +263,37 @@ void draw_board()
 /// </summary>
 void draw_scoreboard()
 {
+
+    ///color pallete
+    ALLEGRO_COLOR activeC = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR inactiveC = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR currentC = al_map_rgb(255, 184, 0);
+    ALLEGRO_COLOR scoreboardC = al_map_rgb(222, 38, 38);
+
+
     //*STATS BOARD*//
-    al_draw_filled_rectangle(900, 0, 1600, 900, al_map_rgb(247, 52, 52));
+    al_draw_filled_rectangle(900, 0, 1600, 900, scoreboardC);
     al_draw_text(big_font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
 
-    //color pallete
-    ALLEGRO_COLOR active = al_map_rgb(255, 226, 152);
-    ALLEGRO_COLOR inactive = al_map_rgb(255, 226, 152);
-    ALLEGRO_COLOR current = al_map_rgb(255, 184, 0);
 
     //cat colors
     ALLEGRO_COLOR cat_color[4];
     for (int i = 0; i < 4; i++)
     {
-        cat_color[i] = active;
-        if (order[_turn - 1] == i) cat_color[i] = current;
+        cat_color[i] = activeC;
+        if (order[_turn - 1] == i) cat_color[i] = currentC;
     }
 
     //round
-    al_draw_filled_circle(1000, 325, 25, active, 0);
-    al_draw_filled_rectangle(1000, 300, 1100, 350, active, 0);
-    al_draw_filled_circle(1100, 325, 25, active, 0);
+    al_draw_filled_circle(1000, 325, 25, activeC, 0);
+    al_draw_filled_rectangle(1000, 300, 1100, 350, activeC, 0);
+    al_draw_filled_circle(1100, 325, 25, activeC, 0);
     al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1000, 312, 0, "round      %d", _round);
 
     //move
-    al_draw_filled_circle(1300, 325, 25, active, 0);
-    al_draw_filled_rectangle(1300, 300, 1400, 350, active, 0);
-    al_draw_filled_circle(1400, 325, 25, active, 0);
+    al_draw_filled_circle(1300, 325, 25, activeC, 0);
+    al_draw_filled_rectangle(1300, 300, 1400, 350, activeC, 0);
+    al_draw_filled_circle(1400, 325, 25, activeC, 0);
     al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1300, 312, 0, "move      %d", _move);
 
 
@@ -297,7 +301,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1000, 425, 25, cat_color[order[0]], 0);
     al_draw_filled_rectangle(1000, 400, 1400, 450, cat_color[order[0]], 0);
     al_draw_filled_circle(1400, 425, 25, cat_color[order[0]], 0);
-    al_draw_filled_circle(1400, 425, 19, al_map_rgb(255, 0, 0), 0);
+    al_draw_filled_circle(1400, 425, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[0]], 0, 0, 50, 50, 990, 410, 30, 30, 0);
 
@@ -310,7 +314,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1000, 491, 25, cat_color[order[1]], 0);
     al_draw_filled_rectangle(1000, 466, 1400, 516, cat_color[order[1]], 0);
     al_draw_filled_circle(1400, 491, 25, cat_color[order[1]], 0);
-    al_draw_filled_circle(1400, 491, 19, al_map_rgb(255, 0, 0), 0);
+    al_draw_filled_circle(1400, 491, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 990, 476, 30, 30, 0);
 
@@ -322,7 +326,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1000, 557, 25, cat_color[order[2]], 0);
     al_draw_filled_rectangle(1000, 532, 1400, 582, cat_color[order[2]], 0);
     al_draw_filled_circle(1400, 557, 25, cat_color[order[2]], 0);
-    al_draw_filled_circle(1400, 557, 19, al_map_rgb(255, 0, 0), 0);
+    al_draw_filled_circle(1400, 557, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 990, 542, 30, 30, 0);
 
@@ -334,7 +338,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1000, 623, 25, cat_color[order[3]], 0);
     al_draw_filled_rectangle(1000, 598, 1400, 648, cat_color[order[3]], 0);
     al_draw_filled_circle(1400, 623, 25, cat_color[order[3]], 0);
-    al_draw_filled_circle(1400, 623, 19, al_map_rgb(255, 0, 0), 0);
+    al_draw_filled_circle(1400, 623, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 990, 608, 30, 30, 0);
 

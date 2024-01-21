@@ -4,6 +4,7 @@
 #define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 900
 
+
 ///display
 ALLEGRO_DISPLAY* display;
 void display_init();

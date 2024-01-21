@@ -120,16 +120,16 @@ void checkCell(int y, int x)
 			//cat
 			case 1:
 				//traps bud
-				if (trapBoard[y][x])
+				if (trapBoard[y][x] > 0)
 				{
-					trap_vis[trapBoard[y][x] % 10] = 1;
+					trap_vis[(trapBoard[y][x] % 10)] = 1;
 					int FreeMouseResult = free_mouse(cat[board[y][x][i] % 10].type);
-					if (!FreeMouseResult && cat_stat[board[y][x][i] % 10].attack >= 2) cat_stat[board[y][x][i] % 10].attack -= 2;
-					else
+					if (!FreeMouseResult && cat_stat[board[y][x][i] % 10].attack > 2) cat_stat[board[y][x][i] % 10].attack -= 2;
+					else if (!FreeMouseResult)
 					{
 						cat_stat[board[y][x][i] % 10].defense -= 3;
 						if (cat_stat[board[y][x][i] % 10].defense < 0)
-							cat_stat[board[y][x][i] % 10].defense = 0;
+							cat_stat[(board[y][x][i] % 10)].defense = 0;
 					}
 				}
 				switch (board[y][x][j] / 100)
@@ -144,29 +144,29 @@ void checkCell(int y, int x)
 					break;
 				//mouse1
 				case 3:
-					cat_points[board[y][x][i] % 10]++;
-					mouse1[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i]%10].type);
+					cat_points[(board[y][x][i] % 10)]++;
+					mouse1[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i]%10].type);
 					board[y][x][j] = 0;
 					sw[y][x]--;
 					break;
 				//mouse2
 				case 4:
 					cat_points[board[y][x][i] % 10] += 2;
-					mouse2[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					mouse2[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					sw[y][x]--;
 					break;
 				//mouse3
 				case 5:
-					cat_points[board[y][x][i] % 10] += 3;
-					mouse3[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					cat_points[(board[y][x][i] % 10)] += 3;
+					mouse3[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					sw[y][x]--;
 					break;
 				//chocolate
 				case 6:
-					cat_stat[board[y][x][i] % 10].attack++;
-					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
+					cat_stat[(board[y][x][i] % 10)].attack++;
+					chocolate[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
 					board[y][x][j] = 0;
 					sw[y][x]--;
 					break;

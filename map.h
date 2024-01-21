@@ -136,7 +136,8 @@ void putInBoard(struct obj *object, int y, int x)
 {
     if ((object->type / 100) == 7)
     {
-        trapBoard[y][x] = object->type;
+        int a = (object->type);
+        trapBoard[y][x] = a;
         return;
     }
 
