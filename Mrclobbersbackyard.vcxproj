@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="Dice.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="allegro.h" />
