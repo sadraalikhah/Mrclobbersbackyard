@@ -60,7 +60,7 @@ void random_move(struct obj* object) {
 void move(struct obj *object ,char move)
 {
 	if (object->inBoard < 0) return;
-	if ((object->type / 100 == 1) && (cat_loss[object->type % 10])) return;
+	if ((object->type / 100 == 1) && (cat_stun[object->type % 10])) return;
 	if (!isLegal(object->y, object->x, move) || _move > 3) return;
 
 
@@ -312,15 +312,15 @@ void sprites_update(ALLEGRO_EVENT event)
 		if (NoFish < 4)
 			respawnFish();
 
-		//cat_loss
+		//cat_stun
 		for (int i = 0; i < 4; i++)
 		{
-			if (cat_loss[i])
+			if (cat_stun[i])
 			{
-				cat_loss[i]--;
-				if (cat_loss == 1)
+				cat_stun[i]--;
+				if (cat_stun == 1)
 				{
-					cat_loss[i]--;
+					cat_stun[i]--;
 					cat_stat[i].attack = 2;
 					cat_stat[i].defense = 5;
 				}
@@ -384,7 +384,7 @@ void respawnFish()
 //type1 is the object that was in the cell first
 void fight(int type1, int type2)
 {
-	if (cat_loss[type1 % 10]) return;
+	if (cat_stun[type1 % 10]) return;
 	switch (type1 / 100)
 	{
 	case 1:
@@ -397,7 +397,7 @@ void fight(int type1, int type2)
 				//cat2 lost
 				cat_stat[type2 % 10].attack = 1;
 				cat_stat[type2 % 10].defense = 0;
-				cat_loss[type2 % 10] = 3;
+				cat_stun[type2 % 10] = 2;
 				//cat1
 				cat_stat[type1 % 10].defense -= (cat_stat[type1 % 10].attack/ cat_stat[type2 % 10].attack)* cat_stat[type1 % 10].defense;
 				if (cat_stat[type1 % 10].defense < 0) cat_stat[type1 % 10].defense = 0;
@@ -407,7 +407,7 @@ void fight(int type1, int type2)
 				//cat1 lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_loss[type1 % 10] = 3;
+				cat_stun[type1 % 10] = 2;
 				//cat2
 				cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
 				if (cat_stat[type2 % 10].defense < 0) cat_stat[type2 % 10].defense = 0;
@@ -431,7 +431,7 @@ void fight(int type1, int type2)
 				//cat lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_loss[type1 % 10] = 3;
+				cat_stun[type1 % 10] = 2;
 				free_ALL_mice(type1);
 				//cat2
 				dog_stat[type2 % 10].defense -= (dog_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * dog_stat[type2 % 10].defense;
@@ -447,7 +447,7 @@ void fight(int type1, int type2)
 			//cat lost
 			cat_stat[type2 % 10].attack = 1;
 			cat_stat[type2 % 10].defense = 0;
-			cat_loss[type2 % 10] = 3;
+			cat_stun[type2 % 10] = 2;
 			free_ALL_mice(type2);
 
 			//dog

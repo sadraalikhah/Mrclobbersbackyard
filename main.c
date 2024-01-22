@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "types.h"
-#include "allegro.h"
+#include "mainGame.h"
 #include "Dice.h"
 
 ///SADRA's new branch 101

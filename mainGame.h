@@ -267,7 +267,9 @@ void draw_scoreboard()
     ALLEGRO_COLOR inactiveC = al_map_rgb(204, 204, 204);
     ALLEGRO_COLOR currentC = al_map_rgb(255, 184, 0);
     ALLEGRO_COLOR currentInactiveC = al_map_rgb(255, 133, 133);
-    ALLEGRO_COLOR scoreboardC = al_map_rgb(222, 38, 38);
+    ALLEGRO_COLOR scoreboardC = al_map_rgb(220, 0, 0);
+    ALLEGRO_COLOR graveC = al_map_rgb(136, 136, 136);
+
 
 
     //*STATS BOARD*//
@@ -279,7 +281,7 @@ void draw_scoreboard()
     ALLEGRO_COLOR cat_color[4];
     for (int i = 0; i < 4; i++)
     {
-        if (cat_loss[i] == 0)
+        if (cat_stun[i] == 0)
         {
             cat_color[i] = activeC;
             if (order[_turn - 1] == i) cat_color[i] = currentC;
@@ -304,7 +306,7 @@ void draw_scoreboard()
     al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1300, 312, 0, "move      %d", _move);
 
 
-    //cat 1
+    //row 1
     al_draw_filled_circle(1000, 425, 25, cat_color[order[0]], 0);
     al_draw_filled_rectangle(1000, 400, 1400, 450, cat_color[order[0]], 0);
     al_draw_filled_circle(1400, 425, 25, cat_color[order[0]], 0);
@@ -317,7 +319,15 @@ void draw_scoreboard()
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stat[order[0]].attack);
     al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 416, 0, "%2d", cat_points[order[0]]);
 
-    //cat 2
+        //if stunned
+    if (cat_stun[order[0]] > 0)
+    {
+        al_draw_filled_circle(1350, 425, 15, graveC, 0);
+        al_draw_filled_rectangle(1335, 425, 1365, 440, graveC, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 416, 0, "%d", cat_stun[order[0]]);
+    }
+
+    //row 2
     al_draw_filled_circle(1000, 491, 25, cat_color[order[1]], 0);
     al_draw_filled_rectangle(1000, 466, 1400, 516, cat_color[order[1]], 0);
     al_draw_filled_circle(1400, 491, 25, cat_color[order[1]], 0);
@@ -329,7 +339,16 @@ void draw_scoreboard()
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[order[1]].defense);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stat[order[1]].attack);
     al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 482, 0, "%2d", cat_points[order[1]]);
-    //cat 3
+
+    //if stunned
+    if (cat_stun[order[1]] > 0)
+    {
+        al_draw_filled_circle(1350, 491, 15, graveC, 0);
+        al_draw_filled_rectangle(1335, 491, 1365, 506, graveC, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 482, 0, "%d", cat_stun[order[1]]);
+    }
+
+    //row 3
     al_draw_filled_circle(1000, 557, 25, cat_color[order[2]], 0);
     al_draw_filled_rectangle(1000, 532, 1400, 582, cat_color[order[2]], 0);
     al_draw_filled_circle(1400, 557, 25, cat_color[order[2]], 0);
@@ -341,7 +360,16 @@ void draw_scoreboard()
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[order[2]].defense);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stat[order[2]].attack);
     al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 548, 0, "%2d", cat_points[order[2]]);
-    //cat 4
+
+    //if stunned
+    if (cat_stun[order[2]] > 0)
+    {
+        al_draw_filled_circle(1350, 557, 15, graveC, 0);
+        al_draw_filled_rectangle(1335, 557, 1365, 572, graveC, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 548, 0, "%d", cat_stun[order[2]]);
+    }
+
+    //row 4
     al_draw_filled_circle(1000, 623, 25, cat_color[order[3]], 0);
     al_draw_filled_rectangle(1000, 598, 1400, 648, cat_color[order[3]], 0);
     al_draw_filled_circle(1400, 623, 25, cat_color[order[3]], 0);
@@ -353,4 +381,12 @@ void draw_scoreboard()
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 614, 0, "Energy: %d", cat_stat[order[3]].defense);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 614, 0, "Power: %d", cat_stat[order[3]].attack);
     al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 614, 0, "%2d", cat_points[order[3]]);
+
+    //if stunned
+    if (cat_stun[order[3]] > 0)
+    {
+        al_draw_filled_circle(1350, 623, 15, graveC, 0);
+        al_draw_filled_rectangle(1335, 623, 1365, 638, graveC, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 614, 0, "%d", cat_stun[order[3]]);
+    }
 }

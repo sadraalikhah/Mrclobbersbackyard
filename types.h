@@ -87,7 +87,7 @@ struct stats cat_stat[4] = {
 };
 
 int cat_points[4] = { 0 };
-int cat_loss[4] = { 0 };
+int cat_stun[4] = { 0 };
 
 int _round = 1;
 int _turn = 1;

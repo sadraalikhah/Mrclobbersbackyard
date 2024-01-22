@@ -26,7 +26,7 @@
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="allegro.h">
+    <ClInclude Include="mainGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="types.h">

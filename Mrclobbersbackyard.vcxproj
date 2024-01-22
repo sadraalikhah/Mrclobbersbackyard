@@ -141,7 +141,7 @@
     <ClCompile Include="Dice.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allegro.h" />
+    <ClInclude Include="mainGame.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="logics.h" />
     <ClInclude Include="map.h" />
