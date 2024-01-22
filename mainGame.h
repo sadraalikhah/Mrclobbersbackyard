@@ -28,10 +28,14 @@ int start()
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     must_init(queue, "queue");
 
+    al_init_ttf_addon();
+    al_init_image_addon();
+
+    must_init(al_init_ttf_addon(), "ttf addon");
+    must_init(al_init_ttf_addon(), "image addon");
+
     display_init();
     hud_init();
-
-    must_init(al_init_image_addon(), "image addon");
     sprites_init();
 
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -271,10 +275,13 @@ void draw_scoreboard()
     ALLEGRO_COLOR graveC = al_map_rgb(136, 136, 136);
 
 
-
     //*STATS BOARD*//
     al_draw_filled_rectangle(900, 0, 1600, 900, scoreboardC);
-    al_draw_text(big_font, al_map_rgb(0, 0, 0), 1000, 100, 0, "Mr. Clobber's backyard");
+
+
+    ///logo
+    al_draw_bitmap(HUD_logo, 900, 20, 0);
+
 
 
     //cat colors
@@ -305,6 +312,9 @@ void draw_scoreboard()
     al_draw_filled_circle(1400, 325, 25, activeC, 0);
     al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1300, 312, 0, "move      %d", _move);
 
+    //description
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 980, 370, 0, "cat %d's move", order[_turn -1] + 1);
+
 
     //row 1
     al_draw_filled_circle(1000, 425, 25, cat_color[order[0]], 0);
@@ -313,6 +323,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1400, 425, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[0]], 0, 0, 50, 50, 990, 410, 30, 30, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[0]-1], 925, 410, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat %d", order[0]+1);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stat[order[0]].defense);
@@ -334,6 +345,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1400, 491, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 990, 476, 30, 30, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[1] - 1], 925, 476, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat %d", order[1]+1);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[order[1]].defense);
@@ -355,6 +367,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1400, 557, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 990, 542, 30, 30, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[2] - 1], 925, 542, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat %d", order[2]+1);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[order[2]].defense);
@@ -376,6 +389,7 @@ void draw_scoreboard()
     al_draw_filled_circle(1400, 623, 19, scoreboardC, 0);
 
     al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 990, 608, 30, 30, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[3] - 1], 925, 608, 0);
 
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 614, 0, "cat %d", order[3]+1);
     al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 614, 0, "Energy: %d", cat_stat[order[3]].defense);

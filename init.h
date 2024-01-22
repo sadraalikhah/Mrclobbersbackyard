@@ -11,6 +11,8 @@ void display_init();
 void display_deinit();
 
 ///hud
+ALLEGRO_BITMAP* HUD_logo;
+ALLEGRO_BITMAP* dice_bitmap[6];
 ALLEGRO_FONT* small_font;
 ALLEGRO_FONT* big_font;
 void hud_init();
@@ -59,15 +61,37 @@ void display_deinit()
 void hud_init()
 {
     al_init_ttf_addon();
+    al_init_image_addon();
+
+    must_init(al_init_ttf_addon(), "ttf addon");
+    must_init(al_init_ttf_addon(), "image addon");
+
+    HUD_logo = al_load_bitmap("ProjectLogo.png");
+    dice_bitmap[0] = al_load_bitmap("dice 1.png");
+    dice_bitmap[1] = al_load_bitmap("dice 2.png");
+    dice_bitmap[2] = al_load_bitmap("dice 3.png");
+    dice_bitmap[3] = al_load_bitmap("dice 4.png");
+    dice_bitmap[4] = al_load_bitmap("dice 5.png");
+    dice_bitmap[5] = al_load_bitmap("dice 6.png");
     small_font = al_load_ttf_font("Inter-SemiBold.ttf", 16, 0);
     big_font = al_load_ttf_font("Inter-SemiBold.ttf", 20, 0);
 
+
+
+    must_init(HUD_logo, "HUD_logo");
+    must_init(dice_bitmap[0], "dice 1");
+    must_init(dice_bitmap[1], "dice 2");
+    must_init(dice_bitmap[2], "dice 3");
+    must_init(dice_bitmap[3], "dice 4");
+    must_init(dice_bitmap[4], "dice 5");
+    must_init(dice_bitmap[5], "dice 6");
     must_init(small_font, "small font");
     must_init(big_font, "big font");
 
 }
 void hud_deinit()
 {
+    al_destroy_bitmap(HUD_logo);
     al_destroy_font(small_font);
     al_destroy_font(big_font);
 }
