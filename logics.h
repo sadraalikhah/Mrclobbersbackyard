@@ -7,9 +7,13 @@
 
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
+char random_move();
 void checkCell(int y, int x, int type, int inBoard);
 int free_mouse(int cat);
+void free_ALL_mice(int cat);
 void respawnFish();
+void fight(int type1, int type2);
+
 
 
 ///sprites
@@ -80,8 +84,6 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 
 void checkCell(int y, int x, int type, int inBoard)
 {
-	if (!sw[y][x]) return;
-
 	//traps bud
 	if (trapBoard[y][x] > 0 && (type/100 == 1))
 	{
@@ -97,6 +99,8 @@ void checkCell(int y, int x, int type, int inBoard)
 		}
 	}
 
+	if (sw[y][x]) return;
+
 	for (int j = 0; j < 4; j++)
 	{
 		if (j == inBoard) continue;
@@ -108,11 +112,8 @@ void checkCell(int y, int x, int type, int inBoard)
 			{
 			//cat
 			case 1:
-				//fight
-				break;
-			//dog
 			case 2:
-				//fight
+				fight(board[y][x][j], board[y][x][inBoard]);
 				break;
 			//mouse1
 			case 3:
@@ -154,7 +155,7 @@ void checkCell(int y, int x, int type, int inBoard)
 			break;
 		//dog
 		case 2:
-			//fight
+			fight(board[y][x][inBoard], board[y][x][j]);
 			break;
 		//mice-start
 		case 3:
@@ -248,25 +249,32 @@ void sprites_update(ALLEGRO_EVENT event)
 
 		//call for random move
 		if (dog[0].inBoard >= 0)
-			move(&dog[0], 5);
+			for (int i = 0; i < 5; i++)
+				move(&dog[0], random_move());
 		if (dog[1].inBoard >= 0)
-			move(&dog[1], 2);
+			for (int i = 0; i < 2; i++)
+				move(&dog[1], random_move());
 		if (dog[2].inBoard >= 0)
-			move(&dog[2], 3);
+			for (int i = 0; i < 3; i++)
+				move(&dog[2], random_move());
 		if (dog[3].inBoard >= 0)
-			move(&dog[3], 1);
+			for (int i = 0; i < 1; i++)
+				move(&dog[3], random_move());
 
 		for (int i = 0; i < 4; i++) {
 			if (mouse3[i].inBoard >= 0)
-				move(&mouse3[i], 3);
+				for (int j = 0; j < 3; j++)
+					move(&mouse3[i], random_move());
 		}
 		for (int i = 0; i < 6; i++) {
 			if (mouse2[i].inBoard >= 0)
-				move(&mouse2[i], 2);
+				for (int j = 0; j < 2; j++)
+					move(&mouse2[i], random_move());
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 8; i++) {
 			if (mouse1[i].inBoard >= 0)
-				move(&mouse1[i], 1);
+				for (int j = 0; j < 1; j++)
+					move(&mouse1[i], random_move());
 		}
 
 		//set traps to invisible
@@ -311,6 +319,11 @@ int free_mouse(int cat)
 	return 0;
 }
 
+void free_ALL_mice(int cat)
+{
+	while (free_mouse(cat));
+}
+
 void respawnFish()
 {
 	for (int i = 0; i < 10; i++)
@@ -323,4 +336,107 @@ void respawnFish()
 	}
 	NoFish = 10;
 
+}
+
+//type1 is the object that was in the cell first
+void fight(int type1, int type2)
+{
+	switch (type1 / 100)
+	{
+	case 1:
+		switch (type2 / 100)
+		{
+		//cat - cat fight
+		case 1:
+			if ((cat_stat[type1 % 10].attack * cat_stat[type1 % 10].defense) >= (cat_stat[type2 % 10].attack * cat_stat[type2 % 10].defense))
+			{
+				//cat2 lost
+				cat_stat[type2 % 10].attack = 1;
+				cat_stat[type2 % 10].defense = 0;
+				cat_loss[type2 % 10] = 3;
+				//cat1
+				cat_stat[type1 % 10].defense -= (cat_stat[type1 % 10].attack/ cat_stat[type2 % 10].attack)* cat_stat[type1 % 10].defense;
+				if (cat_stat[type1 % 10].defense < 0) cat_stat[type1 % 10].defense = 0;
+			}
+			else
+			{
+				//cat1 lost
+				cat_stat[type1 % 10].attack = 1;
+				cat_stat[type1 % 10].defense = 0;
+				cat_loss[type1 % 10] = 3;
+				//cat2
+				cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
+				if (cat_stat[type2 % 10].defense < 0) cat_stat[type2 % 10].defense = 0;
+			}
+			break;
+		// cat - dog fight
+		case 2:
+			if ((cat_stat[type1 % 10].attack * cat_stat[type1 % 10].defense) >= (dog_stat[type2 % 10].attack * dog_stat[type2 % 10].defense))
+			{
+				//dog lost
+				board[dog[type2 % 10].y][dog[type2 % 10].x][dog[type2 % 10].inBoard] = 0;
+				dog[type2 % 10].inBoard = -1;
+				sw[dog[type2 % 10].y][dog[type2 % 10].x]--;
+
+				//cat
+				cat_stat[type1 % 10].defense -= (cat_stat[type1 % 10].attack / dog_stat[type2 % 10].attack) * cat_stat[type1 % 10].defense;
+				if (cat_stat[type1 % 10].defense < 0) cat_stat[type1 % 10].defense = 0;
+			}
+			else
+			{
+				//cat lost
+				cat_stat[type1 % 10].attack = 1;
+				cat_stat[type1 % 10].defense = 0;
+				cat_loss[type1 % 10] = 3;
+				free_ALL_mice(type1);
+				//cat2
+				dog_stat[type2 % 10].defense -= (dog_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * dog_stat[type2 % 10].defense;
+				if (dog_stat[type2 % 10].defense < 0) dog_stat[type2 % 10].defense = 0;
+			}
+			break;
+		}
+		break;
+	// dog - cat fight
+	case 2:
+		if ((dog_stat[type1 % 10].attack * dog_stat[type1 % 10].defense) >= (cat_stat[type2 % 10].attack * cat_stat[type2 % 10].defense))
+		{
+			//cat lost
+			cat_stat[type2 % 10].attack = 1;
+			cat_stat[type2 % 10].defense = 0;
+			cat_loss[type2 % 10] = 3;
+			free_ALL_mice(type2);
+
+			//dog
+			dog_stat[type1 % 10].defense -= (dog_stat[type1 % 10].attack / cat_stat[type2 % 10].attack) * dog_stat[type1 % 10].defense;
+			if (dog_stat[type1 % 10].defense < 0) dog_stat[type1 % 10].defense = 0;
+		}
+		else
+		{
+			//dog lost
+			board[dog[type1 % 10].y][dog[type1 % 10].x][dog[type1 % 10].inBoard] = 0;
+			dog[type1 % 10].inBoard = -1;
+			sw[dog[type1 % 10].y][dog[type1 % 10].x]--;
+
+			//cat
+			cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / dog_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
+			if (cat_stat[type2 % 10].defense < 0) cat_stat[type2 % 10].defense = 0;
+		}
+		break;
+	}
+}
+
+char random_move()
+{
+	int rnd = rand() % 4;
+	switch (rnd)
+	{
+	case 0:
+		return 'U';
+	case 1:
+		return 'D';
+	case 2:
+		return 'L';
+	case 3:
+		return 'R';
+	}
 }

@@ -57,13 +57,11 @@ int start()
 
         case ALLEGRO_EVENT_KEY_DOWN:
             sprites_update(event);
-
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
             break;
         }
-
         if (done)
             break;
 
@@ -266,7 +264,7 @@ void draw_scoreboard()
 
     ///color pallete
     ALLEGRO_COLOR activeC = al_map_rgb(255, 226, 152);
-    ALLEGRO_COLOR inactiveC = al_map_rgb(255, 226, 152);
+    ALLEGRO_COLOR inactiveC = al_map_rgb(204, 204, 204);
     ALLEGRO_COLOR currentC = al_map_rgb(255, 184, 0);
     ALLEGRO_COLOR scoreboardC = al_map_rgb(222, 38, 38);
 
@@ -280,7 +278,11 @@ void draw_scoreboard()
     ALLEGRO_COLOR cat_color[4];
     for (int i = 0; i < 4; i++)
     {
-        cat_color[i] = activeC;
+        if (!cat_loss[i])
+            cat_color[i] = activeC;
+        else 
+            cat_color[i] = inactiveC;
+
         if (order[_turn - 1] == i) cat_color[i] = currentC;
     }
 

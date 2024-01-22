@@ -86,7 +86,8 @@ struct stats cat_stat[4] = {
 	[3].defense = 5
 };
 
-int cat_points[4];
+int cat_points[4] = { 0 };
+int cat_loss[4] = { 0 };
 
 int _round = 1;
 int _turn = 1;
