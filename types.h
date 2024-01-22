@@ -44,6 +44,8 @@ struct obj chocolate[6];
 struct obj trap[8];
 struct obj fish[10];
 
+//Number of Fish
+int NoFish = 10;
 
 
 

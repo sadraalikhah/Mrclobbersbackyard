@@ -83,7 +83,7 @@ int start()
 
             al_flip_display();
 
-            redraw = false;
+               redraw = false;
         }
     }
 

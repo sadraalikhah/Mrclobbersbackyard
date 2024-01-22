@@ -2,55 +2,19 @@
 #include <stdio.h>
 #include "types.h"
 #include "Dice.h"
+#include "map.h"
 
 
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
-void random_move(struct obj *object);
 void checkCell(int y, int x, int type, int inBoard);
 int free_mouse(int cat);
+void respawnFish();
+
 
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
 
-
-void random_move(struct obj *object) {
-	int amount;
-	switch (object->type/100)
-	{
-	case 2:
-		amount = dog_stat[object->type % 10].speed;
-		break;
-	case 3:
-		amount = 1;
-		break;
-	case 4:
-		amount = 2;
-		break;
-	case 5:
-		amount = 3;
-		break;
-	}
-	switch (rand() % 5)
-	{
-	case 1:
-		for (int i =0; i < amount; i++)
-			move(object, 'U');
-		break;
-	case 2:
-		for (int i = 0; i < amount; i++)
-			move(object, 'D');
-		break;
-	case 3:
-		for (int i = 0; i < amount; i++)
-			move(object, 'L');
-		break;
-	case 4:
-		for (int i = 0; i < amount; i++)
-			move(object, 'R');
-		break;
-	}
-}
 
 void move(struct obj *object ,char move)
 {
@@ -116,7 +80,7 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 
 void checkCell(int y, int x, int type, int inBoard)
 {
-	if (sw[y][x] <= 1) return;
+	if (!sw[y][x]) return;
 
 	//traps bud
 	if (trapBoard[y][x] > 0 && (type/100 == 1))
@@ -181,10 +145,10 @@ void checkCell(int y, int x, int type, int inBoard)
 			//fish
 			case 8:
 				cat_stat[board[y][x][inBoard] % 10].defense += (rand()%3 + 2);
-				chocolate[board[y][x][j] % 10].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				fish[board[y][x][j] % 10].inBoard = -1;
+				NoFish--;
 				board[y][x][j] = 0;
 				sw[y][x]--;
-
 				break;
 			}
 			break;
@@ -229,6 +193,7 @@ void checkCell(int y, int x, int type, int inBoard)
 ///sprites
 void sprites_update(ALLEGRO_EVENT event)
 {
+
 	switch (event.keyboard.keycode)
 	{
 	case ALLEGRO_KEY_UP:
@@ -258,6 +223,20 @@ void sprites_update(ALLEGRO_EVENT event)
 		break;
 	}
 
+	system("cls");
+	int sum = 0;
+	for (int i = 0; i < 15; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			sum += sw[i][j];
+			printf("%d ", sw[i][j]);
+		}
+		printf("\n");
+	}
+	printf("%d\n", sum);
+
+
 	//new round
 	if (_turn > 4)
 	{
@@ -268,26 +247,34 @@ void sprites_update(ALLEGRO_EVENT event)
 			cat_stat[i].defense++;
 
 		//call for random move
+		if (dog[0].inBoard >= 0)
+			move(&dog[0], 5);
+		if (dog[1].inBoard >= 0)
+			move(&dog[1], 2);
+		if (dog[2].inBoard >= 0)
+			move(&dog[2], 3);
+		if (dog[3].inBoard >= 0)
+			move(&dog[3], 1);
+
 		for (int i = 0; i < 4; i++) {
-			if (dog[i].inBoard < 0) continue;
-			random_move(&dog[i]);
-		}
-		for (int i = 0; i < 4; i++) {
-			if (mouse3[i].inBoard < 0) continue;
-			random_move(&mouse3[i]);
+			if (mouse3[i].inBoard >= 0)
+				move(&mouse3[i], 3);
 		}
 		for (int i = 0; i < 6; i++) {
-			if (mouse2[i].inBoard < 0) continue;
-			random_move(&mouse2[i]);
+			if (mouse2[i].inBoard >= 0)
+				move(&mouse2[i], 2);
 		}
 		for (int i = 0; i < 10; i++) {
-			if (mouse1[i].inBoard < 0) continue;
-			random_move(&mouse1[i]);
+			if (mouse1[i].inBoard >= 0)
+				move(&mouse1[i], 1);
 		}
 
 		//set traps to invisible
 		for (int i = 0; i < 8; i++) trap_vis[i] = 0;
 
+		//respawn fish if needed
+		if (NoFish < 4)
+			respawnFish();
 	}
 }
 
@@ -298,6 +285,7 @@ int free_mouse(int cat)
 	{
 		if (mouse3[i].inBoard == -cat)
 		{
+			mouse3[i] = mouse3Spawn[i];
 			putInBoard(&mouse3[i], mouse3Spawn[i].y, mouse3Spawn[i].x);
 			return 1;
 		}
@@ -306,6 +294,7 @@ int free_mouse(int cat)
 	{
 		if (mouse2[i].inBoard == -cat)
 		{
+			mouse2[i] = mouse2Spawn[i];
 			putInBoard(&mouse2[i], mouse2Spawn[i].y, mouse2Spawn[i].x);
 			return 1;
 		}
@@ -314,9 +303,24 @@ int free_mouse(int cat)
 	{
 		if (mouse1[i].inBoard == -cat)
 		{
+			mouse1[i] = mouse1Spawn[i];
 			putInBoard(&mouse1[i], mouse1Spawn[i].y, mouse1Spawn[i].x);
 			return 1;
 		}
 	}
 	return 0;
+}
+
+void respawnFish()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if (fish[i].inBoard == -1)
+		{
+			fish[i] = fishSpawn[i];
+			putInBoard(&fish[i], fish[i].y, fish[i].x);
+		}
+	}
+	NoFish = 10;
+
 }

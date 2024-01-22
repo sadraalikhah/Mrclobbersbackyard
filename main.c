@@ -61,7 +61,7 @@ int main()
 		mouse2Spawn[i] = mouse2[i];
 	for (int i = 0; i < 4; i++)
 		mouse3Spawn[i] = mouse3[i];
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 10; i++)
 		fishSpawn[i] = fish[i];
 
 
