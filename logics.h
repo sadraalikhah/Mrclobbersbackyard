@@ -126,6 +126,7 @@ void checkCell(int y, int x)
 				//traps bud
 				if (trapBoard[y][x] > 0)
 				{
+					printf("trap!\n");
 					trap_vis[(trapBoard[y][x] % 10)] = 1;
 					int FreeMouseResult = free_mouse(cat[board[y][x][i] % 10].type);
 					if (!FreeMouseResult && cat_stat[board[y][x][i] % 10].attack > 2) cat_stat[board[y][x][i] % 10].attack -= 2;
@@ -261,7 +262,7 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 		_turn = 1;
 		_round++;
-		throwDice();
+		throwDice(order, dice_val);
 		for (int i = 0; i < 4; i++)
 			cat_stat[i].defense++;
 

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "types.h"
 
 struct dice {
     int diceValue;
@@ -57,7 +56,7 @@ int twoCheckForThree(struct dice array[], int a, int b, int c) {
         return 0;
 }
 
-int throwDice() {
+int throwDice(int order[], int dice_val[]) {
 
     struct dice array[4];
 

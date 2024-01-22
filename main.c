@@ -25,15 +25,6 @@ int main()
 	}
 
 
-	//cat
-	cat_stat[0].attack = 2;
-	cat_stat[0].defense = 5;
-	cat_stat[1].attack = 2;
-	cat_stat[1].defense = 5;
-	cat_stat[2].attack = 2;
-	cat_stat[2].defense = 5;
-	cat_stat[3].attack = 2;
-	cat_stat[3].defense = 5;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -43,19 +34,7 @@ int main()
 		putInBoard(&cat[i], 7, 7);
 	}
 
-	// dogs
-	dog_stat[0].attack = 5;
-	dog_stat[0].defense = 30;
-	dog_stat[0].speed = 5;
-	dog_stat[1].attack = 2;
-	dog_stat[1].defense = 15;
-	dog_stat[1].speed = 2;
-	dog_stat[2].attack = 2;
-	dog_stat[2].defense = 20;
-	dog_stat[2].speed = 3;
-	dog_stat[3].attack = 1;
-	dog_stat[3].defense = 1;
-	dog_stat[3].speed = 1;
+
 	for (int i = 0; i < 4; i++) dog[i].type = 200 + i;
 	spawn(&dog, 4);
 	//mice
@@ -86,7 +65,7 @@ int main()
 		fishSpawn[i] = fish[i];
 
 
-	throwDice();
+	throwDice(order, dice_val);
     start();
 	return 0;
 }

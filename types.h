@@ -54,15 +54,35 @@ struct obj mouse3Spawn[4];
 struct obj fishSpawn[10];
 
 
-///Stats
-struct stats dog_stat[4];
-
-
+///dog stats
+struct stats dog_stat[4] = {
+	[0].attack = 5,
+	[0].defense = 30,
+	[0].speed = 5,
+	[1].attack = 2,
+	[1].defense = 15,
+	[1].speed = 2,
+	[2].attack = 2,
+	[2].defense = 20,
+	[2].speed = 3,
+	[3].attack = 1,
+	[3].defense = 1,
+	[3].speed = 1
+};
 
 /// <summary>
-/// cats
+/// cat stats
 /// </summary>
-struct stats cat_stat[4];
+struct stats cat_stat[4] = {
+	[0] .attack = 2,
+	[0].defense = 5,
+	[1].attack = 2,
+	[1].defense = 5,
+	[2].attack = 2,
+	[2].defense = 5,
+	[3].attack = 2,
+	[3].defense = 5
+};
 
 int cat_points[4];
 
