@@ -136,7 +136,7 @@ void draw_board()
     {
         for (int j = 0; j < 15; j++)
         {
-            //other objects
+            //objects
             for (int k = 0; k < 4; k++)
             {
                 if (sw[i][j] == 1)
@@ -251,9 +251,9 @@ void draw_board()
                 }
             }
             //traps
-            if (trap_vis[trapBoard[i][j] % 10] == 1)
-                al_draw_tinted_bitmap(_trap,al_map_rgba_f(1,1,1, 0.5), 60 * j + 5, 60 * i + 5, 0);
-
+            if (trapBoard[i][j])
+                if (trap_vis[(trapBoard[i][j]) % 10])
+                    al_draw_tinted_bitmap(_trap, al_map_rgba_f(1, 1, 1, 0.5), 60 * j + 5, 60 * i + 5, 0);
         }
     }
 }

@@ -7,7 +7,7 @@
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
 void random_move(struct obj *object);
-void checkCell(int y, int x);
+void checkCell(int y, int x, int type, int inBoard);
 int free_mouse(int cat);
 
 ///sprites
@@ -74,13 +74,16 @@ void move(struct obj *object ,char move)
 		object->x++;
 		break;
 	}
-	putInBoard(object, object->y, object->x);
-	checkCell(object->y, object->x);
+
 	if ((object->type / 100) == 1)
 	{
 		cat_stat[(object->type % 10)].defense--;
 		_move++;
 	}
+
+	putInBoard(object, object->y, object->x);
+	checkCell(object->y, object->x, object->type, object->inBoard);
+
 }
 
 int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
@@ -111,118 +114,116 @@ int isLegal(int y, int x, char move)  //1: up, 2: left, 3: down, 4: right
 	return 1;
 }
 
-void checkCell(int y, int x)
+void checkCell(int y, int x, int type, int inBoard)
 {
 	if (sw[y][x] <= 1) return;
-	for (int i = 0; i < 4; i++)
+
+	//traps bud
+	if (trapBoard[y][x] > 0 && (type/100 == 1))
 	{
-		for (int j = 0; j < 4; j++)
+		printf("trap!\n");
+		trap_vis[(trapBoard[y][x] % 10)] = 1;
+		int FreeMouseResult = free_mouse(cat[board[y][x][inBoard] % 10].type);
+		if (!FreeMouseResult && cat_stat[board[y][x][inBoard] % 10].attack > 2) cat_stat[board[y][x][inBoard] % 10].attack -= 2;
+		else if (!FreeMouseResult)
 		{
-			if (j == i) continue;
-			switch (board[y][x][i]/100)
+			cat_stat[board[y][x][inBoard] % 10].defense -= 3;
+			if (cat_stat[board[y][x][inBoard] % 10].defense < 0)
+				cat_stat[(board[y][x][inBoard] % 10)].defense = 0;
+		}
+	}
+
+	for (int j = 0; j < 4; j++)
+	{
+		if (j == inBoard) continue;
+		switch (board[y][x][inBoard]/100)
+		{
+		//cat
+		case 1:
+			switch (board[y][x][j] / 100)
 			{
 			//cat
 			case 1:
-				//traps bud
-				if (trapBoard[y][x] > 0)
-				{
-					printf("trap!\n");
-					trap_vis[(trapBoard[y][x] % 10)] = 1;
-					int FreeMouseResult = free_mouse(cat[board[y][x][i] % 10].type);
-					if (!FreeMouseResult && cat_stat[board[y][x][i] % 10].attack > 2) cat_stat[board[y][x][i] % 10].attack -= 2;
-					else if (!FreeMouseResult)
-					{
-						cat_stat[board[y][x][i] % 10].defense -= 3;
-						if (cat_stat[board[y][x][i] % 10].defense < 0)
-							cat_stat[(board[y][x][i] % 10)].defense = 0;
-					}
-				}
-				switch (board[y][x][j] / 100)
-				{
-				//cat
-				case 1:
-					//fight
-					break;
-				//dog
-				case 2:
-					//fight
-					break;
-				//mouse1
-				case 3:
-					cat_points[(board[y][x][i] % 10)]++;
-					mouse1[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i]%10].type);
-					board[y][x][j] = 0;
-					sw[y][x]--;
-					break;
-				//mouse2
-				case 4:
-					cat_points[board[y][x][i] % 10] += 2;
-					mouse2[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
-					board[y][x][j] = 0;
-					sw[y][x]--;
-					break;
-				//mouse3
-				case 5:
-					cat_points[(board[y][x][i] % 10)] += 3;
-					mouse3[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
-					board[y][x][j] = 0;
-					sw[y][x]--;
-					break;
-				//chocolate
-				case 6:
-					cat_stat[(board[y][x][i] % 10)].attack++;
-					chocolate[(board[y][x][j] % 10)].inBoard = -(cat[board[y][x][i] % 10].type);
-					board[y][x][j] = 0;
-					sw[y][x]--;
-					break;
-				//fish
-				case 8:
-					cat_stat[board[y][x][i] % 10].defense += (rand()%3 + 2);
-					chocolate[board[y][x][j] % 10].inBoard = -(cat[board[y][x][i] % 10].type);
-					board[y][x][j] = 0;
-					sw[y][x]--;
-
-					break;
-				}
+				//fight
 				break;
 			//dog
 			case 2:
 				//fight
 				break;
-			//mice-start
+			//mouse1
 			case 3:
-				if (board[y][x][j] / 100 == 1)
-				{
-					cat_points[board[y][x][j] % 10]++;
-					mouse1[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
-					board[y][x][i] = 0;
-					sw[y][x]--;
-				}
+				cat_points[(board[y][x][inBoard] % 10)]++;
+				mouse1[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard]%10].type);
+				board[y][x][j] = 0;
+				sw[y][x]--;
 				break;
+			//mouse2
 			case 4:
-				if (board[y][x][j] / 100 == 1)
-				{
-					cat_points[board[y][x][j] % 10] += 2;
-					mouse2[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
-					board[y][x][i] = 0;
-					sw[y][x]--;
-
-				}
+				cat_points[board[y][x][inBoard] % 10] += 2;
+				mouse2[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				board[y][x][j] = 0;
+				sw[y][x]--;
 				break;
+			//mouse3
 			case 5:
-				if (board[y][x][j] / 100 == 1)
-				{
-					cat_points[board[y][x][j] % 10] += 3;
-					mouse3[board[y][x][i] % 10].inBoard = -(cat[board[y][x][j] % 10].type);
-					board[y][x][i] = 0;
-					sw[y][x]--;
-				}
+				cat_points[(board[y][x][inBoard] % 10)] += 3;
+				mouse3[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				board[y][x][j] = 0;
+				sw[y][x]--;
 				break;
-			//mice-end
+			//chocolate
+			case 6:
+				cat_stat[(board[y][x][inBoard] % 10)].attack++;
+				chocolate[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				board[y][x][j] = 0;
+				sw[y][x]--;
+				break;
+			//fish
+			case 8:
+				cat_stat[board[y][x][inBoard] % 10].defense += (rand()%3 + 2);
+				chocolate[board[y][x][j] % 10].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				board[y][x][j] = 0;
+				sw[y][x]--;
+
+				break;
 			}
+			break;
+		//dog
+		case 2:
+			//fight
+			break;
+		//mice-start
+		case 3:
+			if (board[y][x][j] / 100 == 1)
+			{
+				cat_points[board[y][x][j] % 10]++;
+				mouse1[board[y][x][inBoard] % 10].inBoard = (-cat[board[y][x][j] % 10].type);
+				board[y][x][inBoard] = 0;
+				sw[y][x]--;
+			}
+			break;
+		case 4:
+			if (board[y][x][j] / 100 == 1)
+			{
+				cat_points[board[y][x][j] % 10] += 2;
+				mouse2[board[y][x][inBoard] % 10].inBoard = (-cat[board[y][x][j] % 10].type);
+				board[y][x][inBoard] = 0;
+				sw[y][x]--;
+
+			}
+			break;
+		case 5:
+			if (board[y][x][j] / 100 == 1)
+			{
+				cat_points[board[y][x][j] % 10] += 3;
+				mouse3[board[y][x][inBoard] % 10].inBoard = (-cat[board[y][x][j] % 10].type);
+				board[y][x][inBoard] = 0;
+				sw[y][x]--;
+			}
+			break;
+		//mice-end
 		}
 	}
-
 }
 
 ///sprites
