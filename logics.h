@@ -7,7 +7,7 @@
 
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
-char random_move();
+void random_move(struct obj* object);
 void checkCell(int y, int x, int type, int inBoard);
 int free_mouse(int cat);
 void free_ALL_mice(int cat);
@@ -19,12 +19,51 @@ void fight(int type1, int type2);
 ///sprites
 void sprites_update(ALLEGRO_EVENT event);
 
+void random_move(struct obj* object) {
+	int amount;
+	switch (object->type / 100)
+	{
+	case 2:
+		amount = dog_stat[object->type % 10].speed;
+		break;
+	case 3:
+		amount = 1;
+		break;
+	case 4:
+		amount = 2;
+		break;
+	case 5:
+		amount = 3;
+		break;
+	}
+	switch (rand() % 5)
+	{
+	case 1:
+		for (int i = 0; i < amount; i++)
+			move(object, 'U');
+		break;
+	case 2:
+		for (int i = 0; i < amount; i++)
+			move(object, 'D');
+		break;
+	case 3:
+		for (int i = 0; i < amount; i++)
+			move(object, 'L');
+		break;
+	case 4:
+		for (int i = 0; i < amount; i++)
+			move(object, 'R');
+		break;
+	}
+}
 
 void move(struct obj *object ,char move)
 {
 	if (object->inBoard < 0) return;
-	if (!isLegal(object->y, object->x, move) || _move > 3)
-		return;
+	if ((object->type / 100 == 1) && (cat_loss[object->type % 10])) return;
+	if (!isLegal(object->y, object->x, move) || _move > 3) return;
+
+
 	sw[object->y][object->x]--;
 	board[object->y][object->x][object->inBoard] = 0;
 	switch (move)
@@ -99,7 +138,7 @@ void checkCell(int y, int x, int type, int inBoard)
 		}
 	}
 
-	if (sw[y][x]) return;
+	if (!sw[y][x]) return;
 
 	for (int j = 0; j < 4; j++)
 	{
@@ -155,7 +194,8 @@ void checkCell(int y, int x, int type, int inBoard)
 			break;
 		//dog
 		case 2:
-			fight(board[y][x][inBoard], board[y][x][j]);
+			if (board[y][x][j] / 100 == 1)
+				fight(board[y][x][inBoard], board[y][x][j]);
 			break;
 		//mice-start
 		case 3:
@@ -248,33 +288,21 @@ void sprites_update(ALLEGRO_EVENT event)
 			cat_stat[i].defense++;
 
 		//call for random move
-		if (dog[0].inBoard >= 0)
-			for (int i = 0; i < 5; i++)
-				move(&dog[0], random_move());
-		if (dog[1].inBoard >= 0)
-			for (int i = 0; i < 2; i++)
-				move(&dog[1], random_move());
-		if (dog[2].inBoard >= 0)
-			for (int i = 0; i < 3; i++)
-				move(&dog[2], random_move());
-		if (dog[3].inBoard >= 0)
-			for (int i = 0; i < 1; i++)
-				move(&dog[3], random_move());
-
 		for (int i = 0; i < 4; i++) {
-			if (mouse3[i].inBoard >= 0)
-				for (int j = 0; j < 3; j++)
-					move(&mouse3[i], random_move());
+			if (dog[i].inBoard < 0) continue;
+			random_move(&dog[i]);
+		}
+		for (int i = 0; i < 4; i++) {
+			if (mouse3[i].inBoard < 0) continue;
+			random_move(&mouse3[i]);
 		}
 		for (int i = 0; i < 6; i++) {
-			if (mouse2[i].inBoard >= 0)
-				for (int j = 0; j < 2; j++)
-					move(&mouse2[i], random_move());
+			if (mouse2[i].inBoard < 0) continue;
+			random_move(&mouse2[i]);
 		}
-		for (int i = 0; i < 8; i++) {
-			if (mouse1[i].inBoard >= 0)
-				for (int j = 0; j < 1; j++)
-					move(&mouse1[i], random_move());
+		for (int i = 0; i < 10; i++) {
+			if (mouse1[i].inBoard < 0) continue;
+			random_move(&mouse1[i]);
 		}
 
 		//set traps to invisible
@@ -283,6 +311,21 @@ void sprites_update(ALLEGRO_EVENT event)
 		//respawn fish if needed
 		if (NoFish < 4)
 			respawnFish();
+
+		//cat_loss
+		for (int i = 0; i < 4; i++)
+		{
+			if (cat_loss[i])
+			{
+				cat_loss[i]--;
+				if (cat_loss == 1)
+				{
+					cat_loss[i]--;
+					cat_stat[i].attack = 2;
+					cat_stat[i].defense = 5;
+				}
+			}
+		}
 	}
 }
 
@@ -341,6 +384,7 @@ void respawnFish()
 //type1 is the object that was in the cell first
 void fight(int type1, int type2)
 {
+	if (cat_loss[type1 % 10]) return;
 	switch (type1 / 100)
 	{
 	case 1:
@@ -425,18 +469,3 @@ void fight(int type1, int type2)
 	}
 }
 
-char random_move()
-{
-	int rnd = rand() % 4;
-	switch (rnd)
-	{
-	case 0:
-		return 'U';
-	case 1:
-		return 'D';
-	case 2:
-		return 'L';
-	case 3:
-		return 'R';
-	}
-}

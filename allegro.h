@@ -266,6 +266,7 @@ void draw_scoreboard()
     ALLEGRO_COLOR activeC = al_map_rgb(255, 226, 152);
     ALLEGRO_COLOR inactiveC = al_map_rgb(204, 204, 204);
     ALLEGRO_COLOR currentC = al_map_rgb(255, 184, 0);
+    ALLEGRO_COLOR currentInactiveC = al_map_rgb(255, 133, 133);
     ALLEGRO_COLOR scoreboardC = al_map_rgb(222, 38, 38);
 
 
@@ -278,12 +279,16 @@ void draw_scoreboard()
     ALLEGRO_COLOR cat_color[4];
     for (int i = 0; i < 4; i++)
     {
-        if (!cat_loss[i])
+        if (cat_loss[i] == 0)
+        {
             cat_color[i] = activeC;
-        else 
+            if (order[_turn - 1] == i) cat_color[i] = currentC;
+        }
+        else
+        {
             cat_color[i] = inactiveC;
-
-        if (order[_turn - 1] == i) cat_color[i] = currentC;
+            if (order[_turn - 1] == i) cat_color[i] = currentInactiveC;
+        }
     }
 
     //round
