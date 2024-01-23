@@ -435,7 +435,7 @@ void fight(int type1, int type2)
 			//cat lost
 			cat_stat[type2 % 10].attack = 1;
 			cat_stat[type2 % 10].defense = 0;
-			cat_stun[type2 % 10] = 3;
+			cat_stun[type2 % 10] = 4;
 			free_ALL_mice(type2);
 
 			//dog
