@@ -34,6 +34,11 @@ ALLEGRO_BITMAP* _fish;
 void sprites_init();
 void sprites_deinit();
 
+///end_screen
+ALLEGRO_FONT* end_screen_font;
+ALLEGRO_BITMAP* game_over_logo;
+void endscreen_init();
+void endscreen_deinit();
 
 ///must init
 void must_init(bool test, const char* description)
@@ -92,6 +97,12 @@ void hud_init()
 void hud_deinit()
 {
     al_destroy_bitmap(HUD_logo);
+    al_destroy_bitmap(dice_bitmap[0]);
+    al_destroy_bitmap(dice_bitmap[1]);
+    al_destroy_bitmap(dice_bitmap[2]);
+    al_destroy_bitmap(dice_bitmap[3]);
+    al_destroy_bitmap(dice_bitmap[4]);
+    al_destroy_bitmap(dice_bitmap[5]);
     al_destroy_font(small_font);
     al_destroy_font(big_font);
 }
@@ -156,4 +167,20 @@ void sprites_deinit()
     al_destroy_bitmap(_trap);
     al_destroy_bitmap(_fish);
     al_destroy_bitmap(_choco);
+
+}
+
+void endscreen_init()
+{
+    game_over_logo = al_load_bitmap("GameOver.png");
+    end_screen_font = al_load_ttf_font("Inter-SemiBold.ttf", 36, 0);
+    must_init(game_over_logo, "Game Over Logo");
+    must_init(end_screen_font, "End Screen Font");
+
+}
+
+void endscreen_deinit()
+{
+    al_destroy_bitmap(game_over_logo);
+    al_destroy_font(end_screen_font);
 }

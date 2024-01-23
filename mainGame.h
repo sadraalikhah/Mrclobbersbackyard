@@ -7,6 +7,7 @@
 #include "types.h"
 #include "init.h"
 #include "logics.h"
+#include "GameOver.h"
 
 
 ///draw
@@ -25,8 +26,8 @@ int start()
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
     must_init(timer, "timer");
 
-    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    must_init(queue, "queue");
+    ALLEGRO_EVENT_QUEUE* mainQueue = al_create_event_queue();
+    must_init(mainQueue, "mainQueue");
 
     al_init_ttf_addon();
     al_init_image_addon();
@@ -37,19 +38,20 @@ int start()
     display_init();
     hud_init();
     sprites_init();
+    endscreen_init();
 
-    al_register_event_source(queue, al_get_keyboard_event_source());
-    al_register_event_source(queue, al_get_display_event_source(display));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(mainQueue, al_get_keyboard_event_source());
+    al_register_event_source(mainQueue, al_get_display_event_source(display));
+    al_register_event_source(mainQueue, al_get_timer_event_source(timer));
 
     bool done = false;
     bool redraw = true;
     ALLEGRO_EVENT event;
-
+ 
     al_start_timer(timer);
     while (1)
     {
-        al_wait_for_event(queue, &event);
+        al_wait_for_event(mainQueue, &event);
         
         //logic definitions
         switch (event.type)
@@ -70,7 +72,7 @@ int start()
             break;
 
 
-        if (redraw && al_is_event_queue_empty(queue))
+        if (redraw && al_is_event_queue_empty(mainQueue))
         {
             if (_round < 16)
             {
@@ -79,8 +81,8 @@ int start()
             }
             else
             {
-                al_clear_to_color(al_map_rgb_f(1, 1, 1));
-                al_draw_text(big_font, al_map_rgb_f(0, 0, 0), 750, 450, 0, "GAME OVER");
+               bool END = end_game();
+               if (END) done = true;
             }
 
             al_flip_display();
@@ -91,10 +93,11 @@ int start()
 
     //destroy the created files
     al_destroy_timer(timer);
-    al_destroy_event_queue(queue);
+    al_destroy_event_queue(mainQueue);
     hud_deinit();
     display_deinit();
     sprites_deinit();
+    endscreen_deinit();
 
 
     return 0;

@@ -116,7 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -141,6 +141,7 @@
     <ClCompile Include="Dice.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="logics.h" />

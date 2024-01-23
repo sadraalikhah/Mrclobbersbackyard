@@ -13,19 +13,6 @@ int roll_dice() {
     return rand() % 6 + 1;
 }
 
-void print_players_initial(struct dice array[]) {
-    printf("Players:\n");
-    for (int i = 0; i < 4; i++) {
-        printf("Player %d   %d\n", array[i].player, array[i].diceValue);
-    }
-}
-
-void print_players_final(struct dice array[]) {
-    printf("Players:\n");
-    for (int i = 0; i < 4; i++) {
-        printf("%d: Player %d   %d\n", i + 1, array[i].player, array[i].diceValue);
-    }
-}
 
 void swap(struct dice* a, struct dice* b) {
     struct dice temp = *a;
@@ -76,8 +63,6 @@ int throwDice(int order[], int dice_val[]) {
             }
         }
     }
-    printf("Initial result:\n");
-    print_players_initial(array);
 
     int sw = 0;
     int repeat = 1;

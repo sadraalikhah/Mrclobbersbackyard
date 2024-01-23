@@ -126,7 +126,6 @@ void checkCell(int y, int x, int type, int inBoard)
 	//traps bud
 	if (trapBoard[y][x] > 0 && (type/100 == 1))
 	{
-		printf("trap!\n");
 		trap_vis[(trapBoard[y][x] % 10)] = 1;
 		int FreeMouseResult = free_mouse(cat[board[y][x][inBoard] % 10].type);
 		if (!FreeMouseResult && cat_stat[board[y][x][inBoard] % 10].attack > 2) cat_stat[board[y][x][inBoard] % 10].attack -= 2;
@@ -262,21 +261,10 @@ void sprites_update(ALLEGRO_EVENT event)
 		_move = 1;
 		_turn++;
 		break;
+	case ALLEGRO_KEY_ESCAPE:
+		_round = 16;
+		break;
 	}
-
-	system("cls");
-	int sum = 0;
-	for (int i = 0; i < 15; i++)
-	{
-		for (int j = 0; j < 15; j++)
-		{
-			sum += sw[i][j];
-			printf("%d ", sw[i][j]);
-		}
-		printf("\n");
-	}
-	printf("%d\n", sum);
-
 
 	//new round
 	if (_turn > 4)

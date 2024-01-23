@@ -14,16 +14,6 @@ int main()
 	//generate walls
 	generate_walls();
 
-	for (int i = 0; i < 15; i++)
-	{
-		for (int j = 0; j < 15; j++)
-		{
-			if (!wall[i][j]) wall[i][j] = '0';
-			printf("%c ", wall[i][j]);
-		}
-		printf("\n");
-	}
-
 
 
 	for (int i = 0; i < 4; i++)
@@ -69,3 +59,4 @@ int main()
     start();
 	return 0;
 }
+
