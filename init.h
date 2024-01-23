@@ -1,8 +1,8 @@
 #pragma once
 
 
-#define SCREEN_WIDTH 1500
-#define SCREEN_HEIGHT 900
+#define SCREEN_WIDTH_DEF 1500
+#define SCREEN_HEIGHT_DEF 900
 
 
 ///display
@@ -57,12 +57,14 @@ void must_init(bool test, const char* description)
 void display_init() {
     al_init_image_addon();
 
-    display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    display = al_create_display(SCREEN_WIDTH_DEF, SCREEN_HEIGHT_DEF);
     must_init(display, "display");
     game_icon = al_load_bitmap("GameIcon.png");
     must_init(game_icon, "Game Icon");
 
     al_set_display_icon(display, game_icon);
+    al_set_window_title(display, "Mr Clobber's Backyard");
 }
 void display_deinit()
 {

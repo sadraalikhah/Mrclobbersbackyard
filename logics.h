@@ -271,9 +271,23 @@ void sprites_update(ALLEGRO_EVENT event)
 	{
 		_turn = 1;
 		_round++;
-		throwDice(order, dice_val);
 		for (int i = 0; i < 4; i++)
 			cat_stat[i].defense++;
+
+		//cat_stun
+		for (int i = 0; i < 4; i++)
+		{
+			if (cat_stun[i])
+			{
+				cat_stun[i]--;
+				if (cat_stun[i] == 1)
+				{
+					cat_stun[i]--;
+					cat_stat[i].attack = 2;
+					cat_stat[i].defense = 5;
+				}
+			}
+		}
 
 		//call for random move
 		for (int i = 0; i < 4; i++) {
@@ -300,20 +314,8 @@ void sprites_update(ALLEGRO_EVENT event)
 		if (NoFish < 4)
 			respawnFish();
 
-		//cat_stun
- 		for (int i = 0; i < 4; i++)
-		{
-			if (cat_stun[i])
-			{
-				cat_stun[i]--;
-				if (cat_stun[i] == 1)
-				{
-					cat_stun[i]--;
-					cat_stat[i].attack = 2;
-					cat_stat[i].defense = 5;
-				}
-			}
-		}
+		throwDice(order, dice_val);
+
 	}
 }
 
@@ -419,9 +421,9 @@ void fight(int type1, int type2)
 				//cat lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_stun[type1 % 10] = 3;
+				cat_stun[type1 % 10] = 4;
 				free_ALL_mice(type1);
-				//cat2
+				//dog
 				dog_stat[type2 % 10].defense -= (dog_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * dog_stat[type2 % 10].defense;
 				if (dog_stat[type2 % 10].defense < 0) dog_stat[type2 % 10].defense = 0;
 			}
@@ -435,7 +437,7 @@ void fight(int type1, int type2)
 			//cat lost
 			cat_stat[type2 % 10].attack = 1;
 			cat_stat[type2 % 10].defense = 0;
-			cat_stun[type2 % 10] = 4;
+			cat_stun[type2 % 10] = 3;
 			free_ALL_mice(type2);
 
 			//dog
