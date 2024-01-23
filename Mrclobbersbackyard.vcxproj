@@ -116,7 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -138,9 +138,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="Dice.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allegro.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="mainGame.h" />
+    <ClInclude Include="init.h" />
+    <ClInclude Include="logics.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>

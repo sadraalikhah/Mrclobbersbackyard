@@ -18,12 +18,27 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dice.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="allegro.h">
+    <ClInclude Include="mainGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="logics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

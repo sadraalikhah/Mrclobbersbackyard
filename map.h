@@ -4,52 +4,148 @@
 #include <time.h>
 #include "types.h"
 
-float distance(struct pos point1, struct pos point2);
+#define BOARD_SIZE 15
+
+
+// Check if a position is in the excluded region
 int isExcludedRegion(int x, int y);
 
-int generate_walls(int board[][14])
-{
-    int c;
-    int NoWalls = 0;
-    srand(time(NULL));
+//sets walls to zero if the number required is not provided
+void setToZero();
 
-	for (int i = 0; i < 14;i++)
-	{
-        for (int j = 0; j < 14;j++)
+// Generate walls on the board based on certain conditions
+void generate_walls()
+{
+    do
+    {
+        int NoWalls = 0;
+        for (int i = 0; i < BOARD_SIZE; i++)
         {
-            if ((i >= 6 && i <= 9) && (j >= 6 && j <= 9)) continue;
-            c = (j*i);
-            if (rand() * c % 13 == 5) board[i][j] = 1, NoWalls++; //vertical
-            if (rand() * c % 13 == 1) board[i][j] = 2, NoWalls++; //horizontal
+            for (int j = 0; j < BOARD_SIZE; j++)
+            {
+                if (rand() % 13 == 5)
+                {
+                    if (j == 0 || i == 0 || i == 14) continue;
+                    else if (j > 6 && j < 9 && i > 5 && i < 8) continue;
+                    wall[i][j] = 'L';
+                    NoWalls++;
+                }
+                else if (rand() % 13 == 1)
+                {
+                    if (i == 0 || j == 0 || j == 14) continue;
+                    else if (i > 6 && i < 9 && j > 5 && j < 8) continue;
+                    wall[i][j] = 'U';
+                    NoWalls++;
+                }
+            }
         }
-    }
-    if (NoWalls < 18 || NoWalls > 40) return 1;
-    return 0;
+        if (NoWalls < 18 || NoWalls > 40)
+        {
+            setToZero();
+        }
+        else break;
+
+    } while (1);
 }
 
-int random_pos(struct pos part[], int n, int sw[][15])
+//place objects after their spawn in the board (assists the move function)
+void putInBoard(struct obj *object, int y, int x);
+
+// Spawn entities at random positions on the board
+void spawn(struct obj object[], int n)
 {
     srand(time(NULL));
-    int MIN_Dist = 25/n;
-    int i, j;
-    int check;
-    for (int k = 0; k < n;) {
-        do {
-            i = rand() % 15;
-            j = rand() % 15;
-            if (sw[i][j] == 1 || ((i >= 6 && i <= 9) && (j >= 6 && j <= 9))) continue;
-            part[k].x = i;
-            part[k].y = j;
-            sw[i][j] = 1;
-            k++;
-            
-        } while (isExcludedRegion(part[k].x, part[k].y) || (k > 0 && distance(part[k], part[k-1]) < MIN_Dist));
+    int objectsPerCorner = n / 4;
+    int objectsRemainder = (n % 4)/2;
+    int objectNumber = 0;
+    int y, x;
+    for (int i = 0; i < objectsPerCorner + objectsRemainder; i++)
+    {
+        y = rand() % 7;
+        x = rand() % 7;
+        //duplicate check
+        if (sw[y][x] || isExcludedRegion(y, x))
+        {
+            i--;
+            continue;
+        }
+        object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(&object[objectNumber], y, x);
+        objectNumber++;
+    }
+    for (int i = 0; i < objectsPerCorner; i++)
+    {
+        y = rand() % 7;
+        x = rand() % 7+8;
+        //duplicate check
+        if (sw[y][x] || isExcludedRegion(y, x))
+        {
+            i--;
+            continue;
+        }
+        object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(&object[objectNumber], y, x);
+        objectNumber++;
+    }
+    for (int i = 0; i < objectsPerCorner; i++)
+    {
+        y = rand() % 7+8;
+        x = rand() % 7;
+        //duplicate check
+        if (sw[y][x] || isExcludedRegion(y, x))
+        {
+            i--;
+            continue;
+        }
+        object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(&object[objectNumber], y, x);
+        objectNumber++;
+    }
+    for (int i = 0; i < objectsPerCorner + objectsRemainder; i++)
+    {
+        y = rand() % 7+8;
+        x = rand() % 7+8;
+        //duplicate check
+        if (sw[y][x] || isExcludedRegion(y, x))
+        {
+            i--;
+            continue;
+        }
+        object[objectNumber].y = y;
+        object[objectNumber].x = x;
+        putInBoard(&object[objectNumber], y, x);
+        objectNumber++;
     }
 }
 
-float distance(struct pos point1,struct pos point2) {
-    return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
+int isExcludedRegion(int y, int x) {
+    return x > 5 && x < 9 && y > 5 && y < 9;
 }
-int isExcludedRegion(int x, int y) {
-    return x >= 3 && x <= 11 && y >= 3 && y <= 11;
+
+void setToZero()
+{
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
+            wall[i][j] = 0;
+}
+
+void putInBoard(struct obj *object, int y, int x)
+{
+    if ((object->type / 100) == 7)
+    {
+        trapBoard[y][x] = (object->type);
+        return;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (board[y][x][i]) continue;
+        board[y][x][i] = object->type;
+        object->inBoard = i;
+        sw[y][x]++;
+        break;
+    }
 }
