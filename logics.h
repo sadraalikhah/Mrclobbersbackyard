@@ -301,12 +301,12 @@ void sprites_update(ALLEGRO_EVENT event)
 			respawnFish();
 
 		//cat_stun
-		for (int i = 0; i < 4; i++)
+ 		for (int i = 0; i < 4; i++)
 		{
 			if (cat_stun[i])
 			{
 				cat_stun[i]--;
-				if (cat_stun == 1)
+				if (cat_stun[i] == 1)
 				{
 					cat_stun[i]--;
 					cat_stat[i].attack = 2;
@@ -385,7 +385,7 @@ void fight(int type1, int type2)
 				//cat2 lost
 				cat_stat[type2 % 10].attack = 1;
 				cat_stat[type2 % 10].defense = 0;
-				cat_stun[type2 % 10] = 2;
+				cat_stun[type2 % 10] = 3;
 				//cat1
 				cat_stat[type1 % 10].defense -= (cat_stat[type1 % 10].attack/ cat_stat[type2 % 10].attack)* cat_stat[type1 % 10].defense;
 				if (cat_stat[type1 % 10].defense < 0) cat_stat[type1 % 10].defense = 0;
@@ -395,7 +395,7 @@ void fight(int type1, int type2)
 				//cat1 lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_stun[type1 % 10] = 2;
+				cat_stun[type1 % 10] = 3;
 				//cat2
 				cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
 				if (cat_stat[type2 % 10].defense < 0) cat_stat[type2 % 10].defense = 0;
@@ -419,7 +419,7 @@ void fight(int type1, int type2)
 				//cat lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_stun[type1 % 10] = 2;
+				cat_stun[type1 % 10] = 3;
 				free_ALL_mice(type1);
 				//cat2
 				dog_stat[type2 % 10].defense -= (dog_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * dog_stat[type2 % 10].defense;
@@ -435,7 +435,7 @@ void fight(int type1, int type2)
 			//cat lost
 			cat_stat[type2 % 10].attack = 1;
 			cat_stat[type2 % 10].defense = 0;
-			cat_stun[type2 % 10] = 2;
+			cat_stun[type2 % 10] = 3;
 			free_ALL_mice(type2);
 
 			//dog

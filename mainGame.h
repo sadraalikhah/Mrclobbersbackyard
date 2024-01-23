@@ -338,7 +338,7 @@ void draw_scoreboard()
     {
         al_draw_filled_circle(1350, 425, 15, graveC, 0);
         al_draw_filled_rectangle(1335, 425, 1365, 440, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 416, 0, "%d", cat_stun[order[0]]);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 416, 0, "%d", cat_stun[order[0]] - 1);
     }
 
     //row 2
@@ -360,7 +360,7 @@ void draw_scoreboard()
     {
         al_draw_filled_circle(1350, 491, 15, graveC, 0);
         al_draw_filled_rectangle(1335, 491, 1365, 506, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 482, 0, "%d", cat_stun[order[1]]);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 482, 0, "%d", cat_stun[order[1]] - 1);
     }
 
     //row 3
@@ -382,7 +382,7 @@ void draw_scoreboard()
     {
         al_draw_filled_circle(1350, 557, 15, graveC, 0);
         al_draw_filled_rectangle(1335, 557, 1365, 572, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 548, 0, "%d", cat_stun[order[2]]);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 548, 0, "%d", cat_stun[order[2]] - 1);
     }
 
     //row 4
@@ -404,6 +404,6 @@ void draw_scoreboard()
     {
         al_draw_filled_circle(1350, 623, 15, graveC, 0);
         al_draw_filled_rectangle(1335, 623, 1365, 638, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 614, 0, "%d", cat_stun[order[3]]);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 614, 0, "%d", cat_stun[order[3]] - 1);
     }
 }

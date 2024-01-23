@@ -68,7 +68,7 @@ struct stats dog_stat[4] = {
 	[2].defense = 20,
 	[2].speed = 3,
 	[3].attack = 1,
-	[3].defense = 1,
+	[3].defense = 5,
 	[3].speed = 1
 };
 
