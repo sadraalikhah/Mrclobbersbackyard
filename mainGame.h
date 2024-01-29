@@ -293,7 +293,7 @@ void draw_scoreboard()
 
     //round
     al_draw_bitmap(short_pill, 1221, 386, 0);
-    al_draw_textf(medium_font, activeC, 1273, 427, 0, "round    %d", _round);
+    al_draw_textf(medium_font, activeC, 1273, 427, 0, "round   %2d", _round);
 
     //move
     al_draw_bitmap(short_pill, 1588, 386, 0);
