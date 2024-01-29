@@ -46,7 +46,8 @@ void sprites_init();
 void sprites_deinit();
 
 ///end_screen
-ALLEGRO_BITMAP* game_over_logo;
+ALLEGRO_BITMAP* game_over_screen;
+ALLEGRO_BITMAP* cat_big[4];
 void endscreen_init();
 void endscreen_deinit();
 
@@ -226,12 +227,24 @@ void sprites_deinit()
 
 void endscreen_init()
 {
-    game_over_logo = al_load_bitmap("GameOver.png");
-    must_init(game_over_logo, "Game Over Logo");
+    game_over_screen = al_load_bitmap("GameOver.png");
+    must_init(game_over_screen, "Game Over Screen");
+    cat_big[0] = al_load_bitmap("cat1_big.png");
+    cat_big[1] = al_load_bitmap("cat2_big.png");
+    cat_big[2] = al_load_bitmap("cat3_big.png");
+    cat_big[3] = al_load_bitmap("cat4_big.png");
+    must_init(cat_big[0], "Cat 1 Big");
+    must_init(cat_big[1], "Cat 2 Big");
+    must_init(cat_big[2], "Cat 3 Big");
+    must_init(cat_big[3], "Cat 4 Big");
 
 }
 
 void endscreen_deinit()
 {
-    al_destroy_bitmap(game_over_logo);
+    al_destroy_bitmap(game_over_screen);
+    al_destroy_bitmap(cat_big[0]);
+    al_destroy_bitmap(cat_big[1]);
+    al_destroy_bitmap(cat_big[2]);
+    al_destroy_bitmap(cat_big[3]);
 }

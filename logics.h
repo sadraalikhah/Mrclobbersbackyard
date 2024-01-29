@@ -328,6 +328,7 @@ int free_mouse(int cat)
 		{
 			mouse3[i] = mouse3Spawn[i];
 			putInBoard(&mouse3[i], mouse3Spawn[i].y, mouse3Spawn[i].x);
+			cat_points[cat % 10] -= 3;
 			return 1;
 		}
 	}	
@@ -337,6 +338,7 @@ int free_mouse(int cat)
 		{
 			mouse2[i] = mouse2Spawn[i];
 			putInBoard(&mouse2[i], mouse2Spawn[i].y, mouse2Spawn[i].x);
+			cat_points[cat % 10] -= 2;
 			return 1;
 		}
 	}
@@ -346,6 +348,7 @@ int free_mouse(int cat)
 		{
 			mouse1[i] = mouse1Spawn[i];
 			putInBoard(&mouse1[i], mouse1Spawn[i].y, mouse1Spawn[i].x);
+			cat_points[cat % 10] --;
 			return 1;
 		}
 	}
@@ -355,6 +358,37 @@ int free_mouse(int cat)
 void free_ALL_mice(int cat)
 {
 	while (free_mouse(cat));
+}
+
+void get_ALL_mice(int winner, int loser)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (mouse3[i].inBoard == -loser)
+		{
+			mouse3[i].inBoard = -winner;
+			cat_points[loser % 10] -= 3;
+			cat_points[winner % 10] += 3;
+		}
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		if (mouse2[i].inBoard == -loser)
+		{
+			mouse3[i].inBoard = -winner;
+			cat_points[loser % 10] -= 2;
+			cat_points[winner % 10] += 2;
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		if (mouse1[i].inBoard == -loser)
+		{
+			mouse3[i].inBoard = -winner;
+			cat_points[loser % 10]--;
+			cat_points[winner % 10]++;
+		}
+	}
 }
 
 void respawnFish()
@@ -388,6 +422,7 @@ void fight(int type1, int type2)
 				cat_stat[type2 % 10].attack = 1;
 				cat_stat[type2 % 10].defense = 0;
 				cat_stun[type2 % 10] = 3;
+				get_ALL_mice(type1, type2);
 				//cat1
 				cat_stat[type1 % 10].defense -= (cat_stat[type1 % 10].attack/ cat_stat[type2 % 10].attack)* cat_stat[type1 % 10].defense;
 				if (cat_stat[type1 % 10].defense < 0) cat_stat[type1 % 10].defense = 0;
@@ -398,6 +433,7 @@ void fight(int type1, int type2)
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
 				cat_stun[type1 % 10] = 3;
+				get_ALL_mice(type2, type1);
 				//cat2
 				cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
 				if (cat_stat[type2 % 10].defense < 0) cat_stat[type2 % 10].defense = 0;

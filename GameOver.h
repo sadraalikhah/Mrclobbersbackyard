@@ -27,6 +27,7 @@ bool end_game()
 	sort_cats();
 	save_file();
 
+	endscreen_init;
 		while (1)
 		{
 			draw_end_screen();
@@ -39,41 +40,22 @@ bool end_game()
 
 void draw_end_screen()
 {
-	//color pallete
-	ALLEGRO_COLOR bgc = al_map_rgb(151, 38, 38);
-	ALLEGRO_COLOR gold = al_map_rgb(255, 184, 0);
-	ALLEGRO_COLOR silver = al_map_rgb(202, 202, 202);
-	ALLEGRO_COLOR bronze = al_map_rgb(237, 118, 51);
+	///color pallete
+	ALLEGRO_COLOR PrimaryC = al_map_rgb(192, 0, 6);
 
-	al_draw_filled_rectangle(0, 0, 1600, 900, bgc);
-	al_draw_bitmap(game_over_logo, 116, -44, 0);
+	al_draw_bitmap(game_over_screen, 0, 0, 0);
+	al_draw_bitmap(cat_big[order[3]], 650, 430, 0);
+	al_draw_bitmap(cat_big[order[2]], 650, 625, 0);
+	al_draw_bitmap(cat_big[order[1]], 650, 820, 0);
+	
+	al_draw_textf(big_font, PrimaryC, 800, 450, 0, "cat %d", order[3] + 1);
+	al_draw_textf(big_font, PrimaryC, 800, 645, 0, "cat %d", order[2] + 1);
+	al_draw_textf(big_font, PrimaryC, 800, 840, 0,"cat %d", order[1] +1);
 
-	//first place
-	al_draw_filled_circle(300, 478, 58, gold);
-	al_draw_filled_rectangle(300, 420, 1240, 536, gold);
-	al_draw_filled_circle(1240, 478, 58, gold);
+	al_draw_textf(big_font, PrimaryC, 1300, 450, 0, "%2d", cat_points[order[3]]);
+	al_draw_textf(big_font, PrimaryC, 1300, 645, 0, "%2d", cat_points[order[2]]);
+	al_draw_textf(big_font, PrimaryC, 1300, 840, 0, "%2d", cat_points[order[1]]);
 
-	al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 290, 445, 70, 70, 0);
-	al_draw_textf(big_font, al_map_rgb_f(1,1,1), 1100, 455,0, "%3d points", cat_points[order[3]]);
-	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 455, 0, "cat %d", order[3]+1);
-
-	//second
-	al_draw_filled_circle(300, 628, 58, silver);
-	al_draw_filled_rectangle(300, 570, 1240, 686, silver);
-	al_draw_filled_circle(1240, 628, 58, silver);
-
-	al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 290, 595, 70, 70, 0);
-	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 1100, 605, 0, "%3d points", cat_points[order[2]]);
-	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 605, 0, "cat %d", order[2] + 1);
-
-	//third
-	al_draw_filled_circle(300, 778, 58, bronze);
-	al_draw_filled_rectangle(300, 720, 1240, 836, bronze);
-	al_draw_filled_circle(1240, 778, 58, bronze);
-
-	al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 290, 745, 70, 70, 0);
-	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 1100, 755, 0, "%3d points", cat_points[order[1]]);
-	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 755, 0, "cat %d", order[1] + 1);
 
 	al_flip_display();
  }
@@ -111,25 +93,25 @@ void save_file()
 	fprintf(resultFile, " power |");
 	fprintf(resultFile, " score |");
 	draw_line(resultFile);
-	fprintf(resultFile, "   1  |");
+	fprintf(resultFile, "  #1  |");
 	fprintf(resultFile, "  cat %d  |", order[3] + 1);
 	fprintf(resultFile, "  %3d   |", cat_stat[order[3]].defense);
 	fprintf(resultFile, " %3d   |", cat_stat[order[3]].attack);
 	fprintf(resultFile, " %3d   |", cat_points[order[3]]);
 	draw_line(resultFile);
-	fprintf(resultFile, "   2  |");
+	fprintf(resultFile, "  #2  |");
 	fprintf(resultFile, "  cat %d  |", order[2] + 1);
 	fprintf(resultFile, "  %3d   |", cat_stat[order[2]].defense);
 	fprintf(resultFile, " %3d   |", cat_stat[order[2]].attack);
 	fprintf(resultFile, " %3d   |", cat_points[order[2]]);
 	draw_line(resultFile);
-	fprintf(resultFile, "   3  |");
+	fprintf(resultFile, "  #3  |");
 	fprintf(resultFile, "  cat %d  |", order[1] + 1);
 	fprintf(resultFile, "  %3d   |", cat_stat[order[1]].defense);
 	fprintf(resultFile, " %3d   |", cat_stat[order[1]].attack);
 	fprintf(resultFile, " %3d   |", cat_points[order[1]]);
 	draw_line(resultFile);
-	fprintf(resultFile, "   3  |");
+	fprintf(resultFile, "  #4  |");
 	fprintf(resultFile, "  cat %d  |", order[0] + 1);
 	fprintf(resultFile, "  %3d   |", cat_stat[order[0]].defense);
 	fprintf(resultFile, " %3d   |", cat_stat[order[0]].attack);

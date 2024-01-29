@@ -51,7 +51,7 @@ int start()
     ALLEGRO_EVENT event;
  
     al_start_timer(timer);
-    while (1)
+    while (_round < 16)
     {
         al_wait_for_event(mainQueue, &event);
         
@@ -76,22 +76,15 @@ int start()
 
         if (redraw && al_is_event_queue_empty(mainQueue))
         {
-            if (_round < 16)
-            {
-                draw_board();
-                draw_scoreboard();
-            }
-            else
-            {
-               bool END = end_game();
-               if (END) done = true;
-            }
+
+             draw_board();
+             draw_scoreboard();
 
             al_flip_display();
-
-               redraw = false;
+            redraw = false;
         }
     }
+    end_game();
 
     //destroy the created files
     al_destroy_timer(timer);
@@ -260,7 +253,7 @@ void draw_board()
             //traps
             if (trapBoard[i][j])
                 if (trap_vis[(trapBoard[i][j]) % 10])
-                    al_draw_tinted_bitmap(_trap, al_map_rgba_f(1, 1, 1, 0.5), 60 * j + 5, 60 * i + 5, 0);
+                    al_draw_tinted_bitmap(_trap, al_map_rgba_f(1, 1, 1, 0.5), 72 * j + 12, 72 * i + 12, 0);
         }
     }
 }
@@ -404,8 +397,8 @@ void draw_scoreboard()
 
 int Pill(int cat)
 {
-    if (cat_stun[cat] > 0) return 2;
     if (order[_turn - 1] == cat && cat_stun[cat] > 0) return 3;
+    if (cat_stun[cat] > 0) return 2;
     if (order[_turn - 1] == cat) return 1;
     return 0;
 }
