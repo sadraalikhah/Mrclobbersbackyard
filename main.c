@@ -35,8 +35,8 @@ int main()
 	for (int i = 0; i < 4; i++) mouse3[i].type = 500 + i;
 	spawn(&mouse3, 4);
 	//chocolates
-	for (int i = 0; i < 6; i++) chocolate[i].type = 600 + i;
-	spawn(&chocolate, 6);
+	for (int i = 0; i < 6; i++) candy[i].type = 600 + i;
+	spawn(&candy, 6);
 	//traps
 	for (int i = 0; i < 8; i++) trap[i].type = 700 + i;
 	spawn(&trap, 8);

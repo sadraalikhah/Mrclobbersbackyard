@@ -40,7 +40,7 @@ struct obj dog[4]; // 0: bulldog ... ,3: bulldog.jr
 struct obj mouse1[10];
 struct obj mouse2[6];
 struct obj mouse3[4];
-struct obj chocolate[6];
+struct obj candy[6];
 struct obj trap[8];
 struct obj fish[10];
 

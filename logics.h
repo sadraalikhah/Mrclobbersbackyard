@@ -174,10 +174,10 @@ void checkCell(int y, int x, int type, int inBoard)
 				board[y][x][j] = 0;
 				sw[y][x]--;
 				break;
-			//chocolate
+			//candy
 			case 6:
 				cat_stat[(board[y][x][inBoard] % 10)].attack++;
-				chocolate[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard] % 10].type);
+				candy[(board[y][x][j] % 10)].inBoard = (-cat[board[y][x][inBoard] % 10].type);
 				board[y][x][j] = 0;
 				sw[y][x]--;
 				break;

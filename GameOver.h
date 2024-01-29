@@ -54,8 +54,8 @@ void draw_end_screen()
 	al_draw_filled_circle(1240, 478, 58, gold);
 
 	al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 290, 445, 70, 70, 0);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1,1,1), 1100, 455,0, "%3d points", cat_points[order[3]]);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1, 1, 1), 400, 455, 0, "cat %d", order[3]+1);
+	al_draw_textf(big_font, al_map_rgb_f(1,1,1), 1100, 455,0, "%3d points", cat_points[order[3]]);
+	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 455, 0, "cat %d", order[3]+1);
 
 	//second
 	al_draw_filled_circle(300, 628, 58, silver);
@@ -63,8 +63,8 @@ void draw_end_screen()
 	al_draw_filled_circle(1240, 628, 58, silver);
 
 	al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 290, 595, 70, 70, 0);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1, 1, 1), 1100, 605, 0, "%3d points", cat_points[order[2]]);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1, 1, 1), 400, 605, 0, "cat %d", order[2] + 1);
+	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 1100, 605, 0, "%3d points", cat_points[order[2]]);
+	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 605, 0, "cat %d", order[2] + 1);
 
 	//third
 	al_draw_filled_circle(300, 778, 58, bronze);
@@ -72,8 +72,8 @@ void draw_end_screen()
 	al_draw_filled_circle(1240, 778, 58, bronze);
 
 	al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 290, 745, 70, 70, 0);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1, 1, 1), 1100, 755, 0, "%3d points", cat_points[order[1]]);
-	al_draw_textf(end_screen_font, al_map_rgb_f(1, 1, 1), 400, 755, 0, "cat %d", order[1] + 1);
+	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 1100, 755, 0, "%3d points", cat_points[order[1]]);
+	al_draw_textf(big_font, al_map_rgb_f(1, 1, 1), 400, 755, 0, "cat %d", order[1] + 1);
 
 	al_flip_display();
  }
