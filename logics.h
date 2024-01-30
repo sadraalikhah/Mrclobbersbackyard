@@ -375,7 +375,7 @@ void get_ALL_mice(int winner, int loser)
 	{
 		if (mouse2[i].inBoard == -loser)
 		{
-			mouse3[i].inBoard = -winner;
+			mouse2[i].inBoard = -winner;
 			cat_points[loser % 10] -= 2;
 			cat_points[winner % 10] += 2;
 		}
@@ -384,7 +384,7 @@ void get_ALL_mice(int winner, int loser)
 	{
 		if (mouse1[i].inBoard == -loser)
 		{
-			mouse3[i].inBoard = -winner;
+			mouse1[i].inBoard = -winner;
 			cat_points[loser % 10]--;
 			cat_points[winner % 10]++;
 		}
