@@ -81,7 +81,7 @@ void save_file()
 	resultFile = fopen("result.txt", "w");
 	if (resultFile == NULL)
 	{
-		printf("can't open RESULT123.txt\n");
+		printf("can't open result.txt\n");
 		exit(0);
 	}
 
@@ -92,30 +92,17 @@ void save_file()
 	fprintf(resultFile, " power |");
 	fprintf(resultFile, " score |");
 	draw_line(resultFile);
-	fprintf(resultFile, "  #1  |");
-	fprintf(resultFile, "  cat %d  |", order[3] + 1);
-	fprintf(resultFile, "  %3d   |", cat_stat[order[3]].defense);
-	fprintf(resultFile, " %3d   |", cat_stat[order[3]].attack);
-	fprintf(resultFile, " %3d   |", cat_points[order[3]]);
-	draw_line(resultFile);
-	fprintf(resultFile, "  #2  |");
-	fprintf(resultFile, "  cat %d  |", order[2] + 1);
-	fprintf(resultFile, "  %3d   |", cat_stat[order[2]].defense);
-	fprintf(resultFile, " %3d   |", cat_stat[order[2]].attack);
-	fprintf(resultFile, " %3d   |", cat_points[order[2]]);
-	draw_line(resultFile);
-	fprintf(resultFile, "  #3  |");
-	fprintf(resultFile, "  cat %d  |", order[1] + 1);
-	fprintf(resultFile, "  %3d   |", cat_stat[order[1]].defense);
-	fprintf(resultFile, " %3d   |", cat_stat[order[1]].attack);
-	fprintf(resultFile, " %3d   |", cat_points[order[1]]);
-	draw_line(resultFile);
-	fprintf(resultFile, "  #4  |");
-	fprintf(resultFile, "  cat %d  |", order[0] + 1);
-	fprintf(resultFile, "  %3d   |", cat_stat[order[0]].defense);
-	fprintf(resultFile, " %3d   |", cat_stat[order[0]].attack);
-	fprintf(resultFile, " %3d   |", cat_points[order[0]]);
-	draw_line(resultFile);
+
+	for (int i = 0; i < 4; i++)
+	{
+		fprintf(resultFile, "  #%d  |", i);
+		fprintf(resultFile, "  cat %d  |", order[i] + 1);
+		fprintf(resultFile, "  %3d   |", cat_stat[order[i]].defense);
+		fprintf(resultFile, " %3d   |", cat_stat[order[i]].attack);
+		fprintf(resultFile, " %3d   |", cat_points[order[i]]);
+		draw_line(resultFile);
+	}
+
 	fclose(resultFile);
 }
 

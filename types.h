@@ -72,9 +72,8 @@ struct stats dog_stat[4] = {
 	[3].speed = 1
 };
 
-/// <summary>
+
 /// cat stats
-/// </summary>
 struct stats cat_stat[4] = {
 	[0] .attack = 2,
 	[0].defense = 5,

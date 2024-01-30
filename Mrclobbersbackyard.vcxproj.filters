@@ -47,7 +47,10 @@
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NewGame.h">
+    <ClInclude Include="LoadGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

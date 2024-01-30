@@ -6,7 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include "init.h"
-#include "NewGame.h"
+#include "LoadGame.h"
 
 
 
@@ -50,6 +50,8 @@ int start_menu()
                 switch (current_button)
                 {
                 case 0:
+                    load_game();
+                    return;
                 case 1:
                     return;
                 case 2:

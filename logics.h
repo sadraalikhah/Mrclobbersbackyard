@@ -4,7 +4,6 @@
 #include "Dice.h"
 #include "map.h"
 
-
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
 void random_move(struct obj* object);
@@ -17,7 +16,7 @@ void fight(int type1, int type2);
 
 
 ///sprites
-void sprites_update(ALLEGRO_EVENT event);
+bool sprites_update(ALLEGRO_EVENT event);
 
 void random_move(struct obj* object) {
 	int amount;
@@ -231,7 +230,7 @@ void checkCell(int y, int x, int type, int inBoard)
 }
 
 ///sprites
-void sprites_update(ALLEGRO_EVENT event)
+bool sprites_update(ALLEGRO_EVENT event)
 {
 
 	switch (event.keyboard.keycode)
@@ -262,8 +261,7 @@ void sprites_update(ALLEGRO_EVENT event)
 		_turn++;
 		break;
 	case ALLEGRO_KEY_ESCAPE:
-		_round = 16;
-		break;
+		return true;
 	}
 
 	//new round
@@ -317,6 +315,7 @@ void sprites_update(ALLEGRO_EVENT event)
 		throwDice(order, dice_val);
 
 	}
+	return false;
 }
 
 

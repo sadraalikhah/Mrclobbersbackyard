@@ -7,6 +7,8 @@
 #include "types.h"
 #include "init.h"
 #include "logics.h"
+#include "SaveGame.h"
+
 
 ///draw
 void draw_board();
@@ -33,8 +35,9 @@ void start_game()
     bool redraw = true;
     ALLEGRO_EVENT event;
 
+    save_game();
     al_start_timer(timer);
-    while (_round < 16)
+    while (_round < 16 && !done)
     {
         al_wait_for_event(mainQueue, &event);
 
@@ -47,7 +50,8 @@ void start_game()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            sprites_update(event);
+            done = sprites_update(event);
+            save_game();
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
