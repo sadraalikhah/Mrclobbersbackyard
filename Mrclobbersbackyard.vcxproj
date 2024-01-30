@@ -142,10 +142,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameOver.h" />
-    <ClInclude Include="mainGame.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="logics.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>

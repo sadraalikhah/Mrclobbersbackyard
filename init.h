@@ -1,12 +1,5 @@
 #pragma once
 
-
-
-int display_width = 1920;
-int display_height = 1080;
-
-
-
 ///display
 ALLEGRO_DISPLAY* display;
 ALLEGRO_BITMAP* game_icon;
@@ -67,8 +60,8 @@ void display_init() {
     al_init_image_addon();
     must_init(al_init_ttf_addon(), "image addon");
 
-    al_create_display(display_width, display_height);
-
+    int display_width;
+    int display_height;
 
     al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
     al_set_new_display_flags(ALLEGRO_NOFRAME);

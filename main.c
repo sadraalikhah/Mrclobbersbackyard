@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "types.h"
-#include "mainGame.h"
+#include "Graphics.h"
 #include "Dice.h"
 
 
