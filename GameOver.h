@@ -32,7 +32,7 @@ bool end_game()
 			draw_end_screen();
 			al_wait_for_event(endQueue, &event);
 			if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE || event.type == ALLEGRO_EVENT_KEY_DOWN)
-				break;
+				exit(0);
 		}
 		return true;
 }

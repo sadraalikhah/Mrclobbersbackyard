@@ -61,8 +61,7 @@ int start_menu()
             }
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            done = true;
-            break;
+            exit(0);
         }
         if (done)
             break;
@@ -118,6 +117,9 @@ int navigation (ALLEGRO_EVENT key)
     case (ALLEGRO_KEY_ENTER):
     case (ALLEGRO_KEY_SPACE):
         return 1;
+        break;
+    case (ALLEGRO_KEY_ESCAPE):
+        exit(0);
         break;
     }
     return 0;
