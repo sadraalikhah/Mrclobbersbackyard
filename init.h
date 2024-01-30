@@ -7,6 +7,12 @@ ALLEGRO_BITMAP* game_icon;
 void display_init();
 void display_deinit();
 
+///main menu
+ALLEGRO_BITMAP* main_menu_background;
+ALLEGRO_BITMAP* big_pill[2];
+void main_menu_init();
+void main_menu_deinit();
+
 ///hud
 ALLEGRO_BITMAP* HUD_BG;
 ALLEGRO_BITMAP* HUD_logo;
@@ -88,6 +94,25 @@ void display_deinit()
     al_destroy_display(display);
     al_destroy_bitmap(game_icon);
 }
+
+///main menu
+void main_menu_init()
+{
+    main_menu_background = al_load_bitmap("MainMenuBackground.png");
+    big_pill[0] = al_load_bitmap("BigPill.png");
+    big_pill[1] = al_load_bitmap("BigPillCurrent.png");
+    must_init(main_menu_background, "MainMenuBackground");
+    must_init(big_pill[0], "BigPill");
+    must_init(big_pill[1], "BigPillCurrent");
+}
+
+void main_menu_deinit()
+{
+    al_destroy_bitmap(main_menu_background);
+    al_destroy_bitmap(big_pill[0]);
+    al_destroy_bitmap(big_pill[1]);
+}
+
 
 /// hud
 void hud_init()

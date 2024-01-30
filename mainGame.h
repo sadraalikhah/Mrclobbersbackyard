@@ -15,6 +15,8 @@ int Pill(int cat);
 
 void start_game()
 {
+
+
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
     must_init(timer, "timer");
 
@@ -65,9 +67,11 @@ void start_game()
             redraw = false;
         }
     }
-
     al_destroy_timer(timer);
     al_destroy_event_queue(mainQueue);
+
+    ///Game Over
+    end_game();
 }
 
 void draw_board()

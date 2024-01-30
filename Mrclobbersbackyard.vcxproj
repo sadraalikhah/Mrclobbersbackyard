@@ -148,6 +148,7 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NewGame.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>

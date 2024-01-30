@@ -25,6 +25,7 @@ int start()
 
 
     display_init();
+    main_menu_init();
     hud_init();
     sprites_init();
     endscreen_init();
@@ -36,6 +37,7 @@ int start()
 
     //destroy the created files
     display_deinit();
+    main_menu_deinit();
     hud_deinit();
     sprites_deinit();
     endscreen_deinit();
