@@ -207,10 +207,10 @@ void draw_confirmation()
     al_draw_bitmap(confirmation, 0, 0, 0);
     for (int i = 0; i < 2; i++)
     {
-        al_draw_bitmap(big_pill[button_state_confirmation[i]], 559, 427 + (i * 185), 0);
+        al_draw_bitmap(big_pill[button_state_confirmation[i]], 559, 477 + (i * 185), 0);
     }
-    al_draw_text(big_font, text_color[button_state_confirmation[0]], 950, 467, ALLEGRO_ALIGN_CENTER, "No");
-    al_draw_text(big_font, text_color[button_state_confirmation[1]], 950, 652, ALLEGRO_ALIGN_CENTER, "Yes");
+    al_draw_text(big_font, text_color[button_state_confirmation[0]], 950, 517, ALLEGRO_ALIGN_CENTER, "No");
+    al_draw_text(big_font, text_color[button_state_confirmation[1]], 950, 702, ALLEGRO_ALIGN_CENTER, "Yes");
 }
 
 int navigation_pause(ALLEGRO_EVENT key)
