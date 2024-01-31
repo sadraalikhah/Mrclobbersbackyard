@@ -87,10 +87,10 @@ void display_init() {
     display_height = info.y2 - info.y1;
 
     if (!(display = al_create_display(display_width, display_height))) {
-        return false;
+        return;
     }
     must_init(display, "display");
-    game_icon = al_load_bitmap("GameIcon.png");
+    game_icon = al_load_bitmap("Assets/GameIcon.png");
     must_init(game_icon, "Game Icon");
 
     al_set_display_icon(display, game_icon);
@@ -105,12 +105,12 @@ void display_deinit()
 ///main menu
 void main_menu_init()
 {
-    main_menu_background = al_load_bitmap("MainMenuBackground.png");
-    big_pill[0] = al_load_bitmap("BigPill.png");
-    big_pill[1] = al_load_bitmap("BigPillCurrent.png");
-    must_init(main_menu_background, "MainMenuBackground");
-    must_init(big_pill[0], "BigPill");
-    must_init(big_pill[1], "BigPillCurrent");
+    main_menu_background = al_load_bitmap("Assets/MainMenuBackground.png");
+    big_pill[0] = al_load_bitmap("Assets/BigPill.png");
+    big_pill[1] = al_load_bitmap("Assets/BigPillCurrent.png");
+    must_init(main_menu_background, "Assets/MainMenuBackground");
+    must_init(big_pill[0], "Assets/BigPill");
+    must_init(big_pill[1], "Assets/BigPillCurrent");
 }
 
 void main_menu_deinit()
@@ -128,25 +128,25 @@ void hud_init()
 
     must_init(al_init_ttf_addon(), "ttf addon");
 
-    HUD_BG = al_load_bitmap("ScoreBoard.png");
-    HUD_logo = al_load_bitmap("ProjectLogo.png");
-    short_pill = al_load_bitmap("shortPill.png");
-    pill[0] = al_load_bitmap("pill.png");
-    pill[1] = al_load_bitmap("pill_cur.png");
-    pill[2] = al_load_bitmap("pill_frozen.png");
-    pill[3] = al_load_bitmap("pill_frozen_cur.png");
-    dice_bitmap[0] = al_load_bitmap("dice1.png");
-    dice_bitmap[1] = al_load_bitmap("dice2.png");
-    dice_bitmap[2] = al_load_bitmap("dice3.png");
-    dice_bitmap[3] = al_load_bitmap("dice4.png");
-    dice_bitmap[4] = al_load_bitmap("dice5.png");
-    dice_bitmap[5] = al_load_bitmap("dice6.png");
-    shield = al_load_bitmap("shield.png");
-    sword = al_load_bitmap("sword.png");
-    ice = al_load_bitmap("ice.png");
-    small_font = al_load_ttf_font("Inter-Bold.ttf", 30, 0);
-    medium_font = al_load_ttf_font("Inter-Bold.ttf", 36, 0);
-    big_font = al_load_ttf_font("Inter-Bold.ttf", 60, 0);
+    HUD_BG = al_load_bitmap("Assets/ScoreBoard.png");
+    HUD_logo = al_load_bitmap("Assets/ProjectLogo.png");
+    short_pill = al_load_bitmap("Assets/shortPill.png");
+    pill[0] = al_load_bitmap("Assets/pill.png");
+    pill[1] = al_load_bitmap("Assets/pill_cur.png");
+    pill[2] = al_load_bitmap("Assets/pill_frozen.png");
+    pill[3] = al_load_bitmap("Assets/pill_frozen_cur.png");
+    dice_bitmap[0] = al_load_bitmap("Assets/dice1.png");
+    dice_bitmap[1] = al_load_bitmap("Assets/dice2.png");
+    dice_bitmap[2] = al_load_bitmap("Assets/dice3.png");
+    dice_bitmap[3] = al_load_bitmap("Assets/dice4.png");
+    dice_bitmap[4] = al_load_bitmap("Assets/dice5.png");
+    dice_bitmap[5] = al_load_bitmap("Assets/dice6.png");
+    shield = al_load_bitmap("Assets/shield.png");
+    sword = al_load_bitmap("Assets/sword.png");
+    ice = al_load_bitmap("Assets/ice.png");
+    small_font = al_load_ttf_font("Assets/Inter-Bold.ttf", 30, 0);
+    medium_font = al_load_ttf_font("Assets/Inter-Bold.ttf", 36, 0);
+    big_font = al_load_ttf_font("Assets/Inter-Bold.ttf", 60, 0);
 
 
     must_init(HUD_logo, "HUD_BG");
@@ -192,40 +192,40 @@ void hud_deinit()
 void sprites_init()
 {
     //house and cat_stat init
-    house = al_load_bitmap("house.png");
+    house = al_load_bitmap("Assets/house.png");
     must_init(house, "house");
-    cat_bitmap[0] = al_load_bitmap("cat1.png");
+    cat_bitmap[0] = al_load_bitmap("Assets/cat1.png");
     must_init(cat_bitmap[0], "cat1");
-    cat_bitmap[1] = al_load_bitmap("cat2.png");
+    cat_bitmap[1] = al_load_bitmap("Assets/cat2.png");
     must_init(cat_bitmap[1], "cat2");
-    cat_bitmap[2] = al_load_bitmap("cat3.png");
+    cat_bitmap[2] = al_load_bitmap("Assets/cat3.png");
     must_init(cat_bitmap[2], "cat3");
-    cat_bitmap[3] = al_load_bitmap("cat4.png");
+    cat_bitmap[3] = al_load_bitmap("Assets/cat4.png");
     must_init(cat_bitmap[3], "cat4");
     //dogs init
-    bulldog = al_load_bitmap("bulldog.png");
+    bulldog = al_load_bitmap("Assets/bulldog.png");
     must_init(bulldog, "bulldog");
-    pitbull = al_load_bitmap("pitbull.png");
+    pitbull = al_load_bitmap("Assets/pitbull.png");
     must_init(pitbull, "pitbull");
-    shepherd = al_load_bitmap("shepherd.png");
+    shepherd = al_load_bitmap("Assets/shepherd.png");
     must_init(shepherd, "shepherd");
-    bulldog_jr = al_load_bitmap("bulldog_jr.png");
+    bulldog_jr = al_load_bitmap("Assets/bulldog_jr.png");
     must_init(bulldog_jr, "bulldog_jr");
     //mice init
-    mouse_1 = al_load_bitmap("mouse1.png");
+    mouse_1 = al_load_bitmap("Assets/mouse1.png");
     must_init(mouse_1, "mouse1");
-    mouse_2 = al_load_bitmap("mouse2.png");
+    mouse_2 = al_load_bitmap("Assets/mouse2.png");
     must_init(mouse_2, "mouse2");
-    mouse_3 = al_load_bitmap("mouse3.png");
+    mouse_3 = al_load_bitmap("Assets/mouse3.png");
     must_init(mouse_3, "mouse3");
     //traps init
-    _trap = al_load_bitmap("trap.png");
+    _trap = al_load_bitmap("Assets/trap.png");
     must_init(_trap, "trap");
     //chocolates init
-    _candy = al_load_bitmap("candy.png");
+    _candy = al_load_bitmap("Assets/candy.png");
     must_init(_candy, "candy");
     //fish init
-    _fish = al_load_bitmap("fish.png");
+    _fish = al_load_bitmap("Assets/fish.png");
     must_init(_fish, "fish");
 }
 
@@ -252,9 +252,9 @@ void sprites_deinit()
 
 void pause_init()
 {
-    pause_background = al_load_bitmap("PauseScreen.png");
-    confirmation = al_load_bitmap("AreYouSure.png");
-    guide = al_load_bitmap("GuideScreen.png");
+    pause_background = al_load_bitmap("Assets/PauseScreen.png");
+    confirmation = al_load_bitmap("Assets/AreYouSure.png");
+    guide = al_load_bitmap("Assets/GuideScreen.png");
 
     must_init(pause_background, "PauseScreen");
     must_init(guide, "AreYouSure");
@@ -270,12 +270,12 @@ void pause_deinit()
 
 void endscreen_init()
 {
-    game_over_screen = al_load_bitmap("GameOver.png");
+    game_over_screen = al_load_bitmap("Assets/GameOver.png");
     must_init(game_over_screen, "Game Over Screen");
-    cat_big[0] = al_load_bitmap("cat1_big.png");
-    cat_big[1] = al_load_bitmap("cat2_big.png");
-    cat_big[2] = al_load_bitmap("cat3_big.png");
-    cat_big[3] = al_load_bitmap("cat4_big.png");
+    cat_big[0] = al_load_bitmap("Assets/cat1_big.png");
+    cat_big[1] = al_load_bitmap("Assets/cat2_big.png");
+    cat_big[2] = al_load_bitmap("Assets/cat3_big.png");
+    cat_big[3] = al_load_bitmap("Assets/cat4_big.png");
     must_init(cat_big[0], "Cat 1 Big");
     must_init(cat_big[1], "Cat 2 Big");
     must_init(cat_big[2], "Cat 3 Big");

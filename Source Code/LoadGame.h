@@ -7,7 +7,7 @@
 void load_game()
 {
 	FILE* save_state;
-	save_state = fopen("SaveState.dat", "r");
+	save_state = fopen("Assets/SaveState.dat", "r");
 	if (save_state == NULL)
 	{
 		printf("can't open SaveState.dat\n");
