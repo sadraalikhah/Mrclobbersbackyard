@@ -36,7 +36,7 @@ int trap_vis[8] = { 0 };
 
 //positions
 struct obj cat[4];
-struct obj dog[4]; // 0: bulldog ... ,3: bulldog.jr
+struct obj dog[4]; // 0: bulldog,1: pitbull, 2: shepherd,3: bulldog.jr
 struct obj mouse1[10];
 struct obj mouse2[6];
 struct obj mouse3[4];

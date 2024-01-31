@@ -44,6 +44,13 @@ ALLEGRO_BITMAP* _fish;
 void sprites_init();
 void sprites_deinit();
 
+///Pause Menu
+ALLEGRO_BITMAP* pause_background;
+ALLEGRO_BITMAP* guide;
+ALLEGRO_BITMAP* confirmation;
+void pause_init();
+void pause_deinit();
+
 ///end_screen
 ALLEGRO_BITMAP* game_over_screen;
 ALLEGRO_BITMAP* cat_big[4];
@@ -241,6 +248,24 @@ void sprites_deinit()
     al_destroy_bitmap(_fish);
     al_destroy_bitmap(_candy);
 
+}
+
+void pause_init()
+{
+    pause_background = al_load_bitmap("PauseScreen.png");
+    confirmation = al_load_bitmap("AreYouSure.png");
+    guide = al_load_bitmap("GuideScreen.png");
+
+    must_init(pause_background, "PauseScreen");
+    must_init(guide, "AreYouSure");
+    must_init(confirmation, "GuideScreen");
+}
+
+void pause_deinit()
+{
+    al_destroy_bitmap(pause_background);
+    al_destroy_bitmap(guide);
+    al_destroy_bitmap(confirmation);
 }
 
 void endscreen_init()

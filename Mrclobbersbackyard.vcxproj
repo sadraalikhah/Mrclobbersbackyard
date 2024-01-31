@@ -149,6 +149,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="LoadGame.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="SaveGame.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>

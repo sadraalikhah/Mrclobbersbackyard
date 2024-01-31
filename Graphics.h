@@ -28,6 +28,7 @@ int start()
     main_menu_init();
     hud_init();
     sprites_init();
+    pause_init();
     endscreen_init();
 
     start_menu();
@@ -40,6 +41,7 @@ int start()
     main_menu_deinit();
     hud_deinit();
     sprites_deinit();
+    pause_deinit();
     endscreen_deinit();
 
 

@@ -50,7 +50,9 @@ void start_game()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
-            done = sprites_update(event);
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                pause_game(mainQueue, timer);
+            sprites_update(event);
             save_game();
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Dice.h"
 #include "map.h"
+#include "Pause.h"
 
 int isLegal(int y, int x, char move);
 void move(struct obj *object, char move);
@@ -16,7 +17,7 @@ void fight(int type1, int type2);
 
 
 ///sprites
-bool sprites_update(ALLEGRO_EVENT event);
+void sprites_update(ALLEGRO_EVENT event);
 
 void random_move(struct obj* object) {
 	int amount;
@@ -230,9 +231,9 @@ void checkCell(int y, int x, int type, int inBoard)
 }
 
 ///sprites
-bool sprites_update(ALLEGRO_EVENT event)
+void sprites_update(ALLEGRO_EVENT event)
 {
-
+	///keyboard input call
 	switch (event.keyboard.keycode)
 	{
 	case ALLEGRO_KEY_UP:
@@ -260,11 +261,9 @@ bool sprites_update(ALLEGRO_EVENT event)
 		_move = 1;
 		_turn++;
 		break;
-	case ALLEGRO_KEY_ESCAPE:
-		return true;
 	}
 
-	//new round
+	///new round
 	if (_turn > 4)
 	{
 		_turn = 1;
@@ -315,7 +314,6 @@ bool sprites_update(ALLEGRO_EVENT event)
 		throwDice(order, dice_val);
 
 	}
-	return false;
 }
 
 
