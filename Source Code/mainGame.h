@@ -35,6 +35,8 @@ void start_game()
     bool redraw = true;
     ALLEGRO_EVENT event;
 
+
+    ///audio 
     save_game();
     al_start_timer(timer);
     while (_round < 16 && !done)

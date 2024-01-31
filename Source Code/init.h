@@ -7,6 +7,11 @@ ALLEGRO_BITMAP* game_icon;
 void display_init();
 void display_deinit();
 
+///audio
+ALLEGRO_SAMPLE* Game_Score;
+void score_init();
+void score_deinit();
+
 ///main menu
 ALLEGRO_BITMAP* main_menu_background;
 ALLEGRO_BITMAP* big_pill[2];
@@ -100,6 +105,18 @@ void display_deinit()
 {
     al_destroy_display(display);
     al_destroy_bitmap(game_icon);
+}
+
+
+///audio
+void score_init()
+{
+    Game_Score = al_load_sample("Assets/Game_Music.wav");
+    must_init(Game_Score, "Game Score");
+}
+void score_deinit()
+{
+    al_destroy_sample(Game_Score);
 }
 
 ///main menu
