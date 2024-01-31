@@ -7,21 +7,17 @@
 #include "types.h"
 #include "init.h"
 #include "logics.h"
-#include "GameOver.h"
+#include "SaveGame.h"
 
 
 ///draw
 void draw_board();
 void draw_scoreboard();
+int Pill(int cat);
 
-///keyboard
-
-
-int start()
+void start_game()
 {
-    must_init(al_init(), "allegro");
-    must_init(al_install_keyboard(), "keyboard");
-    must_init(al_init_primitives_addon(), "primitives");
+
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
     must_init(timer, "timer");
@@ -29,16 +25,7 @@ int start()
     ALLEGRO_EVENT_QUEUE* mainQueue = al_create_event_queue();
     must_init(mainQueue, "mainQueue");
 
-    al_init_ttf_addon();
-    al_init_image_addon();
 
-    must_init(al_init_ttf_addon(), "ttf addon");
-    must_init(al_init_ttf_addon(), "image addon");
-
-    display_init();
-    hud_init();
-    sprites_init();
-    endscreen_init();
 
     al_register_event_source(mainQueue, al_get_keyboard_event_source());
     al_register_event_source(mainQueue, al_get_display_event_source(display));
@@ -47,12 +34,13 @@ int start()
     bool done = false;
     bool redraw = true;
     ALLEGRO_EVENT event;
- 
+
+    save_game();
     al_start_timer(timer);
-    while (1)
+    while (_round < 16 && !done)
     {
         al_wait_for_event(mainQueue, &event);
-        
+
         //logic definitions
         switch (event.type)
         {
@@ -62,7 +50,10 @@ int start()
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                pause_game(mainQueue, timer);
             sprites_update(event);
+            save_game();
             break;
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             done = true;
@@ -74,33 +65,19 @@ int start()
 
         if (redraw && al_is_event_queue_empty(mainQueue))
         {
-            if (_round < 16)
-            {
-                draw_board();
-                draw_scoreboard();
-            }
-            else
-            {
-               bool END = end_game();
-               if (END) done = true;
-            }
+
+            draw_board();
+            draw_scoreboard();
 
             al_flip_display();
-
-               redraw = false;
+            redraw = false;
         }
     }
-
-    //destroy the created files
     al_destroy_timer(timer);
     al_destroy_event_queue(mainQueue);
-    hud_deinit();
-    display_deinit();
-    sprites_deinit();
-    endscreen_deinit();
 
-
-    return 0;
+    ///Game Over
+    end_game();
 }
 
 void draw_board()
@@ -111,8 +88,8 @@ void draw_board()
     // grid
     for (int i = 1; i < 15; i++)
     {
-        al_draw_line(0, 60 * i, 900, 60 * i, al_map_rgb_f(0, 0, 0), 2);
-        al_draw_line(60 * i, 0, 60 * i, 900, al_map_rgb_f(0, 0, 0), 2);
+        al_draw_line(0, 72 * i, 1080, 72 * i, al_map_rgb_f(0, 0, 0), 2);
+        al_draw_line(72 * i, 0, 72 * i, 1080, al_map_rgb_f(0, 0, 0), 2);
     }
     // walls
     for (int i = 0; i < 15; i++)
@@ -123,11 +100,11 @@ void draw_board()
             switch (wall[i][j])
             {
             case 'L':
-                al_draw_line(60 * j, 60 * i, 60 * j, 60 * i + 60, al_map_rgb(107, 38, 22), 8);
+                al_draw_line(72 * j, 72 * i, 72 * j, 72 * i + 72, al_map_rgb(107, 38, 22), 8);
 
                 break;
             case 'U':
-                al_draw_line(60 * j, 60 * i, 60 * j + 60, 60 * i, al_map_rgb(107, 38, 22), 8);
+                al_draw_line(72 * j, 72 * i, 72 * j + 72, 72 * i, al_map_rgb(107, 38, 22), 8);
 
 
                 break;
@@ -135,7 +112,7 @@ void draw_board()
         }
     }
     //starting house
-    al_draw_bitmap(house, 60 * 7 + 5, 60 * 7 + 5, 0);
+    al_draw_bitmap(house, 72 * 7 + 5, 72 * 7 + 5, 0);
 
     for (int i = 0; i < 15; i++)
     {
@@ -152,16 +129,16 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_bitmap(cat_bitmap[0], 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[0], 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 1:
-                            al_draw_bitmap(cat_bitmap[1], 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[1], 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 2:
-                            al_draw_bitmap(cat_bitmap[2], 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[2], 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 3:
-                            al_draw_bitmap(cat_bitmap[3], 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(cat_bitmap[3], 72 * j + 6, 72 * i + 6, 0);
                             break;
                         }
                         break;
@@ -169,33 +146,33 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_bitmap(bulldog, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(bulldog, 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 1:
-                            al_draw_bitmap(pitbull, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(pitbull, 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 2:
-                            al_draw_bitmap(shepherd, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(shepherd, 72 * j + 6, 72 * i + 6, 0);
                             break;
                         case 3:
-                            al_draw_bitmap(bulldog_jr, 60 * j + 5, 60 * i + 5, 0);
+                            al_draw_bitmap(bulldog_jr, 72 * j + 6, 72 * i + 6, 0);
                             break;
                         }
                         break;
                     case 3:
-                        al_draw_bitmap(mouse_1, 60 * j + 5, 60 * i + 5, 0);
+                        al_draw_bitmap(mouse_1, 72 * j + 6, 72 * i + 6, 0);
                         break;
                     case 4:
-                        al_draw_bitmap(mouse_2, 60 * j + 5, 60 * i + 5, 0);
+                        al_draw_bitmap(mouse_2, 72 * j + 6, 72 * i + 6, 0);
                         break;
                     case 5:
-                        al_draw_bitmap(mouse_3, 60 * j + 5, 60 * i + 5, 0);
+                        al_draw_bitmap(mouse_3, 72 * j + 6, 72 * i + 6, 0);
                         break;
                     case 6:
-                        al_draw_bitmap(_choco, 60 * j + 5, 60 * i + 5, 0);
+                        al_draw_bitmap(_candy, 72 * j + 6, 72 * i + 6, 0);
                         break;
                     case 8:
-                        al_draw_bitmap(_fish, 60 * j + 5, 60 * i + 5, 0);
+                        al_draw_bitmap(_fish, 72 * j + 6, 72 * i + 6, 0);
                         break;
                     }
                 }
@@ -207,16 +184,16 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_scaled_bitmap(cat_bitmap[0], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[0], 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 1:
-                            al_draw_scaled_bitmap(cat_bitmap[1], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[1], 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 2:
-                            al_draw_scaled_bitmap(cat_bitmap[2], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[2], 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 3:
-                            al_draw_scaled_bitmap(cat_bitmap[3], 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(cat_bitmap[3], 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         }
                         break;
@@ -224,33 +201,33 @@ void draw_board()
                         switch (board[i][j][k] % 10)
                         {
                         case 0:
-                            al_draw_scaled_bitmap(bulldog, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(bulldog, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 1:
-                            al_draw_scaled_bitmap(pitbull, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(pitbull, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 2:
-                            al_draw_scaled_bitmap(shepherd, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(shepherd, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         case 3:
-                            al_draw_scaled_bitmap(bulldog_jr, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                            al_draw_scaled_bitmap(bulldog_jr, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                             break;
                         }
                         break;
                     case 3:
-                        al_draw_scaled_bitmap(mouse_1, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                        al_draw_scaled_bitmap(mouse_1, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                         break;
                     case 4:
-                        al_draw_scaled_bitmap(mouse_2, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                        al_draw_scaled_bitmap(mouse_2, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                         break;
                     case 5:
-                        al_draw_scaled_bitmap(mouse_3, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                        al_draw_scaled_bitmap(mouse_3, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                         break;
                     case 6:
-                        al_draw_scaled_bitmap(_choco, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                        al_draw_scaled_bitmap(_candy, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                         break;
                     case 8:
-                        al_draw_scaled_bitmap(_fish, 0, 0, 50, 50, 60 * j + (k % 2) * 27 + 3, 60 * i + (k / 2) * 27 + 3, 25, 25, 0);
+                        al_draw_scaled_bitmap(_fish, 0, 0, 60, 60, 72 * j + (k % 2) * 30 + 4, 72 * i + (k / 2) * 30 + 4, 34, 34, 0);
                         break;
                     }
                 }
@@ -258,7 +235,7 @@ void draw_board()
             //traps
             if (trapBoard[i][j])
                 if (trap_vis[(trapBoard[i][j]) % 10])
-                    al_draw_tinted_bitmap(_trap, al_map_rgba_f(1, 1, 1, 0.5), 60 * j + 5, 60 * i + 5, 0);
+                    al_draw_tinted_bitmap(_trap, al_map_rgba_f(1, 1, 1, 0.5), 72 * j + 12, 72 * i + 12, 0);
         }
     }
 }
@@ -270,20 +247,17 @@ void draw_scoreboard()
 {
 
     ///color pallete
-    ALLEGRO_COLOR activeC = al_map_rgb(255, 226, 152);
-    ALLEGRO_COLOR inactiveC = al_map_rgb(204, 204, 204);
-    ALLEGRO_COLOR currentC = al_map_rgb(255, 184, 0);
-    ALLEGRO_COLOR currentInactiveC = al_map_rgb(255, 133, 133);
-    ALLEGRO_COLOR scoreboardC = al_map_rgb(220, 0, 0);
-    ALLEGRO_COLOR graveC = al_map_rgb(136, 136, 136);
+    ALLEGRO_COLOR activeC = al_map_rgb(192, 0, 6);
+    ALLEGRO_COLOR inactiveC = al_map_rgb(0, 87, 184);
+    ALLEGRO_COLOR currentC = al_map_rgb(255, 72, 204);
 
 
     //*STATS BOARD*//
-    al_draw_filled_rectangle(900, 0, 1600, 900, scoreboardC);
+    al_draw_bitmap(HUD_BG, 1080, 0, 0);
 
 
     ///logo
-    al_draw_bitmap(HUD_logo, 900, 20, 0);
+    al_draw_bitmap(HUD_logo, 1137, 73, 0);
 
 
 
@@ -296,114 +270,117 @@ void draw_scoreboard()
             cat_color[i] = activeC;
             if (order[_turn - 1] == i) cat_color[i] = currentC;
         }
-        else
-        {
-            cat_color[i] = inactiveC;
-            if (order[_turn - 1] == i) cat_color[i] = currentInactiveC;
-        }
+        else cat_color[i] = inactiveC;
     }
 
     //round
-    al_draw_filled_circle(1000, 325, 25, activeC, 0);
-    al_draw_filled_rectangle(1000, 300, 1100, 350, activeC, 0);
-    al_draw_filled_circle(1100, 325, 25, activeC, 0);
-    al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1000, 312, 0, "round      %d", _round);
+    al_draw_bitmap(short_pill, 1221, 386, 0);
+    al_draw_textf(medium_font, activeC, 1273, 427, 0, "round   %2d", _round);
 
     //move
-    al_draw_filled_circle(1300, 325, 25, activeC, 0);
-    al_draw_filled_rectangle(1300, 300, 1400, 350, activeC, 0);
-    al_draw_filled_circle(1400, 325, 25, activeC, 0);
-    al_draw_textf(big_font, al_map_rgb(0, 0, 0), 1300, 312, 0, "move      %d", _move);
+    al_draw_bitmap(short_pill, 1588, 386, 0);
+    al_draw_textf(medium_font, activeC, 1646, 427, 0, "move    %d", _move);
 
     //description
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 980, 370, 0, "cat %d's move", order[_turn -1] + 1);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1250, 516, 0, "cat %d's move", order[_turn - 1] + 1);
 
 
     //row 1
-    al_draw_filled_circle(1000, 425, 25, cat_color[order[0]], 0);
-    al_draw_filled_rectangle(1000, 400, 1400, 450, cat_color[order[0]], 0);
-    al_draw_filled_circle(1400, 425, 25, cat_color[order[0]], 0);
-    al_draw_filled_circle(1400, 425, 19, scoreboardC, 0);
+    al_draw_bitmap(pill[Pill(order[0])], 1214, 540, 0);
+    al_draw_filled_circle(1782, 608, 36, cat_color[order[0]]);
 
-    al_draw_scaled_bitmap(cat_bitmap[order[0]], 0, 0, 50, 50, 990, 410, 30, 30, 0);
-    al_draw_bitmap(dice_bitmap[dice_val[0]-1], 925, 410, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[0]], 0, 0, 60, 60, 1250, 574, 64, 64, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[0] - 1], 1125, 572, 0);
+    al_draw_bitmap(shield, 1475, 587, 0);
+    al_draw_bitmap(sword, 1565, 587, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 416, 0, "cat %d", order[0]+1);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 416, 0, "Energy: %d", cat_stat[order[0]].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 416, 0, "Power: %d", cat_stat[order[0]].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 416, 0, "%2d", cat_points[order[0]]);
 
-        //if stunned
+
+    al_draw_textf(small_font, cat_color[order[0]], 1351, 589, 0, "cat %d", order[0] + 1);
+    al_draw_textf(small_font, cat_color[order[0]], 1518, 589, 0, "%2d", cat_stat[order[0]].defense);
+    al_draw_textf(small_font, cat_color[order[0]], 1611, 589, 0, "%2d", cat_stat[order[0]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1764, 589, 0, "%2d", cat_points[order[0]]);
+
+    //if stunned
     if (cat_stun[order[0]] > 0)
     {
-        al_draw_filled_circle(1350, 425, 15, graveC, 0);
-        al_draw_filled_rectangle(1335, 425, 1365, 440, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 416, 0, "%d", cat_stun[order[0]] - 1);
+        al_draw_bitmap(ice, 1667, 576, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 589, 0, "%d", cat_stun[order[0]] - 1);
     }
 
     //row 2
-    al_draw_filled_circle(1000, 491, 25, cat_color[order[1]], 0);
-    al_draw_filled_rectangle(1000, 466, 1400, 516, cat_color[order[1]], 0);
-    al_draw_filled_circle(1400, 491, 25, cat_color[order[1]], 0);
-    al_draw_filled_circle(1400, 491, 19, scoreboardC, 0);
+    al_draw_bitmap(pill[Pill(order[1])], 1214, 660, 0);
+    al_draw_filled_circle(1782, 728, 36, cat_color[order[1]]);
 
-    al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 50, 50, 990, 476, 30, 30, 0);
-    al_draw_bitmap(dice_bitmap[dice_val[1] - 1], 925, 476, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[1]], 0, 0, 60, 60, 1250, 694, 64, 64, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[1] - 1], 1125, 692, 0);
+    al_draw_bitmap(shield, 1475, 707, 0);
+    al_draw_bitmap(sword, 1565, 707, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 482, 0, "cat %d", order[1]+1);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 482, 0, "Energy: %d", cat_stat[order[1]].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 482, 0, "Power: %d", cat_stat[order[1]].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 482, 0, "%2d", cat_points[order[1]]);
+
+
+    al_draw_textf(small_font, cat_color[order[1]], 1351, 709, 0, "cat %d", order[1] + 1);
+    al_draw_textf(small_font, cat_color[order[1]], 1518, 709, 0, "%2d", cat_stat[order[1]].defense);
+    al_draw_textf(small_font, cat_color[order[1]], 1611, 709, 0, "%2d", cat_stat[order[1]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1764, 709, 0, "%2d", cat_points[order[1]]);
 
     //if stunned
     if (cat_stun[order[1]] > 0)
     {
-        al_draw_filled_circle(1350, 491, 15, graveC, 0);
-        al_draw_filled_rectangle(1335, 491, 1365, 506, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 482, 0, "%d", cat_stun[order[1]] - 1);
+        al_draw_bitmap(ice, 1667, 696, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 709, 0, "%d", cat_stun[order[1]] - 1);
     }
 
     //row 3
-    al_draw_filled_circle(1000, 557, 25, cat_color[order[2]], 0);
-    al_draw_filled_rectangle(1000, 532, 1400, 582, cat_color[order[2]], 0);
-    al_draw_filled_circle(1400, 557, 25, cat_color[order[2]], 0);
-    al_draw_filled_circle(1400, 557, 19, scoreboardC, 0);
+    al_draw_bitmap(pill[Pill(order[2])], 1214, 780, 0);
+    al_draw_filled_circle(1782, 848, 36, cat_color[order[2]]);
 
-    al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 50, 50, 990, 542, 30, 30, 0);
-    al_draw_bitmap(dice_bitmap[dice_val[2] - 1], 925, 542, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[2]], 0, 0, 60, 60, 1250, 814, 64, 64, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[2] - 1], 1125, 812, 0);
+    al_draw_bitmap(shield, 1475, 827, 0);
+    al_draw_bitmap(sword, 1565, 827, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 548, 0, "cat %d", order[2]+1);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 548, 0, "Energy: %d", cat_stat[order[2]].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 548, 0, "Power: %d", cat_stat[order[2]].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 548, 0, "%2d", cat_points[order[2]]);
+
+
+    al_draw_textf(small_font, cat_color[order[2]], 1351, 829, 0, "cat %d", order[2] + 1);
+    al_draw_textf(small_font, cat_color[order[2]], 1518, 829, 0, "%2d", cat_stat[order[2]].defense);
+    al_draw_textf(small_font, cat_color[order[2]], 1611, 829, 0, "%2d", cat_stat[order[2]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1764, 829, 0, "%2d", cat_points[order[2]]);
 
     //if stunned
     if (cat_stun[order[2]] > 0)
     {
-        al_draw_filled_circle(1350, 557, 15, graveC, 0);
-        al_draw_filled_rectangle(1335, 557, 1365, 572, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 548, 0, "%d", cat_stun[order[2]] - 1);
+        al_draw_bitmap(ice, 1667, 816, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 829, 0, "%d", cat_stun[order[2]] - 1);
     }
-
     //row 4
-    al_draw_filled_circle(1000, 623, 25, cat_color[order[3]], 0);
-    al_draw_filled_rectangle(1000, 598, 1400, 648, cat_color[order[3]], 0);
-    al_draw_filled_circle(1400, 623, 25, cat_color[order[3]], 0);
-    al_draw_filled_circle(1400, 623, 19, scoreboardC, 0);
+    al_draw_bitmap(pill[Pill(order[3])], 1214, 900, 0);
+    al_draw_filled_circle(1782, 968, 36, cat_color[order[3]]);
 
-    al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 50, 50, 990, 608, 30, 30, 0);
-    al_draw_bitmap(dice_bitmap[dice_val[3] - 1], 925, 608, 0);
+    al_draw_scaled_bitmap(cat_bitmap[order[3]], 0, 0, 60, 60, 1250, 934, 64, 64, 0);
+    al_draw_bitmap(dice_bitmap[dice_val[3] - 1], 1125, 932, 0);
+    al_draw_bitmap(shield, 1475, 947, 0);
+    al_draw_bitmap(sword, 1565, 947, 0);
 
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1050, 614, 0, "cat %d", order[3]+1);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1150, 614, 0, "Energy: %d", cat_stat[order[3]].defense);
-    al_draw_textf(small_font, al_map_rgb(0, 0, 0), 1250, 614, 0, "Power: %d", cat_stat[order[3]].attack);
-    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1391, 614, 0, "%2d", cat_points[order[3]]);
+
+
+    al_draw_textf(small_font, cat_color[order[3]], 1351, 949, 0, "cat %d", order[3] + 1);
+    al_draw_textf(small_font, cat_color[order[3]], 1518, 949, 0, "%2d", cat_stat[order[3]].defense);
+    al_draw_textf(small_font, cat_color[order[3]], 1611, 949, 0, "%2d", cat_stat[order[3]].attack);
+    al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1764, 949, 0, "%2d", cat_points[order[3]]);
 
     //if stunned
     if (cat_stun[order[3]] > 0)
     {
-        al_draw_filled_circle(1350, 623, 15, graveC, 0);
-        al_draw_filled_rectangle(1335, 623, 1365, 638, graveC, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1345, 614, 0, "%d", cat_stun[order[3]] - 1);
+        al_draw_bitmap(ice, 1667, 936, 0);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 949, 0, "%d", cat_stun[order[3]] - 1);
     }
+}
+
+int Pill(int cat)
+{
+    if (order[_turn - 1] == cat && cat_stun[cat] > 0) return 3;
+    if (cat_stun[cat] > 0) return 2;
+    if (order[_turn - 1] == cat) return 1;
+    return 0;
 }

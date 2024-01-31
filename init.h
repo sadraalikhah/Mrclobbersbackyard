@@ -1,10 +1,5 @@
 #pragma once
 
-
-#define SCREEN_WIDTH_DEF 1500
-#define SCREEN_HEIGHT_DEF 900
-
-
 ///display
 ALLEGRO_DISPLAY* display;
 ALLEGRO_BITMAP* game_icon;
@@ -12,10 +7,23 @@ ALLEGRO_BITMAP* game_icon;
 void display_init();
 void display_deinit();
 
+///main menu
+ALLEGRO_BITMAP* main_menu_background;
+ALLEGRO_BITMAP* big_pill[2];
+void main_menu_init();
+void main_menu_deinit();
+
 ///hud
+ALLEGRO_BITMAP* HUD_BG;
 ALLEGRO_BITMAP* HUD_logo;
+ALLEGRO_BITMAP* short_pill;
+ALLEGRO_BITMAP* pill[4]; //0:active, 1:active_cur, 2:freeze, 3:freeze_cur
 ALLEGRO_BITMAP* dice_bitmap[6];
+ALLEGRO_BITMAP* shield;
+ALLEGRO_BITMAP* sword;
+ALLEGRO_BITMAP* ice;
 ALLEGRO_FONT* small_font;
+ALLEGRO_FONT* medium_font;
 ALLEGRO_FONT* big_font;
 void hud_init();
 void hud_deinit();
@@ -31,14 +39,21 @@ ALLEGRO_BITMAP* mouse_1;
 ALLEGRO_BITMAP* mouse_2;
 ALLEGRO_BITMAP* mouse_3;
 ALLEGRO_BITMAP* _trap;
-ALLEGRO_BITMAP* _choco;
+ALLEGRO_BITMAP* _candy;
 ALLEGRO_BITMAP* _fish;
 void sprites_init();
 void sprites_deinit();
 
+///Pause Menu
+ALLEGRO_BITMAP* pause_background;
+ALLEGRO_BITMAP* guide;
+ALLEGRO_BITMAP* confirmation;
+void pause_init();
+void pause_deinit();
+
 ///end_screen
-ALLEGRO_FONT* end_screen_font;
-ALLEGRO_BITMAP* game_over_logo;
+ALLEGRO_BITMAP* game_over_screen;
+ALLEGRO_BITMAP* cat_big[4];
 void endscreen_init();
 void endscreen_deinit();
 
@@ -56,9 +71,24 @@ void must_init(bool test, const char* description)
 /// </summary>
 void display_init() {
     al_init_image_addon();
+    must_init(al_init_ttf_addon(), "image addon");
 
+    int display_width;
+    int display_height;
 
-    display = al_create_display(SCREEN_WIDTH_DEF, SCREEN_HEIGHT_DEF);
+    al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
+    al_set_new_display_flags(ALLEGRO_NOFRAME);
+    ALLEGRO_MONITOR_INFO info;
+    int i = 0;
+    do {
+        al_get_monitor_info(i++, &info);
+    } while (!(info.x1 == 0 && info.y1 == 0));
+    display_width = info.x2 - info.x1;
+    display_height = info.y2 - info.y1;
+
+    if (!(display = al_create_display(display_width, display_height))) {
+        return false;
+    }
     must_init(display, "display");
     game_icon = al_load_bitmap("GameIcon.png");
     must_init(game_icon, "Game Icon");
@@ -72,27 +102,60 @@ void display_deinit()
     al_destroy_bitmap(game_icon);
 }
 
+///main menu
+void main_menu_init()
+{
+    main_menu_background = al_load_bitmap("MainMenuBackground.png");
+    big_pill[0] = al_load_bitmap("BigPill.png");
+    big_pill[1] = al_load_bitmap("BigPillCurrent.png");
+    must_init(main_menu_background, "MainMenuBackground");
+    must_init(big_pill[0], "BigPill");
+    must_init(big_pill[1], "BigPillCurrent");
+}
+
+void main_menu_deinit()
+{
+    al_destroy_bitmap(main_menu_background);
+    al_destroy_bitmap(big_pill[0]);
+    al_destroy_bitmap(big_pill[1]);
+}
+
+
 /// hud
 void hud_init()
 {
     al_init_ttf_addon();
 
     must_init(al_init_ttf_addon(), "ttf addon");
-    must_init(al_init_ttf_addon(), "image addon");
 
+    HUD_BG = al_load_bitmap("ScoreBoard.png");
     HUD_logo = al_load_bitmap("ProjectLogo.png");
-    dice_bitmap[0] = al_load_bitmap("dice 1.png");
-    dice_bitmap[1] = al_load_bitmap("dice 2.png");
-    dice_bitmap[2] = al_load_bitmap("dice 3.png");
-    dice_bitmap[3] = al_load_bitmap("dice 4.png");
-    dice_bitmap[4] = al_load_bitmap("dice 5.png");
-    dice_bitmap[5] = al_load_bitmap("dice 6.png");
-    small_font = al_load_ttf_font("Inter-SemiBold.ttf", 16, 0);
-    big_font = al_load_ttf_font("Inter-SemiBold.ttf", 20, 0);
+    short_pill = al_load_bitmap("shortPill.png");
+    pill[0] = al_load_bitmap("pill.png");
+    pill[1] = al_load_bitmap("pill_cur.png");
+    pill[2] = al_load_bitmap("pill_frozen.png");
+    pill[3] = al_load_bitmap("pill_frozen_cur.png");
+    dice_bitmap[0] = al_load_bitmap("dice1.png");
+    dice_bitmap[1] = al_load_bitmap("dice2.png");
+    dice_bitmap[2] = al_load_bitmap("dice3.png");
+    dice_bitmap[3] = al_load_bitmap("dice4.png");
+    dice_bitmap[4] = al_load_bitmap("dice5.png");
+    dice_bitmap[5] = al_load_bitmap("dice6.png");
+    shield = al_load_bitmap("shield.png");
+    sword = al_load_bitmap("sword.png");
+    ice = al_load_bitmap("ice.png");
+    small_font = al_load_ttf_font("Inter-Bold.ttf", 30, 0);
+    medium_font = al_load_ttf_font("Inter-Bold.ttf", 36, 0);
+    big_font = al_load_ttf_font("Inter-Bold.ttf", 60, 0);
 
 
-
+    must_init(HUD_logo, "HUD_BG");
     must_init(HUD_logo, "HUD_logo");
+    must_init(short_pill, "Short Pill");
+    must_init(pill[0], "Pill");
+    must_init(pill[1], "Pill_cur");
+    must_init(pill[2], "Pill_frozen");
+    must_init(pill[3], "Pill_frozen_cur");
     must_init(dice_bitmap[0], "dice 1");
     must_init(dice_bitmap[1], "dice 2");
     must_init(dice_bitmap[2], "dice 3");
@@ -100,12 +163,19 @@ void hud_init()
     must_init(dice_bitmap[4], "dice 5");
     must_init(dice_bitmap[5], "dice 6");
     must_init(small_font, "small font");
+    must_init(medium_font, "medium font");
     must_init(big_font, "big font");
 
 }
 void hud_deinit()
 {
+    al_destroy_bitmap(HUD_BG);
     al_destroy_bitmap(HUD_logo);
+    al_destroy_bitmap(short_pill);
+    al_destroy_bitmap(pill[0]);
+    al_destroy_bitmap(pill[1]);
+    al_destroy_bitmap(pill[2]);
+    al_destroy_bitmap(pill[3]);
     al_destroy_bitmap(dice_bitmap[0]);
     al_destroy_bitmap(dice_bitmap[1]);
     al_destroy_bitmap(dice_bitmap[2]);
@@ -113,6 +183,7 @@ void hud_deinit()
     al_destroy_bitmap(dice_bitmap[4]);
     al_destroy_bitmap(dice_bitmap[5]);
     al_destroy_font(small_font);
+    al_destroy_font(medium_font);
     al_destroy_font(big_font);
 }
 
@@ -151,8 +222,8 @@ void sprites_init()
     _trap = al_load_bitmap("trap.png");
     must_init(_trap, "trap");
     //chocolates init
-    _choco = al_load_bitmap("chocolate.png");
-    must_init(_choco, "chocolate");
+    _candy = al_load_bitmap("candy.png");
+    must_init(_candy, "candy");
     //fish init
     _fish = al_load_bitmap("fish.png");
     must_init(_fish, "fish");
@@ -175,21 +246,48 @@ void sprites_deinit()
     al_destroy_bitmap(mouse_3);
     al_destroy_bitmap(_trap);
     al_destroy_bitmap(_fish);
-    al_destroy_bitmap(_choco);
+    al_destroy_bitmap(_candy);
 
+}
+
+void pause_init()
+{
+    pause_background = al_load_bitmap("PauseScreen.png");
+    confirmation = al_load_bitmap("AreYouSure.png");
+    guide = al_load_bitmap("GuideScreen.png");
+
+    must_init(pause_background, "PauseScreen");
+    must_init(guide, "AreYouSure");
+    must_init(confirmation, "GuideScreen");
+}
+
+void pause_deinit()
+{
+    al_destroy_bitmap(pause_background);
+    al_destroy_bitmap(guide);
+    al_destroy_bitmap(confirmation);
 }
 
 void endscreen_init()
 {
-    game_over_logo = al_load_bitmap("GameOver.png");
-    end_screen_font = al_load_ttf_font("Inter-SemiBold.ttf", 36, 0);
-    must_init(game_over_logo, "Game Over Logo");
-    must_init(end_screen_font, "End Screen Font");
+    game_over_screen = al_load_bitmap("GameOver.png");
+    must_init(game_over_screen, "Game Over Screen");
+    cat_big[0] = al_load_bitmap("cat1_big.png");
+    cat_big[1] = al_load_bitmap("cat2_big.png");
+    cat_big[2] = al_load_bitmap("cat3_big.png");
+    cat_big[3] = al_load_bitmap("cat4_big.png");
+    must_init(cat_big[0], "Cat 1 Big");
+    must_init(cat_big[1], "Cat 2 Big");
+    must_init(cat_big[2], "Cat 3 Big");
+    must_init(cat_big[3], "Cat 4 Big");
 
 }
 
 void endscreen_deinit()
 {
-    al_destroy_bitmap(game_over_logo);
-    al_destroy_font(end_screen_font);
+    al_destroy_bitmap(game_over_screen);
+    al_destroy_bitmap(cat_big[0]);
+    al_destroy_bitmap(cat_big[1]);
+    al_destroy_bitmap(cat_big[2]);
+    al_destroy_bitmap(cat_big[3]);
 }
