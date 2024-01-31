@@ -26,14 +26,14 @@ void generate_walls()
                 if (rand() % 13 == 5)
                 {
                     if (j == 0 || i == 0 || i == 14) continue;
-                    else if (j > 6 && j < 9 && i > 5 && i < 8) continue;
+                    else if (j > 6 && j < 9 && i > 5 && i < 9) continue;
                     wall[i][j] = 'L';
                     NoWalls++;
                 }
                 else if (rand() % 13 == 1)
                 {
                     if (i == 0 || j == 0 || j == 14) continue;
-                    else if (i > 6 && i < 9 && j > 5 && j < 8) continue;
+                    else if (i > 5 && i < 9 && j > 6 && j < 9) continue;
                     wall[i][j] = 'U';
                     NoWalls++;
                 }
