@@ -15,12 +15,12 @@ void load_game()
 	}
 
 	//if the game was finished just start a new game
-	fseek(save_state, 3, SEEK_END);
+	fseek(save_state, -3L*sizeof(int), SEEK_END);
 	int ROUND_CHECK;
 	fread(&ROUND_CHECK, sizeof(int), 1, save_state);
 	if (ROUND_CHECK > 15) return;
 
-	fseek(save_state, 0, SEEK_CUR);
+	fseek(save_state, 0, SEEK_SET);
 
 
 	///dice
