@@ -276,13 +276,13 @@ void sprites_update(ALLEGRO_EVENT event)
 		{
 			if (cat_stun[i])
 			{
-				cat_stun[i]--;
 				if (cat_stun[i] == 1)
 				{
-					cat_stun[i]--;
 					cat_stat[i].attack = 2;
 					cat_stat[i].defense = 5;
 				}
+				cat_stun[i]--;
+
 			}
 		}
 
@@ -429,7 +429,7 @@ void fight(int type1, int type2)
 				//cat1 lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_stun[type1 % 10] = 3;
+				cat_stun[type1 % 10] = 2;
 				get_ALL_mice(type2, type1);
 				//cat2
 				cat_stat[type2 % 10].defense -= (cat_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * cat_stat[type2 % 10].defense;
@@ -454,7 +454,7 @@ void fight(int type1, int type2)
 				//cat lost
 				cat_stat[type1 % 10].attack = 1;
 				cat_stat[type1 % 10].defense = 0;
-				cat_stun[type1 % 10] = 4;
+				cat_stun[type1 % 10] = 3;
 				free_ALL_mice(type1);
 				//dog
 				dog_stat[type2 % 10].defense -= (dog_stat[type2 % 10].attack / cat_stat[type1 % 10].attack) * dog_stat[type2 % 10].defense;

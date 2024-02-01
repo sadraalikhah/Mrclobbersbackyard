@@ -307,7 +307,7 @@ void draw_scoreboard()
     if (cat_stun[order[0]] > 0)
     {
         al_draw_bitmap(ice, 1667, 576, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 589, 0, "%d", cat_stun[order[0]] - 1);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 589, 0, "%d", cat_stun[order[0]]);
     }
 
     //row 2
@@ -330,7 +330,7 @@ void draw_scoreboard()
     if (cat_stun[order[1]] > 0)
     {
         al_draw_bitmap(ice, 1667, 696, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 709, 0, "%d", cat_stun[order[1]] - 1);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 709, 0, "%d", cat_stun[order[1]]);
     }
 
     //row 3
@@ -353,7 +353,7 @@ void draw_scoreboard()
     if (cat_stun[order[2]] > 0)
     {
         al_draw_bitmap(ice, 1667, 816, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 829, 0, "%d", cat_stun[order[2]] - 1);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 829, 0, "%d", cat_stun[order[2]]);
     }
     //row 4
     al_draw_bitmap(pill[Pill(order[3])], 1214, 900, 0);
@@ -375,7 +375,7 @@ void draw_scoreboard()
     if (cat_stun[order[3]] > 0)
     {
         al_draw_bitmap(ice, 1667, 936, 0);
-        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 949, 0, "%d", cat_stun[order[3]] - 1);
+        al_draw_textf(small_font, al_map_rgb(255, 255, 255), 1690, 949, 0, "%d", cat_stun[order[3]]);
     }
 }
 
