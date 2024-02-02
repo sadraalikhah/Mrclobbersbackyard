@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+/// <summary>
+/// hey
+/// </summary>
+
 struct DICE {
     int player;
     int diceValue;
