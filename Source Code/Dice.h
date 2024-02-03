@@ -4,21 +4,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-/// <summary>
-/// hey
-/// </summary>
-
 struct DICE {
     int player;
     int diceValue;
 };
 
-void printd(struct DICE Arr[])
-{
-    printf("\n");
-    for (int i = 0; i < 4; i++)
-        printf("%d : player%d -> %d\n", i + 1, Arr[i].player + 1, Arr[i].diceValue);
-}
 
 void sort(struct DICE Arr[], int lowBound, int upBound)
 {
@@ -39,15 +29,10 @@ void sort(struct DICE Arr[], int lowBound, int upBound)
 
 void roll(struct DICE Arr[4], int lowBound, int upBound) {
 
-    printf("Low = %d, Up = %d\n", lowBound, upBound);
-
     for (int i = lowBound; i <= upBound; i++)
     {
         Arr[i].diceValue = (rand() % 6 + 1);
     }
-    printd(Arr);
-    sort(Arr, lowBound, upBound);
-    printd(Arr);
 
     //check
     int up = lowBound + 1, low = lowBound, sw = 0;
