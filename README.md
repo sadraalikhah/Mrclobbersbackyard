@@ -65,6 +65,13 @@ Source Code/
     Assets/                            — sprites, fonts, music used at runtime
 ```
 
+## Team
+
+Built as a 2-person team project:
+
+- Reza Farasati — [@Rfarasati](https://github.com/Rfarasati)
+- Sadra Alikhah — [@sadraalikhah](https://github.com/sadraalikhah)
+
 ## Known limitations
 
 - `main.exe`, `.vs/` (IDE cache), and `Source Code/Assets/SaveState.dat` are
