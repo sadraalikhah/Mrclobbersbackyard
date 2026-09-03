@@ -69,8 +69,8 @@ Source Code/
 
 Built as a 2-person team project:
 
-- Reza Farasati — [@Rfarasati](https://github.com/Rfarasati)
 - Sadra Alikhah — [@sadraalikhah](https://github.com/sadraalikhah)
+- Reza Farasati — [@Rfarasati](https://github.com/Rfarasati)
 
 ## Known limitations
 
