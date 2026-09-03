@@ -1,6 +1,6 @@
 # Mr. Clobber's Backyard
 
-> **Course project** — Fundamentals of Programming, Fall 2023
+> **Course project** — Fundamentals of Programming, Ferdowsi University of Mashhad, Fall 2023
 
 A 4-player, turn-based strategy game written in C with the
 [Allegro](https://liballeg.org/) game library. Each player controls a cat
