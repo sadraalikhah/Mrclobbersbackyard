@@ -1,5 +1,7 @@
 # Mr. Clobber's Backyard
 
+![Mr. Clobber's Backyard logo](Designs/ProjectLogo.png)
+
 > **Course project** — Fundamentals of Programming, Ferdowsi University of Mashhad, Fall 2023
 
 A 4-player, turn-based strategy game written in C with the
@@ -7,6 +9,9 @@ A 4-player, turn-based strategy game written in C with the
 navigating a walled 15×15 maze, competing to collect the most points before
 the round limit by catching mice, dodging roaming dogs, and using items
 scattered across the board.
+
+Highlights of the final release: a full graphics pass, main menu + pause
+menu, fullscreen support, save/load of game state, and background music.
 
 ## Gameplay
 
