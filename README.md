@@ -79,6 +79,7 @@ Built as a 2-person team project:
 
 ## Known limitations
 
-- `main.exe`, `.vs/` (IDE cache), and `Source Code/Assets/SaveState.dat` are
-  currently committed to the repo; these are build/runtime artifacts and
-  should be removed from version control.
+- `Source Code/Assets/SaveState.dat` (a runtime save file) is currently
+  committed to the repo and should be removed from version control.
+- `Source Code/main.exe` is kept in the repo intentionally, as a prebuilt
+  binary so the game can be played without building from source.
